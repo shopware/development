@@ -1,0 +1,3 @@
+storefront:
+    resource: ../vendor/shopware/platform/src/Storefront/Controller/
+    type: annotation

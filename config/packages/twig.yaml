@@ -1,0 +1,5 @@
+twig:
+    paths:
+      '%kernel.project_dir%/vendor/shopware/platform/src/Storefront/Resources/templates': Storefront
+    debug: '%kernel.debug%'
+    strict_variables: false

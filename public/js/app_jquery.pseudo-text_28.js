@@ -1,0 +1,2 @@
+;(function($,window){'use strict';$.plugin('swPseudoText',{defaults:{eventType:'keyup'},init:function(){var me=this,selector=$(me.$el.attr('data-selector')),val;if(!selector.length){throw new Error('Given selector does not match any element on the page.');}
+me._on(me.$el,me.opts.eventType,function(){val=me.$el.val();selector.val(val.length?val:'');});}});})(jQuery,window);

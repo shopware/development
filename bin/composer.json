@@ -1,0 +1,7 @@
+{
+    "require": {
+        "symfony/console": "^4.0",
+        "symfony/process": "^4.0",
+        "symfony/dotenv": "^4.0"
+    }
+}
