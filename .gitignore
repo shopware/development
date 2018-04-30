@@ -1,0 +1,30 @@
+/vendor/
+/bin/vendor/
+/.idea/
+/composer.lock
+/.psh.yaml.override
+/.php_cs.cache
+/docker-compose.override.yml
+/config/jwt/*
+!/config/jwt/.gitkeep
+/build/*
+!/build/artifacts/.gitkeep
+!/build/media/.gitkeep
+/public/media/*
+!/public/media/.gitkeep
+
+###> symfony/framework-bundle ###
+.env
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+###< phpunit/phpunit ###

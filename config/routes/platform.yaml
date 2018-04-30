@@ -1,0 +1,11 @@
+administration:
+    resource: ../vendor/shopware/platform/src/Administration/Controller/
+    type: annotation
+
+storefront-api:
+    resource: ../vendor/shopware/platform/src/Core/StorefrontApi/Controller/
+    type: annotation
+
+api:
+    resource: ../vendor/shopware/platform/src/Core/Rest/Controller/
+    type: annotation
