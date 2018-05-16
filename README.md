@@ -1,6 +1,10 @@
 # Shopware development template
 This repository is a template for local development. It enables you to create a running shopware instance to test new technologies from shopware, including the new *core* or the new *administration*. 
 
+## System requirements
+* PHP 7.2
+* MySQL 5.7
+* Composer 1.6
 
 ## Installation
 * Clone the repository: `git clone git@github.com:shopware/development.git`
