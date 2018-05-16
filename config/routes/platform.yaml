@@ -2,10 +2,22 @@ administration:
     resource: ../vendor/shopware/platform/src/Administration/Controller/
     type: annotation
 
-storefront-api:
-    resource: ../vendor/shopware/platform/src/Core/StorefrontApi/Controller/
+api:
+    resource: ../vendor/shopware/platform/src/Core/Framework/Api/Controller/
     type: annotation
 
-api:
-    resource: ../vendor/shopware/platform/src/Core/Rest/Controller/
+storefront-product-api:
+    resource: ../vendor/shopware/platform/src/Core/Content/Product/
+    type: annotation
+
+storefront-context-api:
+    resource: ../vendor/shopware/platform/src/Core/Application/Context/
+    type: annotation
+
+storefront-checkout-api:
+    resource: ../vendor/shopware/platform/src/Core/Checkout/Cart/
+    type: annotation
+
+storefront-customer-api:
+    resource: ../vendor/shopware/platform/src/Core/Checkout/Customer/
     type: annotation
