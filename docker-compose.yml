@@ -5,6 +5,8 @@ services:
     build: dev-ops/docker/containers/app
     links:
       - app_mysql:mysql
+    environment:
+      TENANT_ID: "ffffffffffffffffffffffffffffffff"
     volumes:
       - .:/app
       - ~/.composer/cache:/.composer/cache
