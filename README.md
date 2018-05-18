@@ -36,7 +36,8 @@ Also add the information to your apache `vhost` configuration and set the path t
 ## Helpful console commands
 You can do some important tasks by running different commands using the `psh.phar` file in the root directory. If you just call the file without parameters you will get a complete overview of all commands. Here are some common commands:
 
-* `./psh.phar init`: Builds the instance with your configured default settings.
+* `./psh.phar install`: Resets the instance. This includes updating the composer dependencies, reinstall the database, install assets, import demo data and initializing the administration
+* `./psh.phar init`: Resets the database and updates the composer dependencies.
 * `./psh.phar cache`: Clears the cache.
 * `./psh.phar demo-data`: Generates a set of demo data.
 * `./psh.phar administration:init`: Initializes the administration and installs the required npm dependencies.
