@@ -27,7 +27,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
             file_put_contents(__DIR__ . '/../.psh.yaml.override', $psh);
 
-            $process = new \Symfony\Component\Process\Process('php psh.phar init');
+            $process = new \Symfony\Component\Process\Process('php psh.phar install');
             $process->setTimeout(0);
             $process->setWorkingDirectory(__DIR__ . '/../');
             $process->start();
@@ -82,7 +82,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
         $io->note('Checking database credentials');
         $connection = new PDO(
-                sprintf('mysql:host=%s', $configuration['DB_HOST']),
+                sprintf('mysql:host=%s;port=%d', $configuration['DB_HOST'], $configuration['DB_PORT']),
                 $configuration['DB_USER'],
                 $configuration['DB_PASSWORD']
         );

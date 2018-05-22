@@ -8,6 +8,7 @@
 /config/jwt/*
 !/config/jwt/.gitkeep
 /build/*
+/custom/*
 !/build/artifacts/.gitkeep
 !/build/media/.gitkeep
 /public/media/*

@@ -6,10 +6,10 @@ security:
             provider: rest
             anonymous: true
             guard:
-                entry_point: Shopware\Rest\Firewall\TokenAuthenticator
+                entry_point: Shopware\Framework\Api\Firewall\TokenAuthenticator
                 authenticators:
-                    - Shopware\Rest\Firewall\TokenAuthenticator
-                    - Shopware\Rest\Firewall\JWTAuthenticator
+                    - Shopware\Framework\Api\Firewall\TokenAuthenticator
+                    - Shopware\Framework\Api\Firewall\JWTAuthenticator
 
         storefront_api:
             pattern: ^/storefront-api/
@@ -17,7 +17,7 @@ security:
             provider: rest
             guard:
                 authenticator:
-                  - Shopware\StorefrontApi\Firewall\ApplicationAuthenticator
+                  - Shopware\Framework\Routing\Firewall\ApplicationAuthenticator
 
         storefront:
             pattern: ^/(?!(_profiler|_wdt|_error|admin|storefront-api|api))
@@ -25,7 +25,7 @@ security:
             provider: rest
             guard:
                 authenticator:
-                  - Shopware\StorefrontApi\Firewall\ApplicationAuthenticator
+                  - Shopware\Framework\Routing\Firewall\ApplicationAuthenticator
 
     access_control:
         - { path: ^/api/v\d+/auth, roles: IS_AUTHENTICATED_ANONYMOUSLY }
@@ -36,4 +36,4 @@ security:
 
     providers:
         rest:
-            id: Shopware\Rest\Firewall\RestUserProvider
+            id: Shopware\Framework\Api\Firewall\RestUserProvider

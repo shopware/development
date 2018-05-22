@@ -6,11 +6,12 @@
         "proprietary"
     ],
     "repositories": [
-        { "type": "vcs", "url": "ssh://git@stash.shopware.com/sw/core.git" }
+        { "type": "vcs", "url": "https://github.com/shopware/platform.git" }
     ],
     "autoload": {
         "psr-4": {
-            "Shopware\\Development\\": "src/"
+            "Shopware\\Development\\": "src/",
+            "": "custom/plugins/"
         }
     },
     "require": {
