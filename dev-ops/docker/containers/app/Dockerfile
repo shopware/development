@@ -6,9 +6,10 @@ RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable 
 
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=863199
 RUN mkdir -p /usr/share/man/man1
-RUN curl -sL https://deb.nodesource.com/setup_9.x | bash
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
 
 RUN apt-install mysql-client nodejs google-chrome-stable libicu-dev
+RUN npm i npm -g
 
 # intl support
 RUN docker-php-ext-configure intl \
