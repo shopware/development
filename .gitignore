@@ -13,6 +13,7 @@
 !/build/media/.gitkeep
 /public/media/*
 !/public/media/.gitkeep
+/dev-ops/docker/_volumes/*
 
 ###> symfony/framework-bundle ###
 .env
