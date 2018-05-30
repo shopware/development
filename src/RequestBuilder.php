@@ -38,6 +38,8 @@ class RequestBuilder
 
         $this->ensureTenantId($request);
 
+        $tenantId = $request->headers->get(PlatformRequest::HEADER_TENANT_ID);
+
         if (!$this->isApplicationRequired($request->getPathInfo())) {
             return $request;
         }
@@ -50,7 +52,7 @@ class RequestBuilder
 
         $baseUrl = str_replace($request->getSchemeAndHttpHost(), '', $application['url']);
 
-        $uri = $this->resolveSeoUrl($request, $baseUrl, $application['applicationId']);
+        $uri = $this->resolveSeoUrl($request, $tenantId, $baseUrl, $application['applicationId']);
 
         $server = array_merge(
             $_SERVER,
@@ -69,7 +71,7 @@ class RequestBuilder
             //if set to true, session will be started
             strpos($clone->getRequestUri(), '/storefront-api/') === false
         );
-        $clone->headers->set(PlatformRequest::HEADER_TENANT_ID, $request->headers->get(PlatformRequest::HEADER_TENANT_ID));
+        $clone->headers->set(PlatformRequest::HEADER_TENANT_ID, $tenantId);
 
         return $clone;
     }
@@ -141,7 +143,7 @@ class RequestBuilder
         return $bestMatch;
     }
 
-    private function resolveSeoUrl(Request $request, string $baseUrl, string $applicationId): string
+    private function resolveSeoUrl(Request $request, string $tenantId, string $baseUrl, string $applicationId): string
     {
         $pathInfo = $request->getPathInfo();
         if (!empty($baseUrl) && strpos($pathInfo, $baseUrl) === 0) {
@@ -153,12 +155,13 @@ class RequestBuilder
              FROM seo_url 
              WHERE application_id = ? 
              AND seo_path_info = ?
+             AND tenant_id = ?
              LIMIT 1'
         );
 
-        $query->execute([$applicationId, $pathInfo]);
+        $query->execute([$applicationId, ltrim($pathInfo, '/'), Uuid::fromHexToBytes($tenantId)]);
 
-        $url = $query->fetch(\PDO::FETCH_ASSOC);
+        $url = $query->fetch(\PDO::FETCH_COLUMN);
 
         if (empty($url)) {
             return $request->getRequestUri();
@@ -166,12 +169,12 @@ class RequestBuilder
 
         $uri = $request->getRequestUri();
 
-        if (strpos($uri, $baseUrl) === 0) {
+        if (!empty($baseUrl) && strpos($uri, $baseUrl) === 0) {
             $uri = substr($uri, strlen($baseUrl));
         }
 
         if (strpos($uri, $pathInfo) === 0) {
-            $uri = $url['path_info'] . substr($uri, strlen($pathInfo));
+            $uri = $url . substr($uri, strlen($pathInfo));
         }
 
         return $uri;
