@@ -23,7 +23,7 @@ const:
   DB_HOST: "mysql"
   DB_PORT: "3306"
   DB_NAME: "shopware"
-  APP_URL: "http://shopware.saas"
+  APP_URL: "http://localhost:8000"
   APP_ENV: "dev"
   SSH_PRIVATE_KEY_PATH: ""
 
