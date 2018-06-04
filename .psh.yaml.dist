@@ -26,6 +26,7 @@ const:
   APP_URL: "http://shopware.saas"
   APP_ENV: "dev"
   SSH_PRIVATE_KEY_PATH: ""
+  ESLINT_DISABLE: "false"
 
 dynamic:
   USERKEY: echo "$(id -u):$(id -g)"
