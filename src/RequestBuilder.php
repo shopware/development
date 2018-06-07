@@ -3,8 +3,8 @@
 namespace Shopware\Development;
 
 use Ramsey\Uuid\Exception\InvalidUuidStringException;
-use Shopware\Framework\Struct\Uuid;
-use Shopware\PlatformRequest;
+use Shopware\Core\Framework\Struct\Uuid;
+use Shopware\Core\PlatformRequest;
 use Shopware\Storefront\StorefrontRequest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
@@ -40,19 +40,19 @@ class RequestBuilder
 
         $tenantId = $request->headers->get(PlatformRequest::HEADER_TENANT_ID);
 
-        if (!$this->isApplicationRequired($request->getPathInfo())) {
+        if (!$this->isTouchpointRequired($request->getPathInfo())) {
             return $request;
         }
 
-        $application = $this->findApplication($request);
+        $touchpoint = $this->findTouchpoint($request);
 
-        if ($application === null) {
+        if ($touchpoint === null) {
             return $request;
         }
 
-        $baseUrl = str_replace($request->getSchemeAndHttpHost(), '', $application['url']);
+        $baseUrl = str_replace($request->getSchemeAndHttpHost(), '', $touchpoint['url']);
 
-        $uri = $this->resolveSeoUrl($request, $tenantId, $baseUrl, $application['applicationId']);
+        $uri = $this->resolveSeoUrl($request, $tenantId, $baseUrl, $touchpoint['touchpointId']);
 
         $server = array_merge(
             $_SERVER,
@@ -65,7 +65,7 @@ class RequestBuilder
 
         $clone = $request->duplicate(null, null, null, null, null, $server);
 
-        $clone->headers->set(PlatformRequest::HEADER_APPLICATION_TOKEN, $application['applicationToken']);
+        $clone->headers->set(PlatformRequest::HEADER_TOUCHPOINT_TOKEN, $touchpoint['touchpointToken']);
         $clone->attributes->set(
             StorefrontRequest::ATTRIBUTE_IS_STOREFRONT_REQUEST,
             //if set to true, session will be started
@@ -76,7 +76,7 @@ class RequestBuilder
         return $clone;
     }
 
-    private function isApplicationRequired(string $pathInfo): bool
+    private function isTouchpointRequired(string $pathInfo): bool
     {
         $pathInfo = rtrim($pathInfo, '/') . '/';
 
@@ -89,27 +89,27 @@ class RequestBuilder
         return true;
     }
 
-    private function findApplication(SymfonyRequest $request)
+    private function findTouchpoint(SymfonyRequest $request)
     {
         $statement = $this->connection->query(
-            "SELECT application.id, application.access_key, application.configuration FROM application WHERE type = 'storefront'"
+            "SELECT touchpoint.id, touchpoint.access_key, touchpoint.configuration FROM touchpoint WHERE type = 'storefront'"
         );
 
-        $applications = $statement->fetchAll();
+        $touchpoints = $statement->fetchAll();
 
-        if (empty($applications)) {
+        if (empty($touchpoints)) {
             return null;
         }
 
         $requestUrl = rtrim($request->getSchemeAndHttpHost() . $request->getPathInfo(), '/');
 
         $domains = [];
-        foreach ($applications as $application) {
-            $configuration = json_decode($application['configuration'], true);
+        foreach ($touchpoints as $touchpoint) {
+            $configuration = json_decode($touchpoint['configuration'], true);
 
             foreach ($configuration['domains'] as $url) {
-                $url['applicationId'] = $application['id'];
-                $url['applicationToken'] = $application['access_key'];
+                $url['touchpointId'] = $touchpoint['id'];
+                $url['touchpointToken'] = $touchpoint['access_key'];
 
                 $domains[$url['url']] = $url;
             }
@@ -143,7 +143,7 @@ class RequestBuilder
         return $bestMatch;
     }
 
-    private function resolveSeoUrl(Request $request, string $tenantId, string $baseUrl, string $applicationId): string
+    private function resolveSeoUrl(Request $request, string $tenantId, string $baseUrl, string $touchpointId): string
     {
         $pathInfo = $request->getPathInfo();
         if (!empty($baseUrl) && strpos($pathInfo, $baseUrl) === 0) {
@@ -153,13 +153,13 @@ class RequestBuilder
         $query = $this->connection->prepare(
             'SELECT path_info 
              FROM seo_url 
-             WHERE application_id = ? 
+             WHERE touchpoint_id = ? 
              AND seo_path_info = ?
              AND tenant_id = ?
              LIMIT 1'
         );
 
-        $query->execute([$applicationId, ltrim($pathInfo, '/'), Uuid::fromHexToBytes($tenantId)]);
+        $query->execute([$touchpointId, ltrim($pathInfo, '/'), Uuid::fromHexToBytes($tenantId)]);
 
         $url = $query->fetch(\PDO::FETCH_COLUMN);
 
