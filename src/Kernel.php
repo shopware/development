@@ -2,7 +2,7 @@
 
 namespace Shopware\Development;
 
-class Kernel extends \Shopware\Kernel
+class Kernel extends \Shopware\Core\Kernel
 {
     public function __construct(string $environment, bool $debug, \PDO $connection = null)
     {

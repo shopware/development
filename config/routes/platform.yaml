@@ -6,18 +6,26 @@ api:
     resource: ../vendor/shopware/platform/src/Core/Framework/Api/Controller/
     type: annotation
 
-storefront-product-api:
-    resource: ../vendor/shopware/platform/src/Core/Content/Product/
-    type: annotation
-
-storefront-context-api:
-    resource: ../vendor/shopware/platform/src/Core/Application/Context/
-    type: annotation
-
-storefront-checkout-api:
+api-price-actions:
     resource: ../vendor/shopware/platform/src/Core/Checkout/Cart/
     type: annotation
 
+api-product-actions:
+    resource: ../vendor/shopware/platform/src/Core/Content/Product/
+    type: annotation
+
+storefront-product-api:
+    resource: ../vendor/shopware/platform/src/Core/Content/Product/Storefront/
+    type: annotation
+
+storefront-context-api:
+    resource: ../vendor/shopware/platform/src/Core/Checkout/Context/Storefront/
+    type: annotation
+
+storefront-checkout-api:
+    resource: ../vendor/shopware/platform/src/Core/Checkout/Cart/Storefront/
+    type: annotation
+
 storefront-customer-api:
-    resource: ../vendor/shopware/platform/src/Core/Checkout/Customer/
+    resource: ../vendor/shopware/platform/src/Core/Checkout/Customer/Storefront/
     type: annotation

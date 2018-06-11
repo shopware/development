@@ -15,11 +15,10 @@ return [
     Shopware\Administration\Administration::class => ['all' => true],
     Shopware\Storefront\Storefront::class => ['all' => true],
 
-    Shopware\Framework\Framework::class => ['all' => true],
-    Shopware\System\System::class => ['all' => true],
-    Shopware\Content\Content::class => ['all' => true],
-    Shopware\Checkout\Checkout::class => ['all' => true],
-    Shopware\Application\Application::class => ['all' => true],
+    Shopware\Core\Framework\Framework::class => ['all' => true],
+    Shopware\Core\System\System::class => ['all' => true],
+    Shopware\Core\Content\Content::class => ['all' => true],
+    Shopware\Core\Checkout\Checkout::class => ['all' => true],
 
-    Shopware\Profiling\Profiling::class => ['dev' => true],
+    Shopware\Core\Profiling\Profiling::class => ['dev' => true],
 ];

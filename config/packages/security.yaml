@@ -6,10 +6,10 @@ security:
             provider: rest
             anonymous: true
             guard:
-                entry_point: Shopware\Framework\Api\Firewall\TokenAuthenticator
+                entry_point: Shopware\Core\Framework\Api\Firewall\TokenAuthenticator
                 authenticators:
-                    - Shopware\Framework\Api\Firewall\TokenAuthenticator
-                    - Shopware\Framework\Api\Firewall\JWTAuthenticator
+                    - Shopware\Core\Framework\Api\Firewall\TokenAuthenticator
+                    - Shopware\Core\Framework\Api\Firewall\JWTAuthenticator
 
         storefront_api:
             pattern: ^/storefront-api/
@@ -17,7 +17,7 @@ security:
             provider: rest
             guard:
                 authenticator:
-                  - Shopware\Framework\Routing\Firewall\ApplicationAuthenticator
+                  - Shopware\Core\Framework\Routing\Firewall\TouchpointAuthenticator
 
         storefront:
             pattern: ^/(?!(_profiler|_wdt|_error|admin|storefront-api|api))
@@ -25,15 +25,15 @@ security:
             provider: rest
             guard:
                 authenticator:
-                  - Shopware\Framework\Routing\Firewall\ApplicationAuthenticator
+                  - Shopware\Core\Framework\Routing\Firewall\TouchpointAuthenticator
 
     access_control:
         - { path: ^/api/v\d+/auth, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/v\d+/info, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/v\d+/entity-schema.json, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api, roles: ROLE_ADMIN }
-        - { path: ^/storefront-api, roles: ROLE_APPLICATION }
+        - { path: ^/storefront-api, roles: ROLE_TOUCHPOINT }
 
     providers:
         rest:
-            id: Shopware\Framework\Api\Firewall\RestUserProvider
+            id: Shopware\Core\Framework\Api\Firewall\RestUserProvider
