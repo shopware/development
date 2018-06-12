@@ -57,7 +57,7 @@ class RequestBuilder
         $server = array_merge(
             $_SERVER,
             [
-                'REQUEST_URI' => $uri,
+                'REQUEST_URI' => $baseUrl . $uri,
                 'SCRIPT_NAME' => $baseUrl . '/index.php',
                 'SCRIPT_FILENAME' => $baseUrl . '/index.php',
             ]
@@ -164,7 +164,7 @@ class RequestBuilder
         $url = $query->fetch(\PDO::FETCH_COLUMN);
 
         if (empty($url)) {
-            return $request->getRequestUri();
+            return $request->getPathInfo();
         }
 
         $uri = $request->getRequestUri();
