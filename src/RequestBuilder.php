@@ -58,8 +58,8 @@ class RequestBuilder
             $_SERVER,
             [
                 'REQUEST_URI' => $uri,
-                'SCRIPT_NAME' => $baseUrl,
-                'SCRIPT_FILENAME' => $baseUrl,
+                'SCRIPT_NAME' => $baseUrl . '/index.php',
+                'SCRIPT_FILENAME' => $baseUrl . '/index.php',
             ]
         );
 
@@ -101,7 +101,7 @@ class RequestBuilder
             return null;
         }
 
-        $requestUrl = rtrim($request->getSchemeAndHttpHost() . $request->getPathInfo(), '/');
+        $requestUrl = rtrim($request->getSchemeAndHttpHost() . $request->getBasePath() . $request->getPathInfo(), '/');
 
         $domains = [];
         foreach ($touchpoints as $touchpoint) {
