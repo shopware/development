@@ -23,11 +23,12 @@
       ]
     },
     "require-dev": {
-        "fzaninotto/faker": "^1.7",
-        "mbezhanov/faker-provider-collection": "^1.0",
-        "phpunit/phpunit": "^7.0",
-        "symfony/browser-kit": "^4.0",
-        "symfony/phpunit-bridge": "^4.0",
-        "bheller/images-generator": "^1.0"
+      "bheller/images-generator": "^1.0",
+      "fzaninotto/faker": "^1.7",
+      "mbezhanov/faker-provider-collection": "^1.0",
+      "phpunit/phpunit": "^7.0",
+      "symfony/browser-kit": "^4.1",
+      "symfony/phpunit-bridge": "^4.1",
+      "symfony/var-dumper": "^4.1"
     }
 }

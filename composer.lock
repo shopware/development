@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73ef76e3fca6db327e15893320a21400",
+    "content-hash": "583de5ec353dbcaf5f8f5c6551a7db02",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -2253,11 +2253,17 @@
         },
         {
             "name": "shopware/platform",
-            "version": "dev-pre-commit-hook",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "ssh://git@stash.shopware.com/next/platform.git",
-                "reference": "104d7a0be6579c18e6000342f4b9058d7ec09e06"
+                "url": "https://github.com/shopware/platform.git",
+                "reference": "bf1ef612b2038c90edbd2c5bf1175270b1f90826"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/shopware/platform/zipball/bf1ef612b2038c90edbd2c5bf1175270b1f90826",
+                "reference": "bf1ef612b2038c90edbd2c5bf1175270b1f90826",
+                "shasum": ""
             },
             "require": {
                 "cocur/slugify": "^3.1",
@@ -2328,12 +2334,6 @@
                     "src/**/Test/"
                 ]
             },
-            "scripts": {
-                "post-update-cmd": [
-                    "ln -s bin/pre-commit .git/hooks/pre-commit",
-                    "touch foo"
-                ]
-            },
             "license": [
                 "AGPL-3.0",
                 "proprietary"
@@ -2344,7 +2344,11 @@
                 "framework",
                 "shopware"
             ],
-            "time": "2018-06-15T08:37:30+00:00"
+            "support": {
+                "source": "https://github.com/shopware/platform/tree/master",
+                "issues": "https://github.com/shopware/platform/issues"
+            },
+            "time": "2018-06-15T08:14:42+00:00"
         },
         {
             "name": "superbalist/flysystem-google-storage",
