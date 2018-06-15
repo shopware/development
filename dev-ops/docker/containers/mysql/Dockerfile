@@ -1,4 +1,4 @@
-FROM mariadb:10.2
+FROM mysql:8
 
 # custom dirs for mysql shared docker environments
 RUN mkdir -p /mysql-tmp && mkdir -p /mysql-data
