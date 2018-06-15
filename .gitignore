@@ -1,7 +1,6 @@
 /vendor/
 /bin/vendor/
 /.idea/
-/composer.lock
 /.psh.yaml.override
 /.php_cs.cache
 /docker-compose.override.yml

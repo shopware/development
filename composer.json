@@ -17,6 +17,11 @@
     "require": {
         "shopware/platform": "dev-master"
     },
+    "scripts": {
+      "post-update-cmd": [
+        "ln -sf ../../bin/pre-commit vendor/shopware/platform/.git/hooks/pre-commit"
+      ]
+    },
     "require-dev": {
         "fzaninotto/faker": "^1.7",
         "mbezhanov/faker-provider-collection": "^1.0",
