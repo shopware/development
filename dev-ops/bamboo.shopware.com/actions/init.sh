@@ -9,3 +9,4 @@ composer require "shopware/platform:__PLATFORM_BRANCH__-dev" --no-interaction --
 INCLUDE: ./../../common/actions/init-database.sh
 
 bin/console framework:create:tenant --tenant-id=ffffffffffffffffffffffffffffffff
+bin/console touchpoint:create --tenant-id=ffffffffffffffffffffffffffffffff --id=ffffffffffffffffffffffffffffffff
