@@ -3,8 +3,6 @@
 
 bin/console framework:create:tenant --tenant-id=ffffffffffffffffffffffffffffffff
 
-bin/console translation:import --with-plugins --tenant-id=ffffffffffffffffffffffffffffffff
-
 bin/console plugin:update
 
 bin/console rest:user:create admin --password=shopware --tenant-id=ffffffffffffffffffffffffffffffff
