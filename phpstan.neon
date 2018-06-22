@@ -1,0 +1,5 @@
+parameters:
+	excludes_analyse:
+		- %rootDir%/../../../vendor/shopware/platform/src/Core/Content/Media/Util/*
+		- %rootDir%/../../../vendor/shopware/platform/src/Core/Content/Media/Commands/MediaCleanupCommand.php
+		- %rootDir%/../../../vendor/shopware/platform/src/Core/Profiling/Cart/CircularCartCalculationTracer.php
