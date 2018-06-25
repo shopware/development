@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#DESCRIPTION: Initialization of the SaaS project
+#DESCRIPTION: Everything from "init" + demo data generation + administration build/deploy
 
 # generate default SSL private/public key
 php dev-ops/generate_ssl.php
