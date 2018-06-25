@@ -8,6 +8,8 @@
     "repositories": [
         { "type": "vcs", "url": "https://github.com/shopware/platform.git" }
     ],
+    "prefer-stable": true,
+    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "Shopware\\Development\\": "src/",
@@ -23,13 +25,13 @@
       ]
     },
     "require-dev": {
-      "bheller/images-generator": "^1.0",
-      "fzaninotto/faker": "^1.7",
-      "mbezhanov/faker-provider-collection": "^1.0",
-      "phpunit/phpunit": "^7.0",
-      "symfony/browser-kit": "^4.1",
-      "symfony/phpunit-bridge": "^4.1",
-      "symfony/var-dumper": "^4.1",
+      "bheller/images-generator": "1.0.1",
+      "fzaninotto/faker": "1.7.1",
+      "mbezhanov/faker-provider-collection": "1.0.1",
+      "phpunit/phpunit": "7.2.6",
+      "symfony/browser-kit": "4.1.1",
+      "symfony/phpunit-bridge": "4.1.1",
+      "symfony/var-dumper": "4.1.1",
       "phpstan/phpstan": "dev-master"
     }
 }
