@@ -31,7 +31,6 @@
       "phpunit/phpunit": "7.2.6",
       "symfony/browser-kit": "4.1.1",
       "symfony/phpunit-bridge": "4.1.1",
-      "symfony/var-dumper": "4.1.1",
-      "phpstan/phpstan": "dev-master"
+      "symfony/var-dumper": "4.1.1"
     }
 }
