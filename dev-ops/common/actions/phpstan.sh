@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 #DESCRIPTION: Run phpstan on core
 
-vendor/bin/phpstan analyze --level 1 --configuration phpstan.neon vendor/shopware/platform/src
+vendor/shopware/platform/bin/phpstan.phar analyze --level 1 --configuration vendor/shopware/platform/phpstan.neon vendor/shopware/platform/src
