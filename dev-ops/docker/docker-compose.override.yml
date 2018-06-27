@@ -5,6 +5,7 @@ services:
   app_server:
     ports:
       - "8000:80"
+      - "8080:8080"
 
   app_mysql:
     ports:
