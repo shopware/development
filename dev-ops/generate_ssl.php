@@ -18,3 +18,6 @@ openssl_pkey_export_to_file($key, __DIR__ . '/../config/jwt/private.pem', 'shopw
 // export public key
 $keyData = openssl_pkey_get_details($key);
 file_put_contents(__DIR__ . '/../config/jwt/public.pem', $keyData['key']);
+
+chmod(__DIR__ . '/../config/jwt/private.pem', 0660);
+chmod(__DIR__ . '/../config/jwt/public.pem', 0660);

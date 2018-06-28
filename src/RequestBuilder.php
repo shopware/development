@@ -8,6 +8,8 @@ use Shopware\Core\PlatformRequest;
 use Shopware\Storefront\StorefrontRequest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class RequestBuilder
 {
@@ -24,6 +26,7 @@ class RequestBuilder
         '/_profiler/',
         '/_error/',
         '/api/',
+        '/storefront-api/',
         '/admin/',
     ];
 
@@ -38,7 +41,6 @@ class RequestBuilder
 
         $this->ensureTenantId($request);
 
-        $tenantId = $request->headers->get(PlatformRequest::HEADER_TENANT_ID);
 
         if (!$this->isTouchpointRequired($request->getPathInfo())) {
             return $request;
@@ -51,6 +53,8 @@ class RequestBuilder
         }
 
         $baseUrl = str_replace($request->getSchemeAndHttpHost(), '', $touchpoint['url']);
+
+        $tenantId = $request->headers->get(PlatformRequest::HEADER_TENANT_ID);
 
         $uri = $this->resolveSeoUrl($request, $tenantId, $baseUrl, $touchpoint['touchpointId']);
 
@@ -65,13 +69,9 @@ class RequestBuilder
 
         $clone = $request->duplicate(null, null, null, null, null, $server);
 
-        $clone->headers->set(PlatformRequest::HEADER_TOUCHPOINT_TOKEN, $touchpoint['touchpointToken']);
-        $clone->attributes->set(
-            StorefrontRequest::ATTRIBUTE_IS_STOREFRONT_REQUEST,
-            //if set to true, session will be started
-            strpos($clone->getRequestUri(), '/storefront-api/') === false
-        );
         $clone->headers->set(PlatformRequest::HEADER_TENANT_ID, $tenantId);
+        $clone->attributes->set(PlatformRequest::ATTRIBUTE_OAUTH_CLIENT_ID, Uuid::fromBytesToHex($touchpoint['touchpointId']));
+        $clone->attributes->set(StorefrontRequest::ATTRIBUTE_IS_STOREFRONT_REQUEST, true);
 
         return $clone;
     }
@@ -189,11 +189,11 @@ class RequestBuilder
         $tenantId = getenv('TENANT_ID');
 
         if (!$tenantId) {
-            throw new \RuntimeException('No tenant id header set and no tenant environment configured');
+            throw new HttpException(Response::HTTP_PRECONDITION_REQUIRED, 'The tenant_id must be present. Please check your environment.');
         }
 
         if (!Uuid::isValid($tenantId)) {
-            throw new InvalidUuidStringException(sprintf('Tenant id %s is not a valid uuid string', $tenantId));
+            throw new HttpException(Response::HTTP_PRECONDITION_FAILED, 'The tenant_id is invalid. Please check your environment.');
         }
 
         $request->headers->set(PlatformRequest::HEADER_TENANT_ID, $tenantId);
