@@ -29,3 +29,7 @@ storefront-checkout-api:
 storefront-customer-api:
     resource: ../vendor/shopware/platform/src/Core/Checkout/Customer/Storefront/
     type: annotation
+
+storefront-category-api:
+    resource: ../vendor/shopware/platform/src/Core/Content/Category/Storefront/
+    type: annotation
