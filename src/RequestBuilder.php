@@ -70,7 +70,7 @@ class RequestBuilder
         $clone = $request->duplicate(null, null, null, null, null, $server);
 
         $clone->headers->set(PlatformRequest::HEADER_TENANT_ID, $tenantId);
-        $clone->attributes->set(PlatformRequest::ATTRIBUTE_OAUTH_CLIENT_ID, Uuid::fromBytesToHex($touchpoint['touchpointId']));
+        $clone->attributes->set(PlatformRequest::ATTRIBUTE_OAUTH_CLIENT_ID, $touchpoint['touchpointAccessKey']);
         $clone->attributes->set(StorefrontRequest::ATTRIBUTE_IS_STOREFRONT_REQUEST, true);
 
         return $clone;
@@ -109,7 +109,7 @@ class RequestBuilder
 
             foreach ($configuration['domains'] as $url) {
                 $url['touchpointId'] = $touchpoint['id'];
-                $url['touchpointToken'] = $touchpoint['access_key'];
+                $url['touchpointAccessKey'] = $touchpoint['access_key'];
 
                 $domains[$url['url']] = $url;
             }
