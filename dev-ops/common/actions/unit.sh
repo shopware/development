@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 #DESCRIPTION: execute unit tests
 
-php vendor/bin/phpunit --log-junit=build/artifacts/junit.xml
+vendor/bin/phpunit --configuration vendor/shopware/platform/phpunit.xml.dist --log-junit build/artifacts/phpunit.junit.xml
