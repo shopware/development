@@ -32,7 +32,7 @@ To shutdown the container, logout from the container and run stop:
 * Execute the setup file: `bin/setup`
 * Follow the instructions provided by the installation wizard. The following settings will be used by default:
     * Host: `http://shopware.local`
-    * tenant id: `ffffffffffffffffffffffffffffffff`
+    * tenant id: `43210f5d06f6411cba1794db3f834477`
 
 ### Setup host and environment
 
@@ -47,7 +47,7 @@ Also add the information to your apache `vhost` configuration and set the path t
 <VirtualHost *:80>
     DocumentRoot "/path/to/your/project/public"
     ServerName shopware.local
-    SetEnv TENANT_ID ffffffffffffffffffffffffffffffff
+    SetEnv TENANT_ID 43210f5d06f6411cba1794db3f834477
 </VirtualHost>
 ```
 **Important:** You will also have to set the environment variable `TENANT_ID` to your configured default tenant id. Without this configuration all requests will be rejected. The id can also be provided as the http request header `x-sw-tenant-id`.

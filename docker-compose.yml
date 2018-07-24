@@ -6,7 +6,7 @@ services:
     links:
       - app_mysql:mysql
     environment:
-      TENANT_ID: "ffffffffffffffffffffffffffffffff"
+      TENANT_ID: "43210f5d06f6411cba1794db3f834477"
     volumes:
       - .:/app
       - ~/.composer/cache:/.composer/cache

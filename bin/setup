@@ -71,7 +71,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
             return $value;
         });
-        $configuration['TENANT_ID'] = $io->ask('Tenant id', 'ffffffffffffffffffffffffffffffff', $emptyValidation);
+        $configuration['TENANT_ID'] = $io->ask('Tenant id', '20080911ffff4fffafffffff19830531', $emptyValidation);
 
         $io->section('Database information');
         $configuration['DB_HOST'] = $io->ask('Database host', 'localhost', $emptyValidation);
