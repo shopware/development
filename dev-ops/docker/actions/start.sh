@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-cp dev-ops/docker/docker-compose.override.yml .
-
 docker-compose build && docker-compose up -d
 wait
 

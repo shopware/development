@@ -27,6 +27,7 @@ const:
   APP_ENV: "dev"
   SSH_PRIVATE_KEY_PATH: ""
   ESLINT_DISABLE: "false"
+  TENANT_ID: "20080911ffff4fffafffffff19830531"
 
 dynamic:
   USERKEY: echo "$(id -u):$(id -g)"
@@ -39,10 +40,20 @@ environments:
   docker:
     paths:
       - "dev-ops/docker/actions"
+    templates:
+      - source: ".env.dist"
+        destination: ".env"
+      - source: "dev-ops/docker/docker-compose.override.yml"
+        destination: "./docker-compose.override.yml"
 
   bamboo:
     paths:
       - "dev-ops/bamboo.shopware.com/actions"
+    templates:
+      - source: ".env.dist"
+        destination: ".env"
+      - source: "dev-ops/bamboo.shopware.com/docker-compose.override.yml"
+        destination: "./docker-compose.override.yml"
 
   administration:
     const:

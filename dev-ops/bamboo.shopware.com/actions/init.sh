@@ -8,5 +8,5 @@ composer require "shopware/platform:__PLATFORM_BRANCH__-dev" --no-interaction --
 
 INCLUDE: ./../../common/actions/init-database.sh
 
-bin/console framework:create:tenant --tenant-id=20080911ffff4fffafffffff19830531
-bin/console touchpoint:create --tenant-id=20080911ffff4fffafffffff19830531 --id=20080911ffff4fffafffffff19830531
+bin/console framework:create:tenant --tenant-id=__TENANT_ID__
+bin/console touchpoint:create --tenant-id=__TENANT_ID__ --id=20080911ffff4fffafffffff19830531
