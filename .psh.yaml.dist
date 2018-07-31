@@ -54,6 +54,8 @@ environments:
         destination: ".env"
       - source: "dev-ops/bamboo.shopware.com/docker-compose.override.yml"
         destination: "./docker-compose.override.yml"
+    const:
+      APP_URL: "http://localhost"
 
   administration:
     const:
