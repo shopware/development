@@ -31,3 +31,7 @@ framework:
 
     templating:
         engines: ['twig']
+
+sensio_framework_extra:
+    router:
+        annotations: false
