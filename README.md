@@ -4,6 +4,7 @@ This repository is a template for local development. It enables you to create a 
 
 ## Docker setup
 
+* Make sure your ~/.composer folder is writable by your user (it often belongs to root), if the folder exists
 * Clone the repository: `git clone git@github.com:shopware/development.git`
 * Move into the directory: `cd development`
 * Start the docker container: `./psh.phar docker:start`
