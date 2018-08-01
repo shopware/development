@@ -8,7 +8,7 @@ RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable 
 RUN mkdir -p /usr/share/man/man1
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
 
-RUN apt-install mysql-client nodejs google-chrome-stable libicu-dev graphviz
+RUN apt-install mysql-client nodejs google-chrome-stable libicu-dev graphviz vim
 RUN npm i npm -g
 
 # intl support
