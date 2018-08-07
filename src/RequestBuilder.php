@@ -41,22 +41,21 @@ class RequestBuilder
 
         $this->ensureTenantId($request);
 
-
-        if (!$this->isTouchpointRequired($request->getPathInfo())) {
+        if (!$this->isSalesChannelRequired($request->getPathInfo())) {
             return $request;
         }
 
-        $touchpoint = $this->findTouchpoint($request);
+        $salesChannel = $this->findSalesChannel($request);
 
-        if ($touchpoint === null) {
+        if ($salesChannel === null) {
             return $request;
         }
 
-        $baseUrl = str_replace($request->getSchemeAndHttpHost(), '', $touchpoint['url']);
+        $baseUrl = str_replace($request->getSchemeAndHttpHost(), '', $salesChannel['url']);
 
         $tenantId = $request->headers->get(PlatformRequest::HEADER_TENANT_ID);
 
-        $uri = $this->resolveSeoUrl($request, $tenantId, $baseUrl, $touchpoint['touchpointId']);
+        $uri = $this->resolveSeoUrl($request, $tenantId, $baseUrl, $salesChannel['salesChannelId']);
 
         $server = array_merge(
             $_SERVER,
@@ -70,13 +69,13 @@ class RequestBuilder
         $clone = $request->duplicate(null, null, null, null, null, $server);
 
         $clone->headers->set(PlatformRequest::HEADER_TENANT_ID, $tenantId);
-        $clone->attributes->set(PlatformRequest::ATTRIBUTE_OAUTH_CLIENT_ID, $touchpoint['touchpointAccessKey']);
+        $clone->attributes->set(PlatformRequest::ATTRIBUTE_OAUTH_CLIENT_ID, $salesChannel['salesChannelAccessKey']);
         $clone->attributes->set(StorefrontRequest::ATTRIBUTE_IS_STOREFRONT_REQUEST, true);
 
         return $clone;
     }
 
-    private function isTouchpointRequired(string $pathInfo): bool
+    private function isSalesChannelRequired(string $pathInfo): bool
     {
         $pathInfo = rtrim($pathInfo, '/') . '/';
 
@@ -89,27 +88,27 @@ class RequestBuilder
         return true;
     }
 
-    private function findTouchpoint(SymfonyRequest $request)
+    private function findSalesChannel(SymfonyRequest $request)
     {
         $statement = $this->connection->query(
-            "SELECT touchpoint.id, touchpoint.access_key, touchpoint.configuration FROM touchpoint WHERE type = 'storefront'"
+            "SELECT sales_channel.id, sales_channel.access_key, sales_channel.configuration FROM sales_channel WHERE type = 'storefront'"
         );
 
-        $touchpoints = $statement->fetchAll();
+        $salesChannels = $statement->fetchAll();
 
-        if (empty($touchpoints)) {
+        if (empty($salesChannels)) {
             return null;
         }
 
         $requestUrl = rtrim($request->getSchemeAndHttpHost() . $request->getBasePath() . $request->getPathInfo(), '/');
 
         $domains = [];
-        foreach ($touchpoints as $touchpoint) {
-            $configuration = json_decode($touchpoint['configuration'], true);
+        foreach ($salesChannels as $salesChannel) {
+            $configuration = json_decode($salesChannel['configuration'], true);
 
             foreach ($configuration['domains'] as $url) {
-                $url['touchpointId'] = $touchpoint['id'];
-                $url['touchpointAccessKey'] = $touchpoint['access_key'];
+                $url['salesChannelId'] = $salesChannel['id'];
+                $url['salesChannelAccessKey'] = $salesChannel['access_key'];
 
                 $domains[$url['url']] = $url;
             }
@@ -143,7 +142,7 @@ class RequestBuilder
         return $bestMatch;
     }
 
-    private function resolveSeoUrl(Request $request, string $tenantId, string $baseUrl, string $touchpointId): string
+    private function resolveSeoUrl(Request $request, string $tenantId, string $baseUrl, string $salesChannelId): string
     {
         $pathInfo = $request->getPathInfo();
         if (!empty($baseUrl) && strpos($pathInfo, $baseUrl) === 0) {
@@ -153,13 +152,13 @@ class RequestBuilder
         $query = $this->connection->prepare(
             'SELECT path_info 
              FROM seo_url 
-             WHERE touchpoint_id = ? 
+             WHERE sales_channel_id = ? 
              AND seo_path_info = ?
              AND tenant_id = ?
              LIMIT 1'
         );
 
-        $query->execute([$touchpointId, ltrim($pathInfo, '/'), Uuid::fromHexToBytes($tenantId)]);
+        $query->execute([$salesChannelId, ltrim($pathInfo, '/'), Uuid::fromHexToBytes($tenantId)]);
 
         $url = $query->fetch(\PDO::FETCH_COLUMN);
 
