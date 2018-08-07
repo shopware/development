@@ -3,6 +3,7 @@
 namespace Shopware\Development;
 
 use Ramsey\Uuid\Exception\InvalidUuidStringException;
+use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Struct\Uuid;
 use Shopware\Core\PlatformRequest;
 use Shopware\Storefront\StorefrontRequest;
@@ -90,10 +91,15 @@ class RequestBuilder
 
     private function findSalesChannel(SymfonyRequest $request)
     {
-        $statement = $this->connection->query(
-            "SELECT sales_channel.id, sales_channel.access_key, sales_channel.configuration FROM sales_channel WHERE type = 'storefront'"
+        $statement = $this->connection->prepare(
+            "SELECT 
+                sales_channel.id, sales_channel.access_key, sales_channel.configuration 
+             FROM sales_channel 
+             LEFT JOIN sales_channel_type ON sales_channel.type_id = sales_channel_type.id
+             WHERE sales_channel_type.id = UNHEX(?)"
         );
 
+        $statement->execute([Defaults::SALES_CHANNEL_STOREFRONT]);
         $salesChannels = $statement->fetchAll();
 
         if (empty($salesChannels)) {
