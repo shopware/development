@@ -12,6 +12,7 @@
 !/build/artifacts/.gitkeep
 !/build/media/.gitkeep
 /public/media/*
+/public/thumbnail/*
 !/public/media/.gitkeep
 /dev-ops/docker/_volumes/*
 
