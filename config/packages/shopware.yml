@@ -147,3 +147,7 @@ shopware:
         cookie_httponly: false
         use_trans_sid: 0
         locking: false
+
+    api:
+        max_limit: 500
+        allowed_limits: [1, 5, 10, 25, 50, 75, 100, 500]
