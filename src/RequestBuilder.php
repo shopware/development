@@ -70,7 +70,7 @@ class RequestBuilder
         $clone = $request->duplicate(null, null, null, null, null, $server);
 
         $clone->headers->set(PlatformRequest::HEADER_TENANT_ID, $tenantId);
-        $clone->attributes->set(PlatformRequest::ATTRIBUTE_OAUTH_CLIENT_ID, $salesChannel['salesChannelAccessKey']);
+        $clone->attributes->set(PlatformRequest::ATTRIBUTE_SALES_CHANNEL_ID, Uuid::fromBytesToHex($salesChannel['salesChannelId']));
         $clone->attributes->set(StorefrontRequest::ATTRIBUTE_IS_STOREFRONT_REQUEST, true);
 
         return $clone;
