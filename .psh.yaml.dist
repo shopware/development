@@ -28,6 +28,7 @@ const:
   SSH_PRIVATE_KEY_PATH: ""
   ESLINT_DISABLE: "false"
   TENANT_ID: "20080911ffff4fffafffffff19830531"
+  NIGHTWATCH_HEADLESS: "true"
 
 dynamic:
   USERKEY: echo "$(id -u):$(id -g)"
@@ -35,6 +36,7 @@ dynamic:
   MYSQL_ID: docker-compose ps -q app_mysql
   USER_ID: id -u
   GROUP_ID: id -g
+  NIGHTWATCH_ENV: if [ -z $(grep docker /proc/self/cgroup) ]; then echo "default"; else echo "docker"; fi
 
 environments:
   docker:
@@ -54,8 +56,6 @@ environments:
         destination: ".env"
       - source: "dev-ops/bamboo.shopware.com/docker-compose.override.yml"
         destination: "./docker-compose.override.yml"
-    const:
-      APP_URL: "http://docker.vm"
 
   administration:
     const:
