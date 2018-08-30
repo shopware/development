@@ -37,3 +37,7 @@ storefront-customer-api:
 storefront-category-api:
     resource: ../vendor/shopware/platform/src/Core/Content/Category/Storefront/
     type: annotation
+
+storefront-sales-channel-api:
+    resource: ../vendor/shopware/platform/src/Core/System/SalesChannel/Storefront/
+    type: annotation
