@@ -41,3 +41,7 @@ storefront-category-api:
 storefront-sales-channel-api:
     resource: ../vendor/shopware/platform/src/Core/System/SalesChannel/Storefront/
     type: annotation
+
+payment:
+    resource: ../vendor/shopware/platform/src/Core/Checkout/Payment/
+    type: annotation
