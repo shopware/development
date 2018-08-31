@@ -7,3 +7,8 @@ services:
     # aliases are prefixed with test. For example:
     #
     # test.App\Service\MyService: '@App\Service\MyService'
+
+    Shopware\Core\Checkout\Test\Payment\Handler\TestPaymentHandler:
+        class: Shopware\Core\Checkout\Test\Payment\Handler\TestPaymentHandler
+        tags: [payment.method]
+        arguments: ['@order_transaction.repository']
