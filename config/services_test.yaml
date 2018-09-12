@@ -12,6 +12,6 @@ services:
         class: Shopware\Core\Checkout\Test\Payment\Handler\TestPaymentHandler
         tags: [payment.method]
         arguments: ['@order_transaction.repository']
-    Shopware\Core\Framework\Filesystem\FilesystemFactory.memory.adapter:
-        class: Shopware\Core\Framework\Filesystem\Adapter\MemoryAdapterFactory
+    Shopware\Core\Framework\Test\Filesystem\Adapter\MemoryAdapterFactory:
+        class: Shopware\Core\Framework\Test\Filesystem\Adapter\MemoryAdapterFactory
         tags: [Shopware\Core\Framework\Filesystem\FilesystemFactory]
