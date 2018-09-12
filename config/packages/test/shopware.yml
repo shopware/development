@@ -1,0 +1,10 @@
+shopware:
+    filesystem:
+        private:
+            type: "memory"
+            config:
+                root: ~
+        public:
+            type: "memory"
+            config:
+                root: ~
