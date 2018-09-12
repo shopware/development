@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 #DESCRIPTION: initialization of shopware
 
+bin/console database:migrate --all
+bin/console database:migrate-destructive --all
 bin/console framework:create:tenant --tenant-id=__TENANT_ID__
 
 bin/console plugin:update

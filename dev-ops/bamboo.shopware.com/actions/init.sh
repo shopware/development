@@ -8,6 +8,8 @@ composer require "shopware/platform:__PLATFORM_BRANCH__-dev" --no-interaction --
 
 INCLUDE: ./../../common/actions/init-database.sh
 
+bin/console database:migrate --all
+bin/console database:migrate-destructive --all
 bin/console framework:create:tenant --tenant-id=__TENANT_ID__
 bin/console rest:user:create admin --password=shopware --tenant-id=__TENANT_ID__
 bin/console sales-channel:create --tenant-id=__TENANT_ID__ --id=20080911ffff4fffafffffff19830531
