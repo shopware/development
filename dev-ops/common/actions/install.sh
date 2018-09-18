@@ -7,7 +7,7 @@ php dev-ops/generate_ssl.php
 INCLUDE: ./init-composer.sh
 INCLUDE: ./init-database.sh
 INCLUDE: ./init-shopware.sh
-INCLUDE: ./.init-test-database.sh
+INCLUDE: ./init-test-database.sh
 INCLUDE: ./demo-data.sh
 INCLUDE: ../../administration/actions/init.sh
 INCLUDE: ../../administration/actions/build.sh
