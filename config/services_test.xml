@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="true" />
+
+        <service class="Shopware\Core\Checkout\Test\Payment\Handler\TestPaymentHandler" id="Shopware\Core\Checkout\Test\Payment\Handler\TestPaymentHandler">
+            <argument type="service" id="order_transaction.repository" />
+            <tag name="payment.method" />
+        </service>
+
+        <service class="Shopware\Core\Framework\Test\Filesystem\Adapter\MemoryAdapterFactory" id="Shopware\Core\Framework\Test\Filesystem\Adapter\MemoryAdapterFactory">
+            <tag name="Shopware\Core\Framework\Filesystem\FilesystemFactory" />
+        </service>
+    </services>
+
+</container>
