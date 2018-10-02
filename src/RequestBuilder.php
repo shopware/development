@@ -2,7 +2,7 @@
 
 namespace Shopware\Development;
 
-use Ramsey\Uuid\Exception\InvalidUuidStringException;
+use Doctrine\DBAL\Connection;
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Struct\Uuid;
 use Shopware\Core\PlatformRequest;
@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class RequestBuilder
 {
     /**
-     * @var \PDO
+     * @var Connection
      */
     private $connection;
 
@@ -31,7 +31,7 @@ class RequestBuilder
         '/admin/',
     ];
 
-    public function __construct(\PDO $connection)
+    public function __construct(Connection $connection)
     {
         $this->connection = $connection;
     }
@@ -39,22 +39,18 @@ class RequestBuilder
     public function create(): SymfonyRequest
     {
         $request = SymfonyRequest::createFromGlobals();
-
-        $this->ensureTenantId($request);
+        $tenantId = $this->getTenantId($request);
 
         if (!$this->isSalesChannelRequired($request->getPathInfo())) {
             return $request;
         }
 
-        $salesChannel = $this->findSalesChannel($request);
-
+        $salesChannel = $this->findSalesChannel($request, $tenantId);
         if ($salesChannel === null) {
             return $request;
         }
 
         $baseUrl = str_replace($request->getSchemeAndHttpHost(), '', $salesChannel['url']);
-
-        $tenantId = $request->headers->get(PlatformRequest::HEADER_TENANT_ID);
 
         $uri = $this->resolveSeoUrl($request, $tenantId, $baseUrl, $salesChannel['salesChannelId']);
 
@@ -89,18 +85,17 @@ class RequestBuilder
         return true;
     }
 
-    private function findSalesChannel(SymfonyRequest $request)
+    private function findSalesChannel(SymfonyRequest $request, string $tenantId): ?array
     {
-        $statement = $this->connection->prepare(
-            "SELECT 
-                sales_channel.id, sales_channel.access_key, sales_channel.configuration 
-             FROM sales_channel 
-             LEFT JOIN sales_channel_type ON sales_channel.type_id = sales_channel_type.id
-             WHERE sales_channel_type.id = UNHEX(?)"
-        );
-
-        $statement->execute([Defaults::SALES_CHANNEL_STOREFRONT]);
-        $salesChannels = $statement->fetchAll();
+        $salesChannels = $this->connection->createQueryBuilder()
+            ->select(['sales_channel.id', 'sales_channel.access_key', 'sales_channel.configuration'])
+            ->from('sales_channel')
+            ->where('sales_channel.type_id = UNHEX(:id)')
+            ->andWhere('sales_channel.tenant_id = UNHEX(:tenantId)')
+            ->setParameter('id', Defaults::SALES_CHANNEL_STOREFRONT)
+            ->setParameter('tenantId', $tenantId)
+            ->execute()
+            ->fetchAll();
 
         if (empty($salesChannels)) {
             return null;
@@ -155,18 +150,18 @@ class RequestBuilder
             $pathInfo = substr($pathInfo, strlen($baseUrl));
         }
 
-        $query = $this->connection->prepare(
-            'SELECT path_info 
-             FROM seo_url 
-             WHERE sales_channel_id = ? 
-             AND seo_path_info = ?
-             AND tenant_id = ?
-             LIMIT 1'
-        );
-
-        $query->execute([$salesChannelId, ltrim($pathInfo, '/'), Uuid::fromHexToBytes($tenantId)]);
-
-        $url = $query->fetch(\PDO::FETCH_COLUMN);
+        $url = $this->connection->createQueryBuilder()
+            ->select('path_info')
+            ->from('seo_url')
+            ->where('sales_channel_id = :salesChannelId')
+            ->andWhere('seo_path_info = :seoPath')
+            ->andWhere('tenant_id = :tenantId')
+            ->setMaxResults(1)
+            ->setParameter('salesChannelId', $salesChannelId)
+            ->setParameter('tenantId', Uuid::fromHexToBytes($tenantId))
+            ->setParameter('seoPath', ltrim($pathInfo, '/'))
+            ->execute()
+            ->fetchColumn();
 
         if (empty($url)) {
             return $request->getPathInfo();
@@ -185,10 +180,10 @@ class RequestBuilder
         return $uri;
     }
 
-    private function ensureTenantId(Request $request): void
+    private function getTenantId(Request $request): string
     {
         if ($request->headers->has(PlatformRequest::HEADER_TENANT_ID)) {
-            return;
+            return $request->headers->get(PlatformRequest::HEADER_TENANT_ID);
         }
 
         $tenantId = getenv('TENANT_ID');
@@ -202,5 +197,7 @@ class RequestBuilder
         }
 
         $request->headers->set(PlatformRequest::HEADER_TENANT_ID, $tenantId);
+
+        return $tenantId;
     }
 }

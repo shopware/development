@@ -39,7 +39,7 @@ if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? false) {
  *
  */
 
-$connection = \Shopware\Core\Framework\Doctrine\DatabaseConnector::createPdoConnection();
+$connection = Kernel::getConnection();
 $requestBuilder = new \Shopware\Development\RequestBuilder($connection);
 $request = $requestBuilder->create();
 

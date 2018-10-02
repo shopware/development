@@ -29,18 +29,6 @@
     "doctrine/dbal": {
         "version": "v2.6.3"
     },
-    "doctrine/doctrine-bundle": {
-        "version": "1.6",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.6",
-            "ref": "c407ab0b5e5a39b242a52d323a5e84e6d3b7e4c0"
-        }
-    },
-    "doctrine/doctrine-cache-bundle": {
-        "version": "1.3.2"
-    },
     "doctrine/inflector": {
         "version": "v1.3.0"
     },
@@ -82,9 +70,6 @@
     },
     "guzzlehttp/psr7": {
         "version": "1.4.2"
-    },
-    "jdorn/sql-formatter": {
-        "version": "v1.2.17"
     },
     "johnkary/phpunit-speedtrap": {
         "version": "v3.0.0"
@@ -282,9 +267,6 @@
         "version": "v1.0.4"
     },
     "symfony/dependency-injection": {
-        "version": "v4.0.6"
-    },
-    "symfony/doctrine-bridge": {
         "version": "v4.0.6"
     },
     "symfony/dom-crawler": {
