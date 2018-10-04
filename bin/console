@@ -34,8 +34,6 @@ if ($debug) {
     }
 }
 
-
-$connection = \Shopware\Core\Framework\Doctrine\DatabaseConnector::createPdoConnection();
-$kernel = new Kernel($env, $debug, $connection);
+$kernel = new Kernel($env, $debug);
 $application = new Application($kernel);
 $application->run($input);
