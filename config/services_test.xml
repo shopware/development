@@ -15,29 +15,29 @@
             <tag name="Shopware\Core\Framework\Filesystem\FilesystemFactory" />
         </service>
 
-        <service class="Shopware\Core\Framework\Test\ORM\Field\TestDefinition\NamedDefinition" id="Shopware\Core\Framework\Test\ORM\Field\TestDefinition\NamedDefinition">
+        <service class="Shopware\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\NamedDefinition" id="Shopware\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\NamedDefinition">
             <tag name="shopware.entity.definition" entity="named"/>
         </service>
 
-        <service class="Shopware\Core\Framework\Test\ORM\Field\TestDefinition\NamedOptionalGroupDefinition" id="Shopware\Core\Framework\Test\ORM\Field\TestDefinition\NamedOptionalGroupDefinition">
+        <service class="Shopware\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\NamedOptionalGroupDefinition" id="Shopware\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\NamedOptionalGroupDefinition">
             <tag name="shopware.entity.definition" entity="named_optional_group"/>
         </service>
 
-        <service id="named.repository" class="Shopware\Core\Framework\ORM\EntityRepository" public="true">
-            <argument>Shopware\Core\Framework\Test\ORM\Field\TestDefinition\NamedDefinition</argument>
-            <argument type="service" id="Shopware\Core\Framework\ORM\Read\EntityReaderInterface"/>
-            <argument type="service" id="Shopware\Core\Framework\ORM\VersionManager"/>
-            <argument type="service" id="Shopware\Core\Framework\ORM\Search\EntitySearcherInterface"/>
-            <argument type="service" id="Shopware\Core\Framework\ORM\Search\EntityAggregatorInterface"/>
+        <service id="named.repository" class="Shopware\Core\Framework\DataAbstractionLayer\EntityRepository" public="true">
+            <argument>Shopware\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\NamedDefinition</argument>
+            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\Read\EntityReaderInterface"/>
+            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\VersionManager"/>
+            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearcherInterface"/>
+            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\Search\EntityAggregatorInterface"/>
             <argument type="service" id="event_dispatcher"/>
         </service>
 
-        <service id="named_optional_group.repository" class="Shopware\Core\Framework\ORM\EntityRepository" public="true">
-            <argument>Shopware\Core\Framework\Test\ORM\Field\TestDefinition\NamedOptionalGroupDefinition</argument>
-            <argument type="service" id="Shopware\Core\Framework\ORM\Read\EntityReaderInterface"/>
-            <argument type="service" id="Shopware\Core\Framework\ORM\VersionManager"/>
-            <argument type="service" id="Shopware\Core\Framework\ORM\Search\EntitySearcherInterface"/>
-            <argument type="service" id="Shopware\Core\Framework\ORM\Search\EntityAggregatorInterface"/>
+        <service id="named_optional_group.repository" class="Shopware\Core\Framework\DataAbstractionLayer\EntityRepository" public="true">
+            <argument>Shopware\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\NamedOptionalGroupDefinition</argument>
+            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\Read\EntityReaderInterface"/>
+            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\VersionManager"/>
+            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearcherInterface"/>
+            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\Search\EntityAggregatorInterface"/>
             <argument type="service" id="event_dispatcher"/>
         </service>
     </services>
