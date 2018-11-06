@@ -1,22 +1,3 @@
-framework:
-    esi: true
-    csrf_protection: ~
-    trusted_hosts: ~
-    fragments: ~
-    assets: ~
-    session: ~
-    serializer: { enabled: true }
-    secret: "%env(APP_SECRET)%"
-    validation:
-        enable_annotations: true
-    default_locale:  en_GB
-    http_method_override: true
-    php_errors:
-        log: true
-    cache:
-        prefix_seed: shopware
-        app: cache.adapter.filesystem
-
 shopware:
     filesystem:
         private:
