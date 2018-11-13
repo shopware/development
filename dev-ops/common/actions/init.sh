@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#DESCRIPTION: Install database, dependencies and create tenant with default data set
+#DESCRIPTION: Install database and dependencies with default data set
 
 # generate default SSL private/public key
 php dev-ops/generate_ssl.php

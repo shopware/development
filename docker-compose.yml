@@ -7,8 +7,6 @@ services:
       - app_mysql:mysql
     extra_hosts:
       - "docker.vm:127.0.0.1"
-    environment:
-      TENANT_ID: "20080911ffff4fffafffffff19830531"
     volumes:
       - .:/app
       - ~/.composer/cache:/.composer/cache

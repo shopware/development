@@ -6,8 +6,6 @@ services:
     ports:
       - 8000:8000
       - 8080:8080
-    environment:
-      TENANT_ID: "__TENANT_ID__"
 
   app_mysql:
     ports:
