@@ -6,7 +6,7 @@
         "proprietary"
     ],
     "repositories": [
-        { "type": "vcs", "url": "ssh://git@stash.shopware.com/next/platform.git" }
+        { "type": "vcs", "url": "https://github.com/shopware/platform.git" }
     ],
     "prefer-stable": true,
     "minimum-stability": "dev",

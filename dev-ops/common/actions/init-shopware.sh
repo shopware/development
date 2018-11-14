@@ -3,7 +3,6 @@
 
 bin/console database:migrate --all
 bin/console database:migrate-destructive --all
-bin/console framework:create:tenant
 
 bin/console plugin:update
 
