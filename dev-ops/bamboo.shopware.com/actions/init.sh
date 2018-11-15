@@ -4,7 +4,7 @@
 # generate default SSL private/public key
 php dev-ops/generate_ssl.php
 
-composer require "shopware/platform:__PLATFORM_BRANCH__-dev" --no-interaction --no-suggest --no-scripts
+composer require "shopware/platform:dev-__PLATFORM_BRANCH__" --no-interaction --no-suggest --no-scripts
 
 INCLUDE: ./../../common/actions/init-database.sh
 
