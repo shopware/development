@@ -27,7 +27,6 @@ const:
   APP_ENV: "dev"
   SSH_PRIVATE_KEY_PATH: ""
   ESLINT_DISABLE: "false"
-  TENANT_ID: "20080911ffff4fffafffffff19830531"
   NIGHTWATCH_HEADLESS: "true"
   NIGHTWATCH_ENV: "administration"
   NIGHTWATCH_PARAMS: ""

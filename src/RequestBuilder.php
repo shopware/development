@@ -39,20 +39,18 @@ class RequestBuilder
     public function create(): SymfonyRequest
     {
         $request = SymfonyRequest::createFromGlobals();
-        $tenantId = $this->getTenantId($request);
-
         if (!$this->isSalesChannelRequired($request->getPathInfo())) {
             return $request;
         }
 
-        $salesChannel = $this->findSalesChannel($request, $tenantId);
+        $salesChannel = $this->findSalesChannel($request);
         if ($salesChannel === null) {
             return $request;
         }
 
         $baseUrl = str_replace($request->getSchemeAndHttpHost(), '', $salesChannel['url']);
 
-        $uri = $this->resolveSeoUrl($request, $tenantId, $baseUrl, $salesChannel['salesChannelId']);
+        $uri = $this->resolveSeoUrl($request, $baseUrl, $salesChannel['salesChannelId']);
 
         $server = array_merge(
             $_SERVER,
@@ -65,7 +63,6 @@ class RequestBuilder
 
         $clone = $request->duplicate(null, null, null, null, null, $server);
 
-        $clone->headers->set(PlatformRequest::HEADER_TENANT_ID, $tenantId);
         $clone->attributes->set(PlatformRequest::ATTRIBUTE_SALES_CHANNEL_ID, Uuid::fromBytesToHex($salesChannel['salesChannelId']));
         $clone->attributes->set(StorefrontRequest::ATTRIBUTE_IS_STOREFRONT_REQUEST, true);
 
@@ -85,15 +82,13 @@ class RequestBuilder
         return true;
     }
 
-    private function findSalesChannel(SymfonyRequest $request, string $tenantId): ?array
+    private function findSalesChannel(SymfonyRequest $request): ?array
     {
         $salesChannels = $this->connection->createQueryBuilder()
             ->select(['sales_channel.id', 'sales_channel.access_key', 'sales_channel.configuration'])
             ->from('sales_channel')
             ->where('sales_channel.type_id = UNHEX(:id)')
-            ->andWhere('sales_channel.tenant_id = UNHEX(:tenantId)')
             ->setParameter('id', Defaults::SALES_CHANNEL_STOREFRONT)
-            ->setParameter('tenantId', $tenantId)
             ->execute()
             ->fetchAll();
 
@@ -143,7 +138,7 @@ class RequestBuilder
         return $bestMatch;
     }
 
-    private function resolveSeoUrl(Request $request, string $tenantId, string $baseUrl, string $salesChannelId): string
+    private function resolveSeoUrl(Request $request, string $baseUrl, string $salesChannelId): string
     {
         $pathInfo = $request->getPathInfo();
         if (!empty($baseUrl) && strpos($pathInfo, $baseUrl) === 0) {
@@ -155,10 +150,8 @@ class RequestBuilder
             ->from('seo_url')
             ->where('sales_channel_id = :salesChannelId')
             ->andWhere('seo_path_info = :seoPath')
-            ->andWhere('tenant_id = :tenantId')
             ->setMaxResults(1)
             ->setParameter('salesChannelId', $salesChannelId)
-            ->setParameter('tenantId', Uuid::fromHexToBytes($tenantId))
             ->setParameter('seoPath', ltrim($pathInfo, '/'))
             ->execute()
             ->fetchColumn();
@@ -178,26 +171,5 @@ class RequestBuilder
         }
 
         return $uri;
-    }
-
-    private function getTenantId(Request $request): string
-    {
-        if ($request->headers->has(PlatformRequest::HEADER_TENANT_ID)) {
-            return $request->headers->get(PlatformRequest::HEADER_TENANT_ID);
-        }
-
-        $tenantId = getenv('TENANT_ID');
-
-        if (!$tenantId) {
-            throw new HttpException(Response::HTTP_PRECONDITION_REQUIRED, 'The tenant_id must be present. Please check your environment.');
-        }
-
-        if (!Uuid::isValid($tenantId)) {
-            throw new HttpException(Response::HTTP_PRECONDITION_FAILED, 'The tenant_id is invalid. Please check your environment.');
-        }
-
-        $request->headers->set(PlatformRequest::HEADER_TENANT_ID, $tenantId);
-
-        return $tenantId;
     }
 }
