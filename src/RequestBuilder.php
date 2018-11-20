@@ -9,8 +9,6 @@ use Shopware\Core\PlatformRequest;
 use Shopware\Storefront\StorefrontRequest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class RequestBuilder
 {
