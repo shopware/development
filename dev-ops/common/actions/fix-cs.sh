@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 #DESCRIPTION: fix code style in src folder
 
-php ./vendor/shopware/platform/bin/php-cs-fixer.phar fix -v --config=vendor/shopware/platform/.php_cs.dist --allow-risky=yes vendor/shopware/platform/src
+php ./vendor/shopware/platform/bin/php-cs-fixer.phar fix -v --config=vendor/shopware/platform/.php_cs.dist --allow-risky=yes vendor/shopware/platform/src src
