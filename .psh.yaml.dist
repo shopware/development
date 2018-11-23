@@ -31,6 +31,7 @@ const:
   NIGHTWATCH_ENV: "administration"
   NIGHTWATCH_PARAMS: ""
   CHROME_BIN: ""
+  FEATURES: |
 
 dynamic:
   USERKEY: echo "$(id -u):$(id -g)"
@@ -62,5 +63,7 @@ environments:
   administration:
     const:
       DEVPORT: "8080"
+    dynamic:
+      ROOT: echo `pwd`
     paths:
       - "dev-ops/administration/actions"
