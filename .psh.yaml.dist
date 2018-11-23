@@ -54,6 +54,8 @@ environments:
   bamboo:
     paths:
       - "dev-ops/bamboo.shopware.com/actions"
+    dynamic:
+      ROOT: echo `pwd`
     templates:
       - source: ".env.dist"
         destination: ".env"
