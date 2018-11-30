@@ -12,3 +12,11 @@ services:
       - "4406:3306"
     volumes:
       - ./dev-ops/docker/_volumes/mysql:/mysql-data
+  selenium:
+    image: selenium/standalone-chrome-debug
+    ports:
+      - "5900:5900"
+      - "4444:4444"
+    shm_size: 2g
+    links:
+      - app_server:docker.vm
