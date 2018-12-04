@@ -6,7 +6,10 @@
         "proprietary"
     ],
     "repositories": [
-        { "type": "vcs", "url": "https://github.com/shopware/platform.git" }
+        {
+            "type": "vcs",
+            "url": "https://github.com/shopware/platform.git"
+        }
     ],
     "prefer-stable": true,
     "minimum-stability": "dev",
@@ -20,23 +23,23 @@
         "shopware/platform": "dev-master"
     },
     "scripts": {
-      "post-update-cmd": [
-        "ln -sf ../../bin/pre-commit vendor/shopware/platform/.git/hooks/pre-commit"
-      ]
+        "post-update-cmd": [
+            "ln -sf ../../bin/pre-commit vendor/shopware/platform/.git/hooks/pre-commit"
+        ]
     },
     "require-dev": {
-      "ext-tokenizer": "*",
-      "ext-xmlwriter": "*",
-      "bheller/images-generator": "1.0.1",
-      "fzaninotto/faker": "1.8.0",
-      "mbezhanov/faker-provider-collection": "1.1.1",
-      "phpunit/phpunit": "7.4.3",
-      "symfony/browser-kit": "4.1.7",
-      "symfony/phpunit-bridge": "4.1.7",
-      "symfony/var-dumper": "4.1.7",
-      "symfony/stopwatch": "4.1.7",
-      "symfony/web-profiler-bundle": "4.1.7",
-      "johnkary/phpunit-speedtrap": "3.0.0",
-      "league/flysystem-memory": "1.0.1"
+        "ext-tokenizer": "*",
+        "ext-xmlwriter": "*",
+        "bheller/images-generator": "1.0.1",
+        "fzaninotto/faker": "1.8.0",
+        "mbezhanov/faker-provider-collection": "1.1.1",
+        "phpunit/phpunit": "7.4.3",
+        "symfony/browser-kit": "4.1.7",
+        "symfony/phpunit-bridge": "4.1.7",
+        "symfony/var-dumper": "4.1.7",
+        "symfony/stopwatch": "4.1.7",
+        "symfony/web-profiler-bundle": "4.1.7",
+        "johnkary/phpunit-speedtrap": "3.0.0",
+        "league/flysystem-memory": "1.0.1"
     }
 }
