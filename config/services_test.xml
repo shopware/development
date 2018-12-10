@@ -4,22 +4,22 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <defaults public="true" />
+        <defaults public="true"/>
 
-        <service class="Shopware\Core\Checkout\Test\Payment\Handler\TestPaymentHandler" id="Shopware\Core\Checkout\Test\Payment\Handler\TestPaymentHandler">
-            <argument type="service" id="order_transaction.repository" />
-            <tag name="payment.method" />
+        <service id="Shopware\Core\Checkout\Test\Payment\Handler\TestPaymentHandler">
+            <argument type="service" id="order_transaction.repository"/>
+            <tag name="payment.method"/>
         </service>
 
-        <service class="Shopware\Core\Framework\Test\Filesystem\Adapter\MemoryAdapterFactory" id="Shopware\Core\Framework\Test\Filesystem\Adapter\MemoryAdapterFactory">
-            <tag name="Shopware\Core\Framework\Filesystem\FilesystemFactory" />
+        <service id="Shopware\Core\Framework\Test\Filesystem\Adapter\MemoryAdapterFactory">
+            <tag name="Shopware\Core\Framework\Filesystem\FilesystemFactory"/>
         </service>
 
-        <service class="Shopware\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\NamedDefinition" id="Shopware\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\NamedDefinition">
+        <service id="Shopware\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\NamedDefinition">
             <tag name="shopware.entity.definition" entity="named"/>
         </service>
 
-        <service class="Shopware\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\NamedOptionalGroupDefinition" id="Shopware\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\NamedOptionalGroupDefinition">
+        <service id="Shopware\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\NamedOptionalGroupDefinition">
             <tag name="shopware.entity.definition" entity="named_optional_group"/>
         </service>
 
