@@ -14,7 +14,7 @@ return [
     Shopware\Storefront\Product\Product::class => ['all' => true],
     Shopware\Storefront\Account\Account::class => ['all' => true],
     Shopware\Storefront\Search\Search::class => ['all' => true],
-    Shopware\Storefront\Seo\Seo::class => ['all' => true],
+    Shopware\Storefront\Framework\Seo\Seo::class => ['all' => true],
     Shopware\Storefront\Content\Content::class => ['all' => true],
     Shopware\Storefront\Checkout\Checkout::class => ['all' => true],
     Shopware\Storefront\Listing\Listing::class => ['all' => true],
