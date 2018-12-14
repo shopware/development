@@ -15,6 +15,7 @@
 /public/thumbnail/*
 !/public/media/.gitkeep
 /dev-ops/docker/_volumes/*
+/selenium-debug.log
 
 ###> symfony/framework-bundle ###
 .env
