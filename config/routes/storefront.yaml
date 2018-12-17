@@ -1,3 +1,27 @@
-storefront:
-    resource: ../vendor/shopware/platform/src/Storefront/Controller/
+storefront-account:
+    resource: ../vendor/shopware/platform/src/Storefront/Account/Controller
+    type: annotation
+
+storefront-product:
+    resource: ../vendor/shopware/platform/src/Storefront/Product/Controller
+    type: annotation
+
+storefront-listing:
+    resource: ../vendor/shopware/platform/src/Storefront/Listing/Controller
+    type: annotation
+
+storefront-checkout:
+    resource: ../vendor/shopware/platform/src/Storefront/Checkout/Controller
+    type: annotation
+
+storefront-search:
+    resource: ../vendor/shopware/platform/src/Storefront/Search/Controller
+    type: annotation
+
+storefront-content:
+    resource: ../vendor/shopware/platform/src/Storefront/Content/Controller
+    type: annotation
+
+storefront-framework:
+    resource: ../vendor/shopware/platform/src/Storefront/Framework/Controller
     type: annotation
