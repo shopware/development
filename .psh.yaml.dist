@@ -69,3 +69,15 @@ environments:
       ROOT: echo `pwd`
     paths:
       - "dev-ops/administration/actions"
+  e2e:
+    paths:
+      - "dev-ops/e2e/actions"
+    dynamic:
+      ROOT: echo `pwd`
+    const:
+      APP_ENV: prod
+    templates:
+      - source: ".env.dist"
+        destination: ".env"
+      - source: "dev-ops/docker/docker-compose.override.yml"
+        destination: "./docker-compose.override.yml"
