@@ -65,8 +65,8 @@ environments:
   administration:
     const:
       DEVPORT: "8080"
-      HOST: "0.0.0.0"
     dynamic:
+      HOST: if [ -z "$(grep docker /proc/self/cgroup)" ]; then echo "localhost"; else echo "0.0.0.0"; fi
       ROOT: echo `pwd`
     paths:
       - "dev-ops/administration/actions"
