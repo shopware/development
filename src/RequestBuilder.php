@@ -4,6 +4,7 @@ namespace Shopware\Development;
 
 use Doctrine\DBAL\Connection;
 use Shopware\Core\Defaults;
+use Shopware\Core\Framework\Doctrine\FetchModeHelper;
 use Shopware\Core\Framework\Struct\Uuid;
 use Shopware\Core\PlatformRequest;
 use Shopware\Storefront\StorefrontRequest;
@@ -61,8 +62,13 @@ class RequestBuilder
 
         $clone = $request->duplicate(null, null, null, null, null, $server);
 
-        $clone->attributes->set(PlatformRequest::ATTRIBUTE_SALES_CHANNEL_ID, Uuid::fromBytesToHex($salesChannel['salesChannelId']));
+        $clone->attributes->set(PlatformRequest::ATTRIBUTE_SALES_CHANNEL_ID, $salesChannel['salesChannelId']);
         $clone->attributes->set(StorefrontRequest::ATTRIBUTE_IS_STOREFRONT_REQUEST, true);
+        $clone->attributes->set(StorefrontRequest::ATTRIBUTE_DOMAIN_LOCALE, $salesChannel['localeCode']);
+        $clone->attributes->set(StorefrontRequest::ATTRIBUTE_DOMAIN_SNIPPET_SET_ID, $salesChannel['snippetSetId']);
+        $clone->attributes->set(StorefrontRequest::ATTRIBUTE_DOMAIN_CURRENCY_ID, $salesChannel['currencyId']);
+
+        $clone->headers->set(PlatformRequest::HEADER_LANGUAGE_ID, $salesChannel['languageId']);
 
         return $clone;
     }
@@ -80,39 +86,34 @@ class RequestBuilder
         return true;
     }
 
-    private function findSalesChannel(SymfonyRequest $request): ?array
+    public function findSalesChannel(SymfonyRequest $request): ?array
     {
-        $salesChannels = $this->connection->createQueryBuilder()
-            ->select(['sales_channel.id', 'sales_channel.access_key', 'sales_channel.configuration'])
-            ->from('sales_channel')
-            ->where('sales_channel.type_id = UNHEX(:id)')
-            ->setParameter('id', Defaults::SALES_CHANNEL_STOREFRONT)
-            ->execute()
-            ->fetchAll();
+        $statement = $this->connection->createQueryBuilder()
+            ->select([
+                'domain.url',
+                'LOWER(HEX(sales_channel.id)) salesChannelId',
+                'LOWER(HEX(domain.snippet_set_id)) snippetSetId',
+                'LOWER(HEX(domain.currency_id)) currencyId',
 
-        if (empty($salesChannels)) {
+                'LOWER(HEX(domain.language_id)) languageId',
+                'domain.locale_code localeCode',
+            ])->from('sales_channel')
+            ->innerJoin('sales_channel', 'sales_channel_domain', 'domain', 'domain.sales_channel_id = sales_channel.id')
+            ->where('sales_channel.type_id = UNHEX(:typeId)')
+            ->andWhere('sales_channel.active')
+            ->setParameter('typeId', Defaults::SALES_CHANNEL_STOREFRONT);
+        $domains = FetchModeHelper::groupUnique($statement->execute()->fetchAll(), false);
+
+        if (empty($domains)) {
             return null;
         }
 
         $requestUrl = rtrim($request->getSchemeAndHttpHost() . $request->getBasePath() . $request->getPathInfo(), '/');
 
-        $domains = [];
-        foreach ($salesChannels as $salesChannel) {
-            $configuration = json_decode($salesChannel['configuration'], true);
-
-            foreach ($configuration['domains'] as $url) {
-                $url['salesChannelId'] = $salesChannel['id'];
-                $url['salesChannelAccessKey'] = $salesChannel['access_key'];
-
-                $domains[$url['url']] = $url;
-            }
-        }
-
         // direct hit
         if (array_key_exists($requestUrl, $domains)) {
             return $domains[$requestUrl];
         }
-
         // reduce shops to which base url is the beginning of the request
         $domains = array_filter($domains, function ($baseUrl) use ($requestUrl) {
             return strpos($requestUrl, $baseUrl) === 0;
@@ -149,7 +150,7 @@ class RequestBuilder
             ->where('sales_channel_id = :salesChannelId')
             ->andWhere('seo_path_info = :seoPath')
             ->setMaxResults(1)
-            ->setParameter('salesChannelId', $salesChannelId)
+            ->setParameter('salesChannelId', Uuid::fromHexToBytes($salesChannelId))
             ->setParameter('seoPath', ltrim($pathInfo, '/'))
             ->execute()
             ->fetchColumn();
