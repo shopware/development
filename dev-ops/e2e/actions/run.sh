@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 #DESCRIPTION: runs e2e tests with nightwatch for the administration
 
-if [ "__E2E_ENV__" = "default" ]; then DATABASE_URL="mysql://__DB_USER__:__DB_PASSWORD__@127.0.0.1:4406/__DB_NAME__" bin/console administration:dump:features; else bin/console administration:dump:features; fi
+bin/console administration:dump:features
 
 INCLUDE: ./dump-db.sh
 

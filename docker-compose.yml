@@ -20,9 +20,4 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: app
       MYSQL_PASSWORD: app
-
-  selenium:
-    image: selenium/standalone-chrome
-    shm_size: 2g
-    links:
-      - app_server:docker.vm
+      
