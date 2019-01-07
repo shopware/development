@@ -31,6 +31,7 @@ const:
   NIGHTWATCH_ENV: "administration"
   NIGHTWATCH_PARAMS: ""
   CHROME_BIN: ""
+  E2E_RESTORE_DUMP_PATH: /tmp/shopware_e2e_dump.sql
   FEATURES: |
 
 dynamic:
@@ -77,7 +78,6 @@ environments:
       ROOT: echo `pwd`
     const:
       APP_ENV: prod
-      E2E_RESTORE_DUMP_PATH: /tmp/shopware_e2e_dump.sql
     templates:
       - source: ".env.dist"
         destination: ".env"
