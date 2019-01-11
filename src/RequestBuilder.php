@@ -90,6 +90,7 @@ class RequestBuilder
     {
         $statement = $this->connection->createQueryBuilder()
             ->select([
+                'domain.url `key`',
                 'domain.url',
                 'LOWER(HEX(sales_channel.id)) salesChannelId',
                 'LOWER(HEX(domain.snippet_set_id)) snippetSetId',
@@ -102,7 +103,7 @@ class RequestBuilder
             ->where('sales_channel.type_id = UNHEX(:typeId)')
             ->andWhere('sales_channel.active')
             ->setParameter('typeId', Defaults::SALES_CHANNEL_STOREFRONT);
-        $domains = FetchModeHelper::groupUnique($statement->execute()->fetchAll(), false);
+        $domains = FetchModeHelper::groupUnique($statement->execute()->fetchAll());
 
         if (empty($domains)) {
             return null;
