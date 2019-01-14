@@ -11,7 +11,7 @@ use Shopware\Storefront\StorefrontRequest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
-class RequestBuilder
+class RequestTransformer
 {
     /**
      * @var Connection
@@ -35,9 +35,8 @@ class RequestBuilder
         $this->connection = $connection;
     }
 
-    public function create(): SymfonyRequest
+    public function transform(SymfonyRequest $request): SymfonyRequest
     {
-        $request = SymfonyRequest::createFromGlobals();
         if (!$this->isSalesChannelRequired($request->getPathInfo())) {
             return $request;
         }
@@ -64,7 +63,7 @@ class RequestBuilder
 
         $clone->attributes->set(PlatformRequest::ATTRIBUTE_SALES_CHANNEL_ID, $salesChannel['salesChannelId']);
         $clone->attributes->set(StorefrontRequest::ATTRIBUTE_IS_STOREFRONT_REQUEST, true);
-        $clone->attributes->set(StorefrontRequest::ATTRIBUTE_DOMAIN_LOCALE, $salesChannel['localeCode']);
+        $clone->attributes->set(StorefrontRequest::ATTRIBUTE_DOMAIN_LOCALE, $salesChannel['locale']);
         $clone->attributes->set(StorefrontRequest::ATTRIBUTE_DOMAIN_SNIPPET_SET_ID, $salesChannel['snippetSetId']);
         $clone->attributes->set(StorefrontRequest::ATTRIBUTE_DOMAIN_CURRENCY_ID, $salesChannel['currencyId']);
 
@@ -86,7 +85,7 @@ class RequestBuilder
         return true;
     }
 
-    public function findSalesChannel(SymfonyRequest $request): ?array
+    private function findSalesChannel(SymfonyRequest $request): ?array
     {
         $statement = $this->connection->createQueryBuilder()
             ->select([
@@ -95,11 +94,11 @@ class RequestBuilder
                 'LOWER(HEX(sales_channel.id)) salesChannelId',
                 'LOWER(HEX(domain.snippet_set_id)) snippetSetId',
                 'LOWER(HEX(domain.currency_id)) currencyId',
-
                 'LOWER(HEX(domain.language_id)) languageId',
-                'domain.locale_code localeCode',
+                'snippet_set.iso as locale',
             ])->from('sales_channel')
             ->innerJoin('sales_channel', 'sales_channel_domain', 'domain', 'domain.sales_channel_id = sales_channel.id')
+            ->innerJoin('domain', 'snippet_set', 'snippet_set', 'snippet_set.id = domain.snippet_set_id')
             ->where('sales_channel.type_id = UNHEX(:typeId)')
             ->andWhere('sales_channel.active')
             ->setParameter('typeId', Defaults::SALES_CHANNEL_STOREFRONT);

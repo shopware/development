@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Shopware\Development\Test;
 
@@ -10,7 +10,9 @@ use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEvent;
 use Shopware\Core\Framework\Struct\Uuid;
 use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
-use Shopware\Development\RequestBuilder;
+use Shopware\Core\PlatformRequest;
+use Shopware\Development\RequestTransformer;
+use Shopware\Storefront\StorefrontRequest;
 use Symfony\Component\HttpFoundation\Request;
 
 class RequestBuilderTest extends TestCase
@@ -18,420 +20,212 @@ class RequestBuilderTest extends TestCase
     use IntegrationTestBehaviour;
 
     /**
-     * @var RequestBuilder
+     * @var RequestTransformer
      */
     private $requestBuilder;
 
     protected function setUp()
     {
-        $this->requestBuilder = new RequestBuilder($this->getContainer()->get(Connection::class));
+        $this->requestBuilder = new RequestTransformer($this->getContainer()->get(Connection::class));
     }
 
-    public function testSingleSalesChannel(): void
+    /**
+     * @dataProvider domainProvider
+     *
+     * @param array[]           $salesChannels
+     * @param ExpectedRequest[] $requests
+     */
+    public function testDomainResolving(array $salesChannels, array $requests): void
     {
-        $salesChannels = [
-            [
-                'id' => Uuid::uuid4()->getHex(),
-                'name' => 'a',
-                'languages' => [
-                    ['id' => Defaults::LANGUAGE_DE]
-                ],
-                'domains' => [
-                    [
-                        'url' => 'http://saleschannel.test',
-                        'languageId' => Defaults::LANGUAGE_DE,
-                        'currencyId' => Defaults::CURRENCY,
-                        'snippetSetId' => Defaults::SNIPPET_BASE_SET_DE,
-                        'localeCode' => Defaults::LOCALE_DE_DE_ISO
-                    ]
-                ]
-            ]
-        ];
         $this->createSalesChannels($salesChannels);
 
-        $host = 'saleschannel.test';
-        $path = '';
-        $server['HTTP_HOST'] = $host;
-        $request = Request::create($path, 'GET', [], [], [], $server);
+        /** @var ExpectedRequest $expectedRequest */
+        foreach ($requests as $expectedRequest) {
+            $request = Request::create($expectedRequest->url);
 
-        $url = $this->requestBuilder->findSalesChannel($request);
-        $this->assertResolvedUrl(
-            $salesChannels[0]['domains'][0]['url'],
-            $salesChannels[0]['domains'][0]['languageId'],
-            $salesChannels[0]['domains'][0]['currencyId'],
-            $salesChannels[0]['domains'][0]['snippetSetId'],
-            $salesChannels[0]['domains'][0]['localeCode'],
-            $url
-        );
+            $resolved = $this->requestBuilder->transform($request);
 
-        $host = 'saleschannel.test';
-        $path = '/';
-        $server['HTTP_HOST'] = $host;
-        $request = Request::create($path, 'GET', [], [], [], $server);
-
-        $url = $this->requestBuilder->findSalesChannel($request);
-        $this->assertResolvedUrl(
-            $salesChannels[0]['domains'][0]['url'],
-            $salesChannels[0]['domains'][0]['languageId'],
-            $salesChannels[0]['domains'][0]['currencyId'],
-            $salesChannels[0]['domains'][0]['snippetSetId'],
-            $salesChannels[0]['domains'][0]['localeCode'],
-            $url
-        );
-
-        $host = 'saleschannel.test';
-        $path = '/foobar';
-        $server['HTTP_HOST'] = $host;
-        $request = Request::create($path, 'GET', [], [], [], $server);
-
-        $url = $this->requestBuilder->findSalesChannel($request);
-        $this->assertResolvedUrl(
-            $salesChannels[0]['domains'][0]['url'],
-            $salesChannels[0]['domains'][0]['languageId'],
-            $salesChannels[0]['domains'][0]['currencyId'],
-            $salesChannels[0]['domains'][0]['snippetSetId'],
-            $salesChannels[0]['domains'][0]['localeCode'],
-            $url
-        );
+            static::assertSame($expectedRequest->salesChannelId, $resolved->attributes->get(PlatformRequest::ATTRIBUTE_SALES_CHANNEL_ID));
+            static::assertSame($expectedRequest->isStorefrontRequest, $resolved->attributes->get(StorefrontRequest::ATTRIBUTE_IS_STOREFRONT_REQUEST));
+            static::assertSame($expectedRequest->locale, $resolved->attributes->get(StorefrontRequest::ATTRIBUTE_DOMAIN_LOCALE));
+            static::assertSame($expectedRequest->currency, $resolved->attributes->get(StorefrontRequest::ATTRIBUTE_DOMAIN_CURRENCY_ID));
+            static::assertSame($expectedRequest->snippetSetId, $resolved->attributes->get(StorefrontRequest::ATTRIBUTE_DOMAIN_SNIPPET_SET_ID));
+            static::assertSame($expectedRequest->language, $resolved->headers->get(PlatformRequest::HEADER_LANGUAGE_ID));
+        }
     }
 
-    public function testTwoSalesChannels(): void
+    public function domainProvider(): array
     {
-        $salesChannels = [
-            [
-                'id' => Uuid::uuid4()->getHex(),
-                'name' => 'a',
-                'languages' => [
-                    ['id' => Defaults::LANGUAGE_DE]
+        $germanId = Uuid::uuid4()->getHex();
+        $englishId = Uuid::uuid4()->getHex();
+        $gerUkId = Uuid::uuid4()->getHex();
+
+        return [
+            'single' => [
+                [$this->getGermanSalesChannel($germanId, 'http://german.test')],
+                [
+                    new ExpectedRequest('http://german.test', $germanId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://german.test/', $germanId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://german.test/foobar', $germanId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
                 ],
-                'domains' => [
-                    [
-                        'url' => 'http://saleschannela.test',
-                        'languageId' => Defaults::LANGUAGE_DE,
-                        'currencyId' => Defaults::CURRENCY,
-                        'snippetSetId' => Defaults::SNIPPET_BASE_SET_DE,
-                        'localeCode' => Defaults::LOCALE_DE_DE_ISO
-                    ]
-                ]
             ],
-            [
-                'id' => Uuid::uuid4()->getHex(),
-                'name' => 'b',
-                'languages' => [
-                    ['id' => Defaults::LANGUAGE_DE]
+            'two' => [
+                [
+                    $this->getGermanSalesChannel($germanId, 'http://german.test'),
+                    $this->getEnglishSalesChannel($englishId, 'http://english.test'),
                 ],
-                'domains' => [
-                    [
-                        'url' => 'http://saleschannelb.test',
-                        'languageId' => Defaults::LANGUAGE_DE,
-                        'currencyId' => Defaults::CURRENCY,
-                        'snippetSetId' => Defaults::SNIPPET_BASE_SET_DE,
-                        'localeCode' => Defaults::LOCALE_DE_DE_ISO
-                    ]
-                ]
-            ]
+                [
+                    new ExpectedRequest('http://german.test', $germanId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://german.test/', $germanId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://german.test/foobar', $germanId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+
+                    new ExpectedRequest('http://english.test', $englishId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                    new ExpectedRequest('http://english.test/', $englishId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                    new ExpectedRequest('http://english.test/foobar', $englishId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                ],
+            ],
+            'single-with-ger-and-uk-domain' => [
+                [
+                    $this->getSalesChannelWithGerAndUkDomain($gerUkId, 'http://german.test', 'http://english.test'),
+                ],
+                [
+                    new ExpectedRequest('http://german.test', $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://german.test/', $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://german.test/foobar', $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+
+                    new ExpectedRequest('http://english.test', $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                    new ExpectedRequest('http://english.test/', $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                    new ExpectedRequest('http://english.test/foobar', $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                ],
+            ],
+            'two-domains-same-host-different-path' => [
+                [
+                    $this->getSalesChannelWithGerAndUkDomain($gerUkId, 'http://saleschannel.test/de', 'http://saleschannel.test/en'),
+                ],
+                [
+                    new ExpectedRequest('http://saleschannel.test/de', $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://saleschannel.test/de/', $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://saleschannel.test/de/foobar', $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+
+                    new ExpectedRequest('http://saleschannel.test/en', $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                    new ExpectedRequest('http://saleschannel.test/en/', $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                    new ExpectedRequest('http://saleschannel.test/en/foobar', $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                ],
+            ],
+            'two-domains-same-host-extended-path' => [
+                [
+                    $this->getSalesChannelWithGerAndUkDomain($gerUkId, 'http://saleschannel.test/de', 'http://saleschannel.test'),
+                ],
+                [
+                    new ExpectedRequest('http://saleschannel.test/de', $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://saleschannel.test/de/', $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://saleschannel.test/de/foobar', $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+
+                    new ExpectedRequest('http://saleschannel.test', $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                    new ExpectedRequest('http://saleschannel.test/', $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                    new ExpectedRequest('http://saleschannel.test/foobar', $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                ],
+            ],
+            'inactive' => [
+                [
+                    $this->getInactiveSalesChannel($germanId, 'http://inactive.test'),
+                ],
+                [
+                    new ExpectedRequest('http://inactive.test', null, null, null, null, null, null),
+                    new ExpectedRequest('http://inactive.test/', null, null, null, null, null, null),
+                    new ExpectedRequest('http://inactive.test/foobar', null, null, null, null, null, null),
+                ],
+            ],
         ];
-        $this->createSalesChannels($salesChannels);
-
-        $host = 'saleschannela.test';
-        $path = '';
-        $server['HTTP_HOST'] = $host;
-        $request = Request::create($path, 'GET', [], [], [], $server);
-
-        $url = $this->requestBuilder->findSalesChannel($request);
-        $this->assertResolvedUrl(
-            $salesChannels[0]['domains'][0]['url'],
-            $salesChannels[0]['domains'][0]['languageId'],
-            $salesChannels[0]['domains'][0]['currencyId'],
-            $salesChannels[0]['domains'][0]['snippetSetId'],
-            $salesChannels[0]['domains'][0]['localeCode'],
-            $url
-        );
-
-        $host = 'saleschannela.test';
-        $path = '/foobar';
-        $server['HTTP_HOST'] = $host;
-        $request = Request::create($path, 'GET', [], [], [], $server);
-
-        $url = $this->requestBuilder->findSalesChannel($request);
-        $this->assertResolvedUrl(
-            $salesChannels[0]['domains'][0]['url'],
-            $salesChannels[0]['domains'][0]['languageId'],
-            $salesChannels[0]['domains'][0]['currencyId'],
-            $salesChannels[0]['domains'][0]['snippetSetId'],
-            $salesChannels[0]['domains'][0]['localeCode'],
-            $url
-        );
-
-        $host = 'saleschannelb.test';
-        $path = '';
-        $server['HTTP_HOST'] = $host;
-        $request = Request::create($path, 'GET', [], [], [], $server);
-
-        $url = $this->requestBuilder->findSalesChannel($request);
-        $this->assertResolvedUrl(
-            $salesChannels[1]['domains'][0]['url'],
-            $salesChannels[1]['domains'][0]['languageId'],
-            $salesChannels[1]['domains'][0]['currencyId'],
-            $salesChannels[1]['domains'][0]['snippetSetId'],
-            $salesChannels[1]['domains'][0]['localeCode'],
-            $url
-        );
-
-        $host = 'saleschannelb.test';
-        $path = '/foobar';
-        $server['HTTP_HOST'] = $host;
-        $request = Request::create($path, 'GET', [], [], [], $server);
-
-        $url = $this->requestBuilder->findSalesChannel($request);
-        $this->assertResolvedUrl(
-            $salesChannels[1]['domains'][0]['url'],
-            $salesChannels[1]['domains'][0]['languageId'],
-            $salesChannels[1]['domains'][0]['currencyId'],
-            $salesChannels[1]['domains'][0]['snippetSetId'],
-            $salesChannels[1]['domains'][0]['localeCode'],
-            $url
-        );
     }
 
-    public function testSalesChannelTwoDomains(): void
+    private function getEnglishSalesChannel($id, $url): array
     {
-        $salesChannels = [
-            [
-                'id' => Uuid::uuid4()->getHex(),
-                'name' => 'new sales channel',
-                'languages' => [
-                    ['id' => Defaults::LANGUAGE_DE]
+        return [
+            'id' => $id,
+            'name' => 'english',
+            'languages' => [
+                ['id' => Defaults::LANGUAGE_SYSTEM],
+            ],
+            'domains' => [
+                [
+                    'url' => $url,
+                    'languageId' => Defaults::LANGUAGE_SYSTEM,
+                    'currencyId' => Defaults::CURRENCY,
+                    'snippetSetId' => Defaults::SNIPPET_BASE_SET_EN,
                 ],
-                'domains' => [
-                    [
-                        'url' => 'http://en.saleschannel.test',
-                        'languageId' => Defaults::LANGUAGE_SYSTEM,
-                        'currencyId' => Defaults::CURRENCY,
-                        'snippetSetId' => Defaults::SNIPPET_BASE_SET_EN,
-                        'localeCode' => Defaults::LOCALE_EN_GB_ISO
-                    ],
-                    [
-                        'url' => 'http://de.saleschannel.test',
-                        'languageId' => Defaults::LANGUAGE_DE,
-                        'currencyId' => Defaults::CURRENCY,
-                        'snippetSetId' => Defaults::SNIPPET_BASE_SET_DE,
-                        'localeCode' => Defaults::LOCALE_DE_DE_ISO
-                    ]
-                ]
-            ]
+            ],
         ];
-        $this->createSalesChannels($salesChannels);
-
-        $host = 'en.saleschannel.test';
-        $path = '';
-        $server['HTTP_HOST'] = $host;
-        $request = Request::create($path, 'GET', [], [], [], $server);
-
-        $url = $this->requestBuilder->findSalesChannel($request);
-        $this->assertResolvedUrl(
-            $salesChannels[0]['domains'][0]['url'],
-            $salesChannels[0]['domains'][0]['languageId'],
-            $salesChannels[0]['domains'][0]['currencyId'],
-            $salesChannels[0]['domains'][0]['snippetSetId'],
-            $salesChannels[0]['domains'][0]['localeCode'],
-            $url
-        );
-
-        $host = 'de.saleschannel.test';
-        $path = '';
-        $server['HTTP_HOST'] = $host;
-        $request = Request::create($path, 'GET', [], [], [], $server);
-
-        $url = $this->requestBuilder->findSalesChannel($request);
-        $this->assertResolvedUrl(
-            $salesChannels[0]['domains'][1]['url'],
-            $salesChannels[0]['domains'][1]['languageId'],
-            $salesChannels[0]['domains'][1]['currencyId'],
-            $salesChannels[0]['domains'][1]['snippetSetId'],
-            $salesChannels[0]['domains'][1]['localeCode'],
-            $url
-        );
     }
 
-    public function testSalesChannelSameHostDifferentPaths(): void
+    private function getGermanSalesChannel($id, $url): array
     {
-        $salesChannels = [
-            [
-                'id' => Uuid::uuid4()->getHex(),
-                'name' => 'new sales channel',
-                'languages' => [
-                    ['id' => Defaults::LANGUAGE_DE]
+        return [
+            'id' => $id,
+            'name' => 'german',
+            'languages' => [
+                ['id' => Defaults::LANGUAGE_DE],
+            ],
+            'domains' => [
+                [
+                    'url' => $url,
+                    'languageId' => Defaults::LANGUAGE_DE,
+                    'currencyId' => Defaults::CURRENCY,
+                    'snippetSetId' => Defaults::SNIPPET_BASE_SET_DE,
                 ],
-                'domains' => [
-                    [
-                        'url' => 'http://saleschannel.test/en',
-                        'languageId' => Defaults::LANGUAGE_SYSTEM,
-                        'currencyId' => Defaults::CURRENCY,
-                        'snippetSetId' => Defaults::SNIPPET_BASE_SET_EN,
-                        'localeCode' => Defaults::LOCALE_EN_GB_ISO
-                    ],
-                    [
-                        'url' => 'http://saleschannel.test/de',
-                        'languageId' => Defaults::LANGUAGE_DE,
-                        'currencyId' => Defaults::CURRENCY,
-                        'snippetSetId' => Defaults::SNIPPET_BASE_SET_DE,
-                        'localeCode' => Defaults::LOCALE_DE_DE_ISO
-                    ]
-                ]
-            ]
+            ],
         ];
-        $this->createSalesChannels($salesChannels);
-
-        $host = 'saleschannel.test';
-        $path = '/en';
-        $server['HTTP_HOST'] = $host;
-        $request = Request::create($path, 'GET', [], [], [], $server);
-
-        $url = $this->requestBuilder->findSalesChannel($request);
-        $this->assertResolvedUrl(
-            $salesChannels[0]['domains'][0]['url'],
-            $salesChannels[0]['domains'][0]['languageId'],
-            $salesChannels[0]['domains'][0]['currencyId'],
-            $salesChannels[0]['domains'][0]['snippetSetId'],
-            $salesChannels[0]['domains'][0]['localeCode'],
-            $url
-        );
-
-        $host = 'saleschannel.test';
-        $path = '/de';
-        $server['HTTP_HOST'] = $host;
-        $request = Request::create($path, 'GET', [], [], [], $server);
-
-        $url = $this->requestBuilder->findSalesChannel($request);
-        $this->assertResolvedUrl(
-            $salesChannels[0]['domains'][1]['url'],
-            $salesChannels[0]['domains'][1]['languageId'],
-            $salesChannels[0]['domains'][1]['currencyId'],
-            $salesChannels[0]['domains'][1]['snippetSetId'],
-            $salesChannels[0]['domains'][1]['localeCode'],
-            $url
-        );
     }
 
-    public function testSalesChannelExtendedPath(): void
+    private function getSalesChannelWithGerAndUkDomain($id, $gerUrl, $ukUrl): array
     {
-        $salesChannels = [
-            [
-                'id' => Uuid::uuid4()->getHex(),
-                'name' => 'new sales channel',
-                'languages' => [
-                    ['id' => Defaults::LANGUAGE_DE]
+        return [
+            'id' => $id,
+            'name' => 'english',
+            'languages' => [
+                ['id' => Defaults::LANGUAGE_SYSTEM],
+                ['id' => Defaults::LANGUAGE_DE],
+            ],
+            'domains' => [
+                [
+                    'url' => $gerUrl,
+                    'languageId' => Defaults::LANGUAGE_DE,
+                    'currencyId' => Defaults::CURRENCY,
+                    'snippetSetId' => Defaults::SNIPPET_BASE_SET_DE,
                 ],
-                'domains' => [
-                    [
-                        'url' => 'http://saleschannel.test',
-                        'languageId' => Defaults::LANGUAGE_SYSTEM,
-                        'currencyId' => Defaults::CURRENCY,
-                        'snippetSetId' => Defaults::SNIPPET_BASE_SET_EN,
-                        'localeCode' => Defaults::LOCALE_EN_GB_ISO
-                    ],
-                    [
-                        'url' => 'http://saleschannel.test/de',
-                        'languageId' => Defaults::LANGUAGE_DE,
-                        'currencyId' => Defaults::CURRENCY,
-                        'snippetSetId' => Defaults::SNIPPET_BASE_SET_DE,
-                        'localeCode' => Defaults::LOCALE_DE_DE_ISO
-                    ]
-                ]
-            ]
+                [
+                    'url' => $ukUrl,
+                    'languageId' => Defaults::LANGUAGE_SYSTEM,
+                    'currencyId' => Defaults::CURRENCY,
+                    'snippetSetId' => Defaults::SNIPPET_BASE_SET_EN,
+                ],
+            ],
         ];
-        $this->createSalesChannels($salesChannels);
-
-        $host = 'saleschannel.test';
-        $path = '';
-        $server['HTTP_HOST'] = $host;
-        $request = Request::create($path, 'GET', [], [], [], $server);
-
-        $url = $this->requestBuilder->findSalesChannel($request);
-        $this->assertResolvedUrl(
-            $salesChannels[0]['domains'][0]['url'],
-            $salesChannels[0]['domains'][0]['languageId'],
-            $salesChannels[0]['domains'][0]['currencyId'],
-            $salesChannels[0]['domains'][0]['snippetSetId'],
-            $salesChannels[0]['domains'][0]['localeCode'],
-            $url
-        );
-
-        $host = 'saleschannel.test';
-        $path = '/de';
-        $server['HTTP_HOST'] = $host;
-        $request = Request::create($path, 'GET', [], [], [], $server);
-
-        $url = $this->requestBuilder->findSalesChannel($request);
-        $this->assertResolvedUrl(
-            $salesChannels[0]['domains'][1]['url'],
-            $salesChannels[0]['domains'][1]['languageId'],
-            $salesChannels[0]['domains'][1]['currencyId'],
-            $salesChannels[0]['domains'][1]['snippetSetId'],
-            $salesChannels[0]['domains'][1]['localeCode'],
-            $url
-        );
     }
 
-    public function testInactiveNoResult(): void
+    private function getInactiveSalesChannel($id, $url): array
     {
-        $salesChannels = [
-            [
-                'id' => Uuid::uuid4()->getHex(),
-                'name' => 'new sales channel',
-                'active' => false,
-                'languages' => [
-                    ['id' => Defaults::LANGUAGE_DE]
+        return [
+            'id' => $id,
+            'name' => 'inactive sales channel',
+            'active' => false,
+            'languages' => [
+                ['id' => Defaults::LANGUAGE_DE],
+            ],
+            'domains' => [
+                [
+                    'url' => $url,
+                    'languageId' => Defaults::LANGUAGE_DE,
+                    'currencyId' => Defaults::CURRENCY,
+                    'snippetSetId' => Defaults::SNIPPET_BASE_SET_DE,
                 ],
-                'domains' => [
-                    [
-                        'url' => 'http://saleschannel.test',
-                        'languageId' => Defaults::LANGUAGE_DE,
-                        'currencyId' => Defaults::CURRENCY,
-                        'snippetSetId' => Defaults::SNIPPET_BASE_SET_DE,
-                        'localeCode' => Defaults::LOCALE_DE_DE_ISO
-                    ]
-                ]
-            ]
+            ],
         ];
-        $this->createSalesChannels($salesChannels);
-
-        $host = 'saleschannel.test';
-        $path = '';
-        $server['HTTP_HOST'] = $host;
-        $request = Request::create($path, 'GET', [], [], [], $server);
-
-        $url = $this->requestBuilder->findSalesChannel($request);
-        static::assertNull($url);
-    }
-
-    protected function assertResolvedUrl(
-        string $expectedUrl,
-        string $expectedLanguageId,
-        string $expectedCurrency,
-        string $expectedSnippetSetId,
-        string $expectedLocaleCode,
-        array $actualUrl
-    ): void {
-        static::assertNotEmpty($actualUrl);
-        static::assertArrayHasKey('url', $actualUrl);
-        static::assertArrayHasKey('languageId', $actualUrl);
-        static::assertArrayHasKey('salesChannelId', $actualUrl);
-        static::assertArrayHasKey('currencyId', $actualUrl);
-        static::assertArrayHasKey('snippetSetId', $actualUrl);
-        static::assertArrayHasKey('localeCode', $actualUrl);
-
-        static::assertEquals($expectedUrl, $actualUrl['url']);
-        static::assertEquals($expectedLanguageId, $actualUrl['languageId']);
-        static::assertEquals($expectedCurrency, $actualUrl['currencyId']);
-        static::assertEquals($expectedSnippetSetId, $actualUrl['snippetSetId']);
-        static::assertEquals($expectedLocaleCode, $actualUrl['localeCode']);
     }
 
     private function createSalesChannels($salesChannels): EntityWrittenContainerEvent
     {
-        $salesChannels = array_map(function($salesChannelData) {
+        $salesChannels = array_map(function ($salesChannelData) {
             $defaults = [
                 'typeId' => Defaults::SALES_CHANNEL_STOREFRONT,
                 'accessKey' => AccessKeyHelper::generateAccessKey('sales-channel'),
@@ -452,10 +246,54 @@ class RequestBuilderTest extends TestCase
                 'shippingMethods' => [['id' => Defaults::SHIPPING_METHOD]],
                 'countries' => [['id' => Defaults::COUNTRY]],
             ];
+
             return array_merge_recursive($defaults, $salesChannelData);
         }, $salesChannels);
 
         $salesChannelRepository = $this->getContainer()->get('sales_channel.repository');
+
         return $salesChannelRepository->create($salesChannels, Context::createDefaultContext());
+    }
+}
+
+class ExpectedRequest
+{
+    /** @var string */
+    public $url;
+
+    /** @var string */
+    public $salesChannelId;
+
+    /** @var bool */
+    public $isStorefrontRequest;
+
+    /** @var string */
+    public $locale;
+
+    /** @var string */
+    public $currency;
+
+    /** @var string */
+    public $language;
+
+    /** @var string */
+    public $snippetSetId;
+
+    public function __construct(
+        string $url,
+        ?string $salesChannelId,
+        ?bool $isStorefrontRequest,
+        ?string $locale,
+        ?string $currency,
+        ?string $language,
+        ?string $snippetSetId
+    ) {
+        $this->url = $url;
+        $this->salesChannelId = $salesChannelId;
+        $this->isStorefrontRequest = $isStorefrontRequest;
+        $this->locale = $locale;
+        $this->currency = $currency;
+        $this->language = $language;
+        $this->snippetSetId = $snippetSetId;
     }
 }

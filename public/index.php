@@ -40,8 +40,10 @@ if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false
  */
 
 $connection = Kernel::getConnection();
-$requestBuilder = new \Shopware\Development\RequestBuilder($connection);
-$request = $requestBuilder->create();
+$requestBuilder = new \Shopware\Development\RequestTransformer($connection);
+$request = $requestBuilder->transform(
+    Request::createFromGlobals()
+);
 
 $kernel = new Kernel($env, $debug, $connection);
 $response = $kernel->handle($request);
