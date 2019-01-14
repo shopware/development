@@ -26,6 +26,8 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
     && docker-php-ext-install intl \
 
     && chmod +x /usr/local/bin/wait-for-it.sh \
-    && chmod +x /addExternalUser
+    && chmod +x /addExternalUser \
+
+    && ln -s /app/psh.phar /bin/psh
 
 WORKDIR /app
