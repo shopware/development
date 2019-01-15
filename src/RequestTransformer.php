@@ -66,6 +66,7 @@ class RequestTransformer
         $clone->attributes->set(StorefrontRequest::ATTRIBUTE_DOMAIN_LOCALE, $salesChannel['locale']);
         $clone->attributes->set(StorefrontRequest::ATTRIBUTE_DOMAIN_SNIPPET_SET_ID, $salesChannel['snippetSetId']);
         $clone->attributes->set(StorefrontRequest::ATTRIBUTE_DOMAIN_CURRENCY_ID, $salesChannel['currencyId']);
+        $clone->attributes->set(StorefrontRequest::ATTRIBUTE_DOMAIN_ID, $salesChannel['id']);
 
         $clone->headers->set(PlatformRequest::HEADER_LANGUAGE_ID, $salesChannel['languageId']);
 
@@ -91,6 +92,7 @@ class RequestTransformer
             ->select([
                 'domain.url `key`',
                 'domain.url',
+                'LOWER(HEX(domain.id)) id',
                 'LOWER(HEX(sales_channel.id)) salesChannelId',
                 'LOWER(HEX(domain.snippet_set_id)) snippetSetId',
                 'LOWER(HEX(domain.currency_id)) currencyId',

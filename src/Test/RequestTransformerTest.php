@@ -15,7 +15,7 @@ use Shopware\Development\RequestTransformer;
 use Shopware\Storefront\StorefrontRequest;
 use Symfony\Component\HttpFoundation\Request;
 
-class RequestBuilderTest extends TestCase
+class RequestTransformerTest extends TestCase
 {
     use IntegrationTestBehaviour;
 
@@ -46,10 +46,13 @@ class RequestBuilderTest extends TestCase
             $resolved = $this->requestBuilder->transform($request);
 
             static::assertSame($expectedRequest->salesChannelId, $resolved->attributes->get(PlatformRequest::ATTRIBUTE_SALES_CHANNEL_ID));
+
+            static::assertSame($expectedRequest->domainId, $resolved->attributes->get(StorefrontRequest::ATTRIBUTE_DOMAIN_ID));
             static::assertSame($expectedRequest->isStorefrontRequest, $resolved->attributes->get(StorefrontRequest::ATTRIBUTE_IS_STOREFRONT_REQUEST));
             static::assertSame($expectedRequest->locale, $resolved->attributes->get(StorefrontRequest::ATTRIBUTE_DOMAIN_LOCALE));
             static::assertSame($expectedRequest->currency, $resolved->attributes->get(StorefrontRequest::ATTRIBUTE_DOMAIN_CURRENCY_ID));
             static::assertSame($expectedRequest->snippetSetId, $resolved->attributes->get(StorefrontRequest::ATTRIBUTE_DOMAIN_SNIPPET_SET_ID));
+
             static::assertSame($expectedRequest->language, $resolved->headers->get(PlatformRequest::HEADER_LANGUAGE_ID));
         }
     }
@@ -60,95 +63,99 @@ class RequestBuilderTest extends TestCase
         $englishId = Uuid::uuid4()->getHex();
         $gerUkId = Uuid::uuid4()->getHex();
 
+        $gerDomainId = Uuid::uuid4()->getHex();
+        $ukDomainId = Uuid::uuid4()->getHex();
+
         return [
             'single' => [
-                [$this->getGermanSalesChannel($germanId, 'http://german.test')],
+                [$this->getGermanSalesChannel($germanId, $gerDomainId, 'http://german.test')],
                 [
-                    new ExpectedRequest('http://german.test', $germanId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
-                    new ExpectedRequest('http://german.test/', $germanId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
-                    new ExpectedRequest('http://german.test/foobar', $germanId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://german.test', $gerDomainId, $germanId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://german.test/', $gerDomainId, $germanId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://german.test/foobar', $gerDomainId, $germanId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
                 ],
             ],
             'two' => [
                 [
-                    $this->getGermanSalesChannel($germanId, 'http://german.test'),
-                    $this->getEnglishSalesChannel($englishId, 'http://english.test'),
+                    $this->getGermanSalesChannel($germanId, $gerDomainId, 'http://german.test'),
+                    $this->getEnglishSalesChannel($englishId, $ukDomainId, 'http://english.test'),
                 ],
                 [
-                    new ExpectedRequest('http://german.test', $germanId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
-                    new ExpectedRequest('http://german.test/', $germanId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
-                    new ExpectedRequest('http://german.test/foobar', $germanId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://german.test', $gerDomainId, $germanId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://german.test/', $gerDomainId, $germanId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://german.test/foobar', $gerDomainId, $germanId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
 
-                    new ExpectedRequest('http://english.test', $englishId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
-                    new ExpectedRequest('http://english.test/', $englishId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
-                    new ExpectedRequest('http://english.test/foobar', $englishId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                    new ExpectedRequest('http://english.test', $ukDomainId, $englishId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                    new ExpectedRequest('http://english.test/', $ukDomainId, $englishId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                    new ExpectedRequest('http://english.test/foobar', $ukDomainId, $englishId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
                 ],
             ],
             'single-with-ger-and-uk-domain' => [
                 [
-                    $this->getSalesChannelWithGerAndUkDomain($gerUkId, 'http://german.test', 'http://english.test'),
+                    $this->getSalesChannelWithGerAndUkDomain($gerUkId, $gerDomainId, 'http://german.test', $ukDomainId, 'http://english.test'),
                 ],
                 [
-                    new ExpectedRequest('http://german.test', $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
-                    new ExpectedRequest('http://german.test/', $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
-                    new ExpectedRequest('http://german.test/foobar', $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://german.test', $gerDomainId, $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://german.test/', $gerDomainId, $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://german.test/foobar', $gerDomainId, $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
 
-                    new ExpectedRequest('http://english.test', $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
-                    new ExpectedRequest('http://english.test/', $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
-                    new ExpectedRequest('http://english.test/foobar', $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                    new ExpectedRequest('http://english.test', $ukDomainId, $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                    new ExpectedRequest('http://english.test/', $ukDomainId, $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                    new ExpectedRequest('http://english.test/foobar', $ukDomainId, $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
                 ],
             ],
             'two-domains-same-host-different-path' => [
                 [
-                    $this->getSalesChannelWithGerAndUkDomain($gerUkId, 'http://saleschannel.test/de', 'http://saleschannel.test/en'),
+                    $this->getSalesChannelWithGerAndUkDomain($gerUkId, $gerDomainId, 'http://saleschannel.test/de', $ukDomainId, 'http://saleschannel.test/en'),
                 ],
                 [
-                    new ExpectedRequest('http://saleschannel.test/de', $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
-                    new ExpectedRequest('http://saleschannel.test/de/', $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
-                    new ExpectedRequest('http://saleschannel.test/de/foobar', $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://saleschannel.test/de', $gerDomainId, $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://saleschannel.test/de/', $gerDomainId, $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://saleschannel.test/de/foobar', $gerDomainId, $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
 
-                    new ExpectedRequest('http://saleschannel.test/en', $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
-                    new ExpectedRequest('http://saleschannel.test/en/', $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
-                    new ExpectedRequest('http://saleschannel.test/en/foobar', $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                    new ExpectedRequest('http://saleschannel.test/en', $ukDomainId, $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                    new ExpectedRequest('http://saleschannel.test/en/', $ukDomainId, $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                    new ExpectedRequest('http://saleschannel.test/en/foobar', $ukDomainId, $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
                 ],
             ],
             'two-domains-same-host-extended-path' => [
                 [
-                    $this->getSalesChannelWithGerAndUkDomain($gerUkId, 'http://saleschannel.test/de', 'http://saleschannel.test'),
+                    $this->getSalesChannelWithGerAndUkDomain($gerUkId, $gerDomainId, 'http://saleschannel.test/de', $ukDomainId, 'http://saleschannel.test'),
                 ],
                 [
-                    new ExpectedRequest('http://saleschannel.test/de', $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
-                    new ExpectedRequest('http://saleschannel.test/de/', $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
-                    new ExpectedRequest('http://saleschannel.test/de/foobar', $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://saleschannel.test/de', $gerDomainId, $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://saleschannel.test/de/', $gerDomainId, $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
+                    new ExpectedRequest('http://saleschannel.test/de/foobar', $gerDomainId, $gerUkId, true, Defaults::LOCALE_DE_DE_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_DE, Defaults::SNIPPET_BASE_SET_DE),
 
-                    new ExpectedRequest('http://saleschannel.test', $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
-                    new ExpectedRequest('http://saleschannel.test/', $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
-                    new ExpectedRequest('http://saleschannel.test/foobar', $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                    new ExpectedRequest('http://saleschannel.test', $ukDomainId, $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                    new ExpectedRequest('http://saleschannel.test/', $ukDomainId, $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
+                    new ExpectedRequest('http://saleschannel.test/foobar', $ukDomainId, $gerUkId, true, Defaults::LOCALE_EN_GB_ISO, Defaults::CURRENCY, Defaults::LANGUAGE_SYSTEM, Defaults::SNIPPET_BASE_SET_EN),
                 ],
             ],
             'inactive' => [
                 [
-                    $this->getInactiveSalesChannel($germanId, 'http://inactive.test'),
+                    $this->getInactiveSalesChannel($germanId, $gerDomainId, 'http://inactive.test'),
                 ],
                 [
-                    new ExpectedRequest('http://inactive.test', null, null, null, null, null, null),
-                    new ExpectedRequest('http://inactive.test/', null, null, null, null, null, null),
-                    new ExpectedRequest('http://inactive.test/foobar', null, null, null, null, null, null),
+                    new ExpectedRequest('http://inactive.test', null, null, null, null, null, null, null),
+                    new ExpectedRequest('http://inactive.test/', null, null, null, null, null, null, null),
+                    new ExpectedRequest('http://inactive.test/foobar', null, null, null, null, null, null, null),
                 ],
             ],
         ];
     }
 
-    private function getEnglishSalesChannel($id, $url): array
+    private function getEnglishSalesChannel(string $salesChannelId, string $domainId, string $url): array
     {
         return [
-            'id' => $id,
+            'id' => $salesChannelId,
             'name' => 'english',
             'languages' => [
                 ['id' => Defaults::LANGUAGE_SYSTEM],
             ],
             'domains' => [
                 [
+                    'id' => $domainId,
                     'url' => $url,
                     'languageId' => Defaults::LANGUAGE_SYSTEM,
                     'currencyId' => Defaults::CURRENCY,
@@ -158,16 +165,17 @@ class RequestBuilderTest extends TestCase
         ];
     }
 
-    private function getGermanSalesChannel($id, $url): array
+    private function getGermanSalesChannel(string $salesChannelId, string $domainId, string $url): array
     {
         return [
-            'id' => $id,
+            'id' => $salesChannelId,
             'name' => 'german',
             'languages' => [
                 ['id' => Defaults::LANGUAGE_DE],
             ],
             'domains' => [
                 [
+                    'id' => $domainId,
                     'url' => $url,
                     'languageId' => Defaults::LANGUAGE_DE,
                     'currencyId' => Defaults::CURRENCY,
@@ -177,10 +185,10 @@ class RequestBuilderTest extends TestCase
         ];
     }
 
-    private function getSalesChannelWithGerAndUkDomain($id, $gerUrl, $ukUrl): array
+    private function getSalesChannelWithGerAndUkDomain(string $salesChannelId, string $gerDomainId, string $gerUrl, string $ukDomainId, string $ukUrl): array
     {
         return [
-            'id' => $id,
+            'id' => $salesChannelId,
             'name' => 'english',
             'languages' => [
                 ['id' => Defaults::LANGUAGE_SYSTEM],
@@ -188,12 +196,14 @@ class RequestBuilderTest extends TestCase
             ],
             'domains' => [
                 [
+                    'id' => $gerDomainId,
                     'url' => $gerUrl,
                     'languageId' => Defaults::LANGUAGE_DE,
                     'currencyId' => Defaults::CURRENCY,
                     'snippetSetId' => Defaults::SNIPPET_BASE_SET_DE,
                 ],
                 [
+                    'id' => $ukDomainId,
                     'url' => $ukUrl,
                     'languageId' => Defaults::LANGUAGE_SYSTEM,
                     'currencyId' => Defaults::CURRENCY,
@@ -203,10 +213,10 @@ class RequestBuilderTest extends TestCase
         ];
     }
 
-    private function getInactiveSalesChannel($id, $url): array
+    private function getInactiveSalesChannel(string $salesChannelId, string $domainId, string $url): array
     {
         return [
-            'id' => $id,
+            'id' => $salesChannelId,
             'name' => 'inactive sales channel',
             'active' => false,
             'languages' => [
@@ -214,6 +224,7 @@ class RequestBuilderTest extends TestCase
             ],
             'domains' => [
                 [
+                    'id' => $domainId,
                     'url' => $url,
                     'languageId' => Defaults::LANGUAGE_DE,
                     'currencyId' => Defaults::CURRENCY,
@@ -262,6 +273,9 @@ class ExpectedRequest
     public $url;
 
     /** @var string */
+    public $domainId;
+
+    /** @var string */
     public $salesChannelId;
 
     /** @var bool */
@@ -281,6 +295,7 @@ class ExpectedRequest
 
     public function __construct(
         string $url,
+        ?string $domainId,
         ?string $salesChannelId,
         ?bool $isStorefrontRequest,
         ?string $locale,
@@ -289,6 +304,7 @@ class ExpectedRequest
         ?string $snippetSetId
     ) {
         $this->url = $url;
+        $this->domainId = $domainId;
         $this->salesChannelId = $salesChannelId;
         $this->isStorefrontRequest = $isStorefrontRequest;
         $this->locale = $locale;
