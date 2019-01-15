@@ -20,7 +20,8 @@
         }
     },
     "require": {
-        "shopware/platform": "dev-master"
+        "shopware/platform": "dev-master",
+        "enqueue/messenger-adapter": "0.1.2"
     },
     "scripts": {
         "post-update-cmd": [

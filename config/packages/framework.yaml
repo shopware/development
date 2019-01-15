@@ -18,6 +18,11 @@ framework:
         app: cache.adapter.filesystem
     templating:
         engines: ['twig']
+    messenger:
+        default_bus: messenger.bus.default
+        buses:
+            messenger.bus.default:
+            messenger.bus.encrypted:
 
 sensio_framework_extra:
     router:
