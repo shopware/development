@@ -1,7 +1,7 @@
 framework:
     esi: true
     trusted_hosts: ~
-    fragments: { path: /_fragment }
+    fragments: ~
     assets: ~
     session:
         handler_id: ~
