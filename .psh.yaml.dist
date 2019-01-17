@@ -25,6 +25,7 @@ const:
   DB_NAME: "shopware"
   APP_URL: "http://localhost:8000"
   APP_ENV: "dev"
+  APP_WATCH: "false"
   SSH_PRIVATE_KEY_PATH: ""
   ESLINT_DISABLE: "false"
   NIGHTWATCH_HEADLESS: "true"
@@ -33,6 +34,7 @@ const:
   CHROME_BIN: ""
   E2E_RESTORE_DUMP_PATH: /tmp/shopware_e2e_dump.sql
   FEATURES: |
+  DEVPORT: "8080"
 
 dynamic:
   USERKEY: echo "$(id -u):$(id -g)"
@@ -66,8 +68,6 @@ environments:
         destination: "./docker-compose.override.yml"
 
   administration:
-    const:
-      DEVPORT: "8080"
     dynamic:
       HOST: if [ -z "$(grep docker /proc/self/cgroup)" ]; then echo "localhost"; else echo "0.0.0.0"; fi
       ROOT: echo `pwd`
