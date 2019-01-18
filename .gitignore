@@ -14,9 +14,10 @@
 /public/media/*
 /public/thumbnail/*
 !/public/media/.gitkeep
+/public/plugins/*
+/files/*
 /dev-ops/docker/_volumes/*
 /selenium-debug.log
-
 ###> symfony/framework-bundle ###
 .env
 /public/bundles/
@@ -28,7 +29,6 @@
 .phpunit
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
-
 ###> phpunit/phpunit ###
 /phpunit.xml
 ###< phpunit/phpunit ###
