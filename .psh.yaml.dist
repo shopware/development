@@ -55,6 +55,8 @@ environments:
   bamboo:
     paths:
       - "dev-ops/bamboo.shopware.com/actions"
+    const:
+      APP_ENV: prod
     dynamic:
       ROOT: echo `pwd`
     templates:
