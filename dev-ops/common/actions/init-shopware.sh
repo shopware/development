@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 #DESCRIPTION: initialization of shopware
 
-php bin/console cache:clear --env=prod
-php bin/console cache:clear
+bin/console cache:clear --env=prod
+bin/console cache:clear --env=dev
+bin/console cache:clear --env=test
 
 bin/console database:migrate --all
 bin/console database:migrate-destructive --all
