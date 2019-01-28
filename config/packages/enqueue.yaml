@@ -1,3 +1,4 @@
 enqueue:
-  transport:
-    default: ~
+  default:
+    transport: ~
+    client: ~
