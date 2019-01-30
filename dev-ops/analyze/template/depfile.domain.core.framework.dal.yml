@@ -1,0 +1,90 @@
+# lets see wich directories in the DAL depend on other directories
+
+paths:
+  - __PLATFORM_DIR__/src/Core/Framework/DataAbstractionLayer
+exclude_files:
+layers:
+  - name: Write
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\DataAbstractionLayer\\Write
+  - name: Event
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\DataAbstractionLayer\\Event
+  - name: Exception
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\DataAbstractionLayer\\Exception
+  - name: Field
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\DataAbstractionLayer\\Field
+  - name: FieldSerializer
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\DataAbstractionLayer\\FieldSerializer
+  - name: Read
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\DataAbstractionLayer\\Read
+  - name: Search
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\DataAbstractionLayer\\Search
+  - name: Base
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\DataAbstractionLayer\\
+        must_not:
+          - type: className
+            regex: Shopware\\Core\\Framework\\DataAbstractionLayer\\Write
+          - type: className
+            regex: Shopware\\Core\\Framework\\DataAbstractionLayer\\Event
+          - type: className
+            regex: Shopware\\Core\\Framework\\DataAbstractionLayer\\Exception
+          - type: className
+            regex: Shopware\\Core\\Framework\\DataAbstractionLayer\\Field
+          - type: className
+            regex: Shopware\\Core\\Framework\\DataAbstractionLayer\\FieldSerializer
+          - type: className
+            regex: Shopware\\Core\\Framework\\DataAbstractionLayer\\Read
+          - type: className
+            regex: Shopware\\Core\\Framework\\DataAbstractionLayer\\Search
+          - type: className
+            regex: Shopware\\Core\\Framework\\DataAbstractionLayer\\Write
+ruleset:
+  Write:
+    - Field
+    - FieldSerializer
+  Event:
+  Exception:
+  Field:
+  FieldSerializer:
+    - Field
+  Read:
+    - Field
+    - FieldSerializer
+  Search:
+    - Field
+    - FieldSerializer
+  Base:
+    - Write
+    - Read
+    - Search

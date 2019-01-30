@@ -1,0 +1,17 @@
+{
+  "name": "sw-analyze",
+  "version": "1.0.0",
+  "description": "A set of tools",
+  "main": "scripts/escomplex.js",
+  "scripts": {
+    "complexity": "scripts/complexity.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dependency-cruiser": "^4.12.1",
+    "eslint": "^5.12.1",
+    "jscpd": "^2.0.4",
+    "typhonjs-escomplex": "^0.1.0"
+  }
+}

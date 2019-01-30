@@ -17,6 +17,12 @@
 /public/plugins/*
 /files/*
 /dev-ops/docker/_volumes/*
+/dev-ops/analyze/node_modules
+/dev-ops/analyze/vendor
+/dev-ops/analyze/vendor-bin/**/vendor
+/dev-ops/analyze/.jscpd
+/dev-ops/analyze/tmp
+!/dev-ops/analyze/tmp/**/.gitkeep
 /selenium-debug.log
 /platform/
 ###> symfony/framework-bundle ###
