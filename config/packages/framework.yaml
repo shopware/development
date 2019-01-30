@@ -19,10 +19,13 @@ framework:
     templating:
         engines: ['twig']
     messenger:
+        transports:
+            default: enqueue://default
         default_bus: messenger.bus.default
         buses:
             messenger.bus.default:
-            messenger.bus.encrypted:
+        routing:
+            '*': default
 
 sensio_framework_extra:
     router:
