@@ -80,6 +80,7 @@ environments:
       ROOT: echo `pwd`
     const:
       APP_ENV: prod
+      DB_NAME: "shopware_e2e"
     templates:
       - source: ".env.dist"
         destination: ".env"
