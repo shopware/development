@@ -19,6 +19,11 @@
             "": "custom/plugins/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Shopware\\Development\\Test\\": "tests/"
+        }
+    },
     "require": {
         "shopware/platform": "dev-master"
     },
