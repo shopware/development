@@ -13,4 +13,4 @@ bin/console database:migrate-destructive --all
 bin/console rest:user:create admin --password=shopware
 bin/console sales-channel:create --id=20080911ffff4fffafffffff19830531
 
-INCLUDE: ./../../common/actions/init-test-database.sh
+INCLUDE: ./../../common/actions/init-test-databases.sh
