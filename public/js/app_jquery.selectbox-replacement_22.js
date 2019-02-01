@@ -1,3 +1,0 @@
-;(function($,window,document,undefined){'use strict';$.plugin('swSelectboxReplacement',{defaults:{'baseCls':'js--fancy-select select-field','polyfillSelector':'.js--fancy-select, .select-field','compatibility':true},init:function(){var me=this;me.applyDataAttributes(true);me.createTemplate();return me;},createTemplate:function(){var me=this,$parent=me.$el.parent(me.opts.polyfillSelector),$wrapEl;if($parent.length>0){return false;}
-$wrapEl=$('<div>',{'class':me.opts.baseCls});if(me.opts.compatibility){$wrapEl.addClass(me.$el.attr('class'));}
-me.$wrapEl=me.$el.wrap($wrapEl);$.publish('plugin/swSelectboxReplacement/onCreateTemplate',[me,me.$wrapEl]);return me.$wrapEl;}});})(jQuery,window,document);

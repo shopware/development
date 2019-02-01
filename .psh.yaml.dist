@@ -87,3 +87,8 @@ environments:
         destination: ".env"
       - source: "dev-ops/docker/docker-compose.override.yml"
         destination: "./docker-compose.override.yml"
+  storefront:
+    dynamic:
+      ROOT: echo `pwd`
+    paths:
+      - "dev-ops/storefront/actions"
