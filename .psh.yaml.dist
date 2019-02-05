@@ -45,6 +45,7 @@ dynamic:
   GROUP_ID: id -g
   E2E_ENV: if [ -z "$(grep docker /proc/self/cgroup)" ]; then echo "default"; else echo "docker"; fi
   ROOT: echo `pwd`
+  COMPOSER_HOME: echo ${COMPOSER_HOME:-"$HOME/.composer"}
 
 environments:
   docker:
