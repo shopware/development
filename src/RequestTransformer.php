@@ -3,6 +3,7 @@
 namespace Shopware\Development;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Driver\Statement;
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Doctrine\FetchModeHelper;
 use Shopware\Core\Framework\Struct\Uuid;
@@ -88,6 +89,7 @@ class RequestTransformer
 
     private function findSalesChannel(SymfonyRequest $request): ?array
     {
+        /** @var Statement $statement */
         $statement = $this->connection->createQueryBuilder()
             ->select([
                 'domain.url `key`',
@@ -103,8 +105,9 @@ class RequestTransformer
             ->innerJoin('domain', 'snippet_set', 'snippet_set', 'snippet_set.id = domain.snippet_set_id')
             ->where('sales_channel.type_id = UNHEX(:typeId)')
             ->andWhere('sales_channel.active')
-            ->setParameter('typeId', Defaults::SALES_CHANNEL_STOREFRONT);
-        $domains = FetchModeHelper::groupUnique($statement->execute()->fetchAll());
+            ->setParameter('typeId', Defaults::SALES_CHANNEL_STOREFRONT)
+            ->execute();
+        $domains = FetchModeHelper::groupUnique($statement->fetchAll());
 
         if (empty($domains)) {
             return null;
@@ -128,6 +131,7 @@ class RequestTransformer
         // determine most matching shop base url
         $lastBaseUrl = '';
         $bestMatch = current($domains);
+        /** @var string $baseUrl */
         foreach ($domains as $baseUrl => $urlConfig) {
             if (\strlen($baseUrl) > \strlen($lastBaseUrl)) {
                 $bestMatch = $urlConfig;
@@ -146,7 +150,8 @@ class RequestTransformer
             $pathInfo = substr($pathInfo, strlen($baseUrl));
         }
 
-        $url = $this->connection->createQueryBuilder()
+        /** @var Statement $statement */
+        $statement = $this->connection->createQueryBuilder()
             ->select('path_info')
             ->from('seo_url')
             ->where('sales_channel_id = :salesChannelId')
@@ -154,8 +159,9 @@ class RequestTransformer
             ->setMaxResults(1)
             ->setParameter('salesChannelId', Uuid::fromHexToBytes($salesChannelId))
             ->setParameter('seoPath', ltrim($pathInfo, '/'))
-            ->execute()
-            ->fetchColumn();
+            ->execute();
+
+        $url = $statement->fetchColumn();
 
         if (empty($url)) {
             return $request->getPathInfo();
