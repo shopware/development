@@ -4,7 +4,7 @@ COPY php-config.ini /usr/local/etc/php/conf.d/
 COPY wait-for-it.sh /usr/local/bin/
 COPY addExternalUser.sh /addExternalUser
 
-ENV COMPOSER_CACHE_DIR=/.composer/cache
+ENV COMPOSER_HOME=/.composer
 ENV WEB_DOCUMENT_ROOT=/app/public
 
 RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd/vhost.conf \
