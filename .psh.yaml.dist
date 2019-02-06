@@ -59,8 +59,8 @@ environments:
 
   bamboo:
     paths:
-      - "dev-ops/bamboo.shopware.com/actions"
       - "dev-ops/common/actions"
+      - "dev-ops/bamboo.shopware.com/actions"
     const:
       APP_ENV: prod
       APP_URL: "http://docker.vm:8000"
