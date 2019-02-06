@@ -44,7 +44,7 @@ dynamic:
   USER_ID: id -u
   GROUP_ID: id -g
   E2E_ENV: if [ -z "$(grep docker /proc/self/cgroup)" ]; then echo "default"; else echo "docker"; fi
-  ROOT: echo `pwd`
+  PROJECT_ROOT: echo `pwd`
   COMPOSER_HOME: echo ${COMPOSER_HOME:-"$HOME/.composer"}
 
 environments:
@@ -60,6 +60,7 @@ environments:
   bamboo:
     paths:
       - "dev-ops/bamboo.shopware.com/actions"
+      - "dev-ops/common/actions"
     const:
       APP_ENV: prod
       APP_URL: "http://docker.vm:8000"

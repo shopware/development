@@ -16,14 +16,10 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
 
     # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=863199
     && mkdir -p /usr/share/man/man1 \
-    && curl -sL https://deb.nodesource.com/setup_10.x | bash \
+    && curl -sL https://deb.nodesource.com/setup_11.x | bash \
 
     && apt-install mysql-client nodejs google-chrome-stable libicu-dev graphviz vim \
     && npm i npm -g \
-
-    # intl support
-    && docker-php-ext-configure intl \
-    && docker-php-ext-install intl \
 
     && chmod +x /usr/local/bin/wait-for-it.sh \
     && chmod +x /addExternalUser \

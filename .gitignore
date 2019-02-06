@@ -18,6 +18,7 @@
 /files/*
 /dev-ops/docker/_volumes/*
 /selenium-debug.log
+/platform/
 ###> symfony/framework-bundle ###
 .env
 /public/bundles/

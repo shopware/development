@@ -7,15 +7,22 @@
     ],
     "repositories": [
         {
-            "type": "vcs",
-            "url": "https://github.com/shopware/platform.git"
-        },
-        {
             "type": "path",
             "url": "custom/plugins/*",
             "options": {
                 "symlink": true
             }
+        },
+        {
+            "type": "path",
+            "url": "platform",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/shopware/platform.git"
         }
     ],
     "prefer-stable": true,

@@ -9,7 +9,7 @@ services:
       - "docker.vm:127.0.0.1"
     volumes:
       - .:/app
-      - ~/.composer/cache:/.composer/cache
+      - ~/.composer:/.composer
       - ~/.npm:/home/application/.npm
     tmpfs:
       - /tmp:mode=1777
