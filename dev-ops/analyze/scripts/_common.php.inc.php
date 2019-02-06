@@ -9,12 +9,19 @@ class AnalyzeCommons
 
     public static function putImageConfig(string $fileName, string $name, string $path)
     {
-        file_put_contents(
-            __DIR__ . "/../../../build/artifacts/$fileName-analyze-config.json",
+        self::putArtifact("$fileName-analyze-config.json",
             json_encode([
                 'name' => $name,
                 'path' => $path
             ])
+        );
+    }
+
+    public static function putArtifact(string $fileName, string $contents)
+    {
+        file_put_contents(
+            __DIR__ . "/../../../build/artifacts/$fileName",
+            $contents
         );
     }
 

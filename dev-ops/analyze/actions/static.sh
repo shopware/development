@@ -32,7 +32,7 @@ D: cd dev-ops/analyze && node_modules/.bin/jscpd __PLATFORM_DIR__/src/Administra
 
 D: php dev-ops/analyze/scripts/generate_deptrac_core.php __PLATFORM_DIR__
 D: php dev-ops/analyze/scripts/execute_deptrac.php
-
+D: php dev-ops/analyze/scripts/put_commit.php
 
 D: dev-ops/analyze/vendor/bin/phploc
    --log-xml="./build/artifacts/phploc.xml"
