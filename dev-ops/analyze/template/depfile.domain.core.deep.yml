@@ -1,0 +1,427 @@
+# let's see wich bundles depend on other bundles
+
+paths:
+  - __PLATFORM_DIR__/platform/src/Core
+exclude_files:
+  - .*test.*
+  - .*Definition.php
+  - .*Struct.php
+  - .*Collection.php
+  - .*Event.php
+  - .*DemodataCommand.php
+
+layers:
+  - name: CheckoutCart
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Checkout\\Cart
+  - name: CheckoutContext
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Checkout\\Context
+  - name: CheckoutCustomer
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Checkout\\Customer
+  - name: CheckoutDependencyInjection
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Checkout\\DependencyInjection
+  - name: CheckoutDiscountSurcharge
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Checkout\\DiscountSurcharge
+  - name: CheckoutOrder
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Checkout\\Order
+  - name: CheckoutPayment
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Checkout\\Payment
+  - name: CheckoutResources
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Checkout\\Resources
+  - name: CheckoutShipping
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Checkout\\Shipping
+  - name: CheckoutTest
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Checkout\\Test
+  - name: ContentCatalog
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Content\\Catalog
+  - name: ContentCategory
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Content\\Category
+  - name: ContentConfiguration
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Content\\Configuration
+  - name: ContentDependencyInjection
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Content\\DependencyInjection
+  - name: ContentMedia
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Content\\Media
+  - name: ContentProduct
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Content\\Product
+  - name: ContentRule
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Content\\Rule
+  - name: ContentTest
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Content\\Test
+  - name: FrameworkApi
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Api
+  - name: FrameworkCommand
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Command
+  - name: FrameworkDataAbstractionLayer
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\DataAbstractionLayer
+  - name: FrameworkDependencyInjection
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\DependencyInjection
+  - name: FrameworkDoctrine
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Doctrine
+  - name: FrameworkEvent
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Event
+  - name: FrameworkException
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Exception
+  - name: FrameworkFaker
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Faker
+  - name: FrameworkFeatureFlag
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\FeatureFlag
+  - name: FrameworkFilesystem
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Filesystem
+  - name: FrameworkKernelInitializer
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\KernelInitializer
+  - name: FrameworkMigration
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Migration
+  - name: FrameworkPlugin
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Plugin
+  - name: FrameworkPricing
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Pricing
+  - name: FrameworkProvisioning
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Provisioning
+  - name: FrameworkResources
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Resources
+  - name: FrameworkRouting
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Routing
+  - name: FrameworkRule
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Rule
+  - name: FrameworkSearch
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Search
+  - name: FrameworkStruct
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Struct
+  - name: FrameworkTest
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Test
+  - name: FrameworkTranslation
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Translation
+  - name: FrameworkTwig
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Twig
+  - name: FrameworkUtil
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Util
+  - name: FrameworkValidation
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Validation
+  - name: FrameworkVersion
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Framework\\Version
+  - name: SystemCommand
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\System\\Command
+  - name: SystemCountry
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\System\\Country
+  - name: SystemCurrency
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\System\\Currency
+  - name: SystemDependencyInjection
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\System\\DependencyInjection
+  - name: SystemException
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\System\\Exception
+  - name: SystemIntegration
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\System\\Integration
+  - name: SystemLanguage
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\System\\Language
+  - name: SystemListing
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\System\\Listing
+  - name: SystemLocale
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\System\\Locale
+  - name: SystemSalesChannel
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\System\\SalesChannel
+  - name: SystemSnippet
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\System\\Snippet
+  - name: SystemTax
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\System\\Tax
+  - name: SystemTest
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\System\\Test
+  - name: SystemUnit
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\System\\Unit
+  - name: SystemUser
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\System\\User
+ruleset:
+  CheckoutCart:
+  CheckoutContext:
+  CheckoutCustomer:
+  CheckoutDependencyInjection:
+  CheckoutDiscountSurcharge:
+  CheckoutOrder:
+  CheckoutPayment:
+  CheckoutResources:
+  CheckoutShipping:
+  CheckoutTest:
+  ContentCatalog:
+  ContentCategory:
+  ContentConfiguration:
+  ContentDependencyInjection:
+  ContentMedia:
+  ContentProduct:
+  ContentRule:
+  ContentTest:
+  FrameworkApi:
+  FrameworkCommand:
+  FrameworkDataAbstractionLayer:
+  FrameworkDependencyInjection:
+  FrameworkDoctrine:
+  FrameworkEvent:
+  FrameworkException:
+  FrameworkFaker:
+  FrameworkFeatureFlag:
+  FrameworkFilesystem:
+  FrameworkKernelInitializer:
+  FrameworkMigration:
+  FrameworkPlugin:
+  FrameworkPricing:
+  FrameworkProvisioning:
+  FrameworkResources:
+  FrameworkRouting:
+  FrameworkRule:
+  FrameworkSearch:
+  FrameworkStruct:
+  FrameworkTest:
+  FrameworkTranslation:
+  FrameworkTwig:
+  FrameworkUtil:
+  FrameworkValidation:
+  FrameworkVersion:
+  SystemCommand:
+  SystemCountry:
+  SystemCurrency:
+  SystemDependencyInjection:
+  SystemException:
+  SystemIntegration:
+  SystemLanguage:
+  SystemListing:
+  SystemLocale:
+  SystemSalesChannel:
+  SystemSnippet:
+  SystemTax:
+  SystemTest:
+  SystemUnit:
+  SystemUser:

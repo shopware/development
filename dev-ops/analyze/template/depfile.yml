@@ -1,0 +1,60 @@
+paths:
+  - __PLATFORM_DIR__/src/
+exclude_files:
+  - .*test.*
+  - .*Definition.php
+  - .*Struct.php
+  - .*Collection.php
+  - .*Event.php
+  - .*DemodataCommand.php
+
+layers:
+  - name: Checkout
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\Checkout\\
+  - name: Content
+    collectors:
+      - type: className
+        regex: Shopware\\Core\\Content\\
+  - name: Framework
+    collectors:
+      - type: className
+        regex: Shopware\\Core\\Framework\\
+  - name: System
+    collectors:
+      - type: className
+        regex: Shopware\\Core\\System\\
+  - name: Migration
+    collectors:
+      - type: className
+        regex: Shopware\\Core\\Migration\\
+  - name: STOREFRONT
+    collectors:
+        - type: className
+          regex: Shopware\\Storefront\\
+  - name: ADMINISTRATION
+    collectors:
+        - type: className
+          regex: Shopware\\Administration\\
+ruleset:
+  Checkout:
+    - Framework
+    - System
+  Content:
+    - Framework
+    - System
+  System:
+    - Framework
+  Framework:
+  Migration:
+    - Framework
+  STOREFRONT:
+    - System
+    - Content
+    - Checkout
+    - Framework
+  ADMINISTRATION:
+    - Framework

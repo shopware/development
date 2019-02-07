@@ -91,3 +91,23 @@ environments:
   storefront:
     paths:
       - "dev-ops/storefront/actions"
+  analyze:
+    const:
+        PLATFORM_DIR: "./vendor/shopware/platform"
+    templates:
+      - source: "./dev-ops/analyze/template/depfile.domain.core.deep.yml"
+        destination: "./dev-ops/analyze/tmp/depfiles/depfile.domain.core.deep.yml"
+
+      - source: "./dev-ops/analyze/template/depfile.domain.core.framework.dal.yml"
+        destination: "./dev-ops/analyze/tmp/depfiles/depfile.domain.core.framework.dal.yml"
+
+      - source: "./dev-ops/analyze/template/depfile.domain.platform.yml"
+        destination: "./dev-ops/analyze/tmp/depfiles/depfile.domain.platform.yml"
+
+      - source: "./dev-ops/analyze/template/depfile.technical.repositories.yml"
+        destination: "./dev-ops/analyze/tmp/depfiles/depfile.technical.repositories.yml"
+
+      - source: "./dev-ops/analyze/template/depfile.yml"
+        destination: "./dev-ops/analyze/tmp/depfiles/depfile.yml"
+    paths:
+      - "dev-ops/analyze/actions"

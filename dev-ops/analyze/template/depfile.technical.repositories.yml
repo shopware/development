@@ -1,0 +1,25 @@
+# let's see how
+
+paths:
+  - __PLATFORM_DIR__/platform/src
+layers:
+  - name: Core
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: Shopware\\Core\\
+  - name: Storefront
+    collectors:
+        - type: className
+          regex: Shopware\\Storefront\\
+  - name: Administration
+    collectors:
+        - type: className
+          regex: Shopware\\Administration\\
+ruleset:
+  Core:
+  Storefront:
+    - Core
+  Administration:
+    - Core

@@ -1,0 +1,19 @@
+{
+    "timeout": 10,
+    "source": {
+        "directories": [
+            "\/app\/components\/platform\/src\/Core"
+        ],
+        "excludes": [
+            "**/Test"
+        ]
+    },
+    "phpUnit": {
+        "configDir": "\/app",
+        "customPath": "\/app\/vendor\/bin\/phpunit"
+    },
+    "logs": {
+        "text": "\/app\/runtime\/build\/artifacts\/infection-log.txt",
+        "summary": "\/app\/runtime\/build\/artifacts\/infection-summary.txt"
+    }
+}
