@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#DESCRIPTION: Generate reports from static analysis tools
 
 I: rm -R ./build/artifacts/*
 

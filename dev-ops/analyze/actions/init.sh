@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#DESCRIPTION: Initialize dependencies deferred
 
-D: cd dev-ops/analyze && composer install
+cd dev-ops/analyze && composer install
 D: cd dev-ops/analyze && npm clean-install
