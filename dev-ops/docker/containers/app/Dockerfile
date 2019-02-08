@@ -24,6 +24,9 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
     && chmod +x /usr/local/bin/wait-for-it.sh \
     && chmod +x /addExternalUser \
 
-    && ln -s /app/psh.phar /bin/psh
+    && ln -s /app/psh.phar /bin/psh \
+
+    && pecl install pcov \
+    && docker-php-ext-enable pcov
 
 WORKDIR /app
