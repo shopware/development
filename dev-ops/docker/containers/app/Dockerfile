@@ -1,6 +1,5 @@
 FROM webdevops/php-apache:7.2
 
-COPY php-config.ini /usr/local/etc/php/conf.d/
 COPY wait-for-it.sh /usr/local/bin/
 COPY addExternalUser.sh /addExternalUser
 
@@ -21,12 +20,11 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
     && apt-install mysql-client nodejs google-chrome-stable libicu-dev graphviz vim \
     && npm i npm -g \
 
-    && chmod +x /usr/local/bin/wait-for-it.sh \
-    && chmod +x /addExternalUser \
-
     && ln -s /app/psh.phar /bin/psh \
 
     && pecl install pcov \
     && docker-php-ext-enable pcov
+
+COPY php-config.ini /usr/local/etc/php/conf.d/
 
 WORKDIR /app
