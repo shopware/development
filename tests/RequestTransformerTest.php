@@ -24,7 +24,7 @@ class RequestTransformerTest extends TestCase
      */
     private $requestBuilder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->requestBuilder = new RequestTransformer($this->getContainer()->get(Connection::class));
     }
