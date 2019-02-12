@@ -21,11 +21,13 @@ framework:
     messenger:
         transports:
             default: enqueue://default
-        default_bus: messenger.bus.default
-        buses:
-            messenger.bus.default:
         routing:
             '*': default
+        default_bus: messenger.bus.shopware
+        buses:
+            messenger.bus.shopware:
+                middleware:
+                    - Shopware\Core\Framework\MessageQueue\Middleware\RetryMiddleware
 
 sensio_framework_extra:
     router:
