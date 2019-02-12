@@ -26,6 +26,10 @@ api-snippet-actions:
     resource: ../vendor/shopware/platform/src/Core/Framework/Snippet/
     type: annotation
 
+api-attribute-set-actions:
+    resource: ../vendor/shopware/platform/src/Core/Framework/Attribute/
+    type: annotation
+
 storefront-product-api:
     resource: ../vendor/shopware/platform/src/Core/Content/Product/Storefront/
     type: annotation
