@@ -250,7 +250,6 @@ class RequestTransformerTest extends TestCase
                 'shippingMethodVersionId' => Defaults::LIVE_VERSION,
                 'countryId' => Defaults::COUNTRY,
                 'countryVersionId' => Defaults::LIVE_VERSION,
-                'catalogs' => [['id' => Defaults::CATALOG]],
                 'currencies' => [['id' => Defaults::CURRENCY]],
                 'languages' => [['id' => Defaults::LANGUAGE_SYSTEM]],
                 'paymentMethods' => [['id' => Defaults::PAYMENT_METHOD_DEBIT]],
