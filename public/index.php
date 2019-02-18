@@ -40,6 +40,11 @@ if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false
  */
 
 $connection = Kernel::getConnection();
+
+if ($env === 'dev') {
+    $connection->getConfiguration()->setSQLLogger(new \Doctrine\DBAL\Logging\DebugStack());
+}
+
 $requestBuilder = new \Shopware\Development\RequestTransformer($connection);
 $request = $requestBuilder->transform(
     Request::createFromGlobals()

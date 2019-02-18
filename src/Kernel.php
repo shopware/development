@@ -10,6 +10,7 @@ class Kernel extends \Shopware\Core\Kernel
     {
         parent::__construct($environment, $debug);
 
+        self::$connection = $connection;
         if (!$connection) {
             parent::getConnection();
         }
