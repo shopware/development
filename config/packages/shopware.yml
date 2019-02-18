@@ -14,5 +14,10 @@ shopware:
         strategy: "md5"
 
     api:
-      max_limit: 500
-      allowed_limits: [1, 5, 10, 25, 50, 75, 100, 500]
+        max_limit: 500
+        allowed_limits: [1, 5, 10, 25, 50, 75, 100, 500]
+
+    admin_worker:
+        enable_admin_worker: true
+        poll_interval:
+            default: 300
