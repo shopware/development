@@ -18,4 +18,5 @@ return [
     Shopware\Core\System\System::class => ['all' => true],
     Shopware\Core\Content\Content::class => ['all' => true],
     Shopware\Core\Checkout\Checkout::class => ['all' => true],
+    Shopware\Core\Profiling\Profiling::class => ['dev' => true],
 ];
