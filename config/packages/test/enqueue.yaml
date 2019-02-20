@@ -1,0 +1,4 @@
+enqueue:
+    default:
+        transport: "null://"
+        client: ~

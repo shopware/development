@@ -20,7 +20,10 @@ framework:
         engines: ['twig']
     messenger:
         transports:
-            default: enqueue://default
+            default:
+                dsn: "enqueue://default"
+                options:
+                    receiveTimeout: 1000
         routing:
             '*': default
         default_bus: messenger.bus.shopware
