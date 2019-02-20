@@ -21,3 +21,7 @@ shopware:
         enable_admin_worker: true
         poll_interval:
             default: 300
+    cache:
+        entity_cache:
+            enabled: true
+            expiration_time: 3600
