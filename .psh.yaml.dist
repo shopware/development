@@ -27,7 +27,7 @@ const:
   APP_ENV: "dev"
   APP_WATCH: "false"
   SSH_PRIVATE_KEY_PATH: ""
-  ESLINT_DISABLE: "false"
+  ESLINT_DISABLE: "true"
   NIGHTWATCH_HEADLESS: "true"
   NIGHTWATCH_ENV: "administration"
   NIGHTWATCH_PARAMS: ""
