@@ -58,6 +58,6 @@
         "symfony/stopwatch": "4.2.2",
         "symfony/web-profiler-bundle": "4.2.2",
         "league/flysystem-memory": "1.0.1",
-        "phpunit/phpunit": "8.0.2"
+        "phpunit/phpunit": "8.0.4"
     }
 }
