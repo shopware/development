@@ -1,4 +1,4 @@
 shopware:
     cache:
         entity_cache:
-            enabled: true
+            enabled: false
