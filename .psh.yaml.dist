@@ -35,7 +35,6 @@ const:
   E2E_RESTORE_DUMP_PATH: /tmp/shopware_e2e_dump.sql
   FEATURES: |
   DEVPORT: "8080"
-  TRANSPORT: default
 
 dynamic:
   USERKEY: echo "$(id -u):$(id -g)"
