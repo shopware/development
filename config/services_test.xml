@@ -8,7 +8,7 @@
 
         <service id="Shopware\Core\Checkout\Test\Payment\Handler\TestPaymentHandler">
             <argument type="service" id="order_transaction.repository"/>
-            <argument type="service" id="Shopware\Core\Framework\StateMachine\StateMachineRegistry"/>
+            <argument type="service" id="Shopware\Core\System\StateMachine\StateMachineRegistry"/>
             <tag name="payment.method"/>
         </service>
 
