@@ -54,6 +54,10 @@ storefront-sales-channel-api:
     resource: ../vendor/shopware/platform/src/Core/System/SalesChannel/Storefront/
     type: annotation
 
+storefront-cms-api:
+    resource: ../vendor/shopware/platform/src/Core/Content/Cms/Storefront/
+    type: annotation
+
 payment:
     resource: ../vendor/shopware/platform/src/Core/Checkout/Payment/
     type: annotation
