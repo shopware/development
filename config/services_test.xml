@@ -42,6 +42,22 @@
             <argument type="service" id="event_dispatcher"/>
         </service>
 
+        <service id="Shopware\Core\Framework\Test\DataAbstractionLayer\Version\CalculatedPriceFieldTestDefinition">
+            <tag name="shopware.entity.definition" entity="calculated_price_field_test" />
+        </service>
+
+        <service id="Shopware\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\RootDefinition">
+            <tag name="shopware.entity.definition" entity="root" />
+        </service>
+
+        <service id="Shopware\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\SubDefinition">
+            <tag name="shopware.entity.definition" entity="root_sub" />
+        </service>
+
+        <service id="Shopware\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\SubManyDefinition">
+            <tag name="shopware.entity.definition" entity="root_sub_many" />
+        </service>
+
         <service id="messenger.test_receiver_locator" alias="messenger.receiver_locator" public="true"/>
         <service id="messenger.bus.test_shopware" alias="messenger.bus.shopware" public="true"/>
     </services>
