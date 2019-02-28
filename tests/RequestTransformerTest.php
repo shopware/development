@@ -12,7 +12,7 @@ use Shopware\Core\Framework\Struct\Uuid;
 use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
 use Shopware\Core\PlatformRequest;
 use Shopware\Development\RequestTransformer;
-use Shopware\Storefront\StorefrontRequest;
+use Shopware\Core\StorefrontRequest;
 use Symfony\Component\HttpFoundation\Request;
 
 class RequestTransformerTest extends TestCase
