@@ -90,6 +90,13 @@ environments:
   storefront:
     paths:
       - "dev-ops/storefront/actions"
+
+  docs:
+    const:
+        DOCS_DIR: "./vendor/shopware/platform/src/Docs"
+    paths:
+      - "dev-ops/docs/actions"
+
   analyze:
     const:
         PLATFORM_DIR: "./vendor/shopware/platform"
