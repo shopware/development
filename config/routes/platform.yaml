@@ -18,6 +18,10 @@ api-media-actions:
     resource: ../vendor/shopware/platform/src/Core/Content/Media/
     type: annotation
 
+api-mail-template-actions:
+    resource: ../vendor/shopware/platform/src/Core/Content/MailTemplate/
+    type: annotation
+
 api-order-actions:
     resource: ../vendor/shopware/platform/src/Core/Checkout/Order/
     type: annotation
