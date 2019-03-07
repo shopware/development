@@ -34,7 +34,6 @@ const:
   CHROME_BIN: ""
   E2E_RESTORE_DUMP_PATH: /tmp/shopware_e2e_dump.sql
   FEATURES: |
-    FEATURE_NEXT_717=1
     FEATURE_NEXT_516=1
   DEVPORT: "8080"
 
