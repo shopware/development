@@ -5,8 +5,8 @@ bin/console cache:clear --env=prod
 bin/console cache:clear --env=dev
 bin/console cache:clear --env=test
 
-bin/console database:migrate --all
-bin/console database:migrate-destructive --all
+bin/console database:migrate --all Shopware\\
+bin/console database:migrate-destructive --all Shopware\\
 
 bin/console scheduled-task:register
 
