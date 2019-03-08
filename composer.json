@@ -31,7 +31,11 @@
         "psr-4": {
             "Shopware\\Development\\": "src/",
             "": "custom/plugins/"
-        }
+        },
+        "exclude-from-classmap": [
+            "custom/plugins/*/vendor",
+            "custom/plugins/*/SharedBundles"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
