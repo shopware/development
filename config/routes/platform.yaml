@@ -70,6 +70,10 @@ storefront-cms-api:
     resource: ../vendor/shopware/platform/src/Core/Content/Cms/Storefront/
     type: annotation
 
+number-range-api:
+    resource: ../vendor/shopware/platform/src/Core/System/NumberRange/
+    type: annotation
+
 payment:
     resource: ../vendor/shopware/platform/src/Core/Checkout/Payment/
     type: annotation
