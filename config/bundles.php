@@ -16,6 +16,7 @@ return [
     Shopware\Core\Checkout\Checkout::class => ['all' => true],
     Shopware\Core\Profiling\Profiling::class => ['dev' => true],
     Shopware\Administration\Administration::class => ['all' => true],
+    Shopware\Docs\Docs::class => ['all' => true],
     Shopware\Storefront\Storefront::class => ['all' => true],
     Shopware\Storefront\Framework\Framework::class => ['all' => true],
     Shopware\Storefront\Framework\Seo\Seo::class => ['all' => true],
