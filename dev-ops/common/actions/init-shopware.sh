@@ -15,4 +15,4 @@ bin/console plugin:refresh
 bin/console rest:user:create admin --password=shopware
 
 php bin/console sales-channel:create --id=20080911ffff4fffafffffff19830531
-php bin/console sales-channel:create:storefront --url=__APP_URL__
+php bin/console sales-channel:create:storefront --url='__APP_URL__'
