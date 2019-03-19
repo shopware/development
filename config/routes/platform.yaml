@@ -42,6 +42,14 @@ api-system-config-actions:
     resource: ../vendor/shopware/platform/src/Core/System/SystemConfig
     type: annotation
 
+api-plugin-actions:
+    resource: ../vendor/shopware/platform/src/Core/Framework/Plugin/
+    type: annotation
+
+api-store-actions:
+    resource: ../vendor/shopware/platform/src/Core/Framework/Store/
+    type: annotation
+
 storefront-product-api:
     resource: ../vendor/shopware/platform/src/Core/Content/Product/Storefront/
     type: annotation
