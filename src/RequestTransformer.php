@@ -6,10 +6,9 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Statement;
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Doctrine\FetchModeHelper;
-use Shopware\Core\Framework\Struct\Uuid;
 use Shopware\Core\PlatformRequest;
 use Shopware\Core\StorefrontRequest;
-use Shopware\Storefront\Framework\Seo\SeoService;
+use Shopware\Storefront\Framework\Seo\SeoResolver;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
@@ -156,7 +155,7 @@ class RequestTransformer
         }
 
         if ($_ENV['FEATURE_NEXT_741'] ?? false) {
-            return (new SeoService($this->connection))->resolveSeoPath($salesChannelId, $seoPathInfo);
+            return (new SeoResolver($this->connection))->resolveSeoPath($salesChannelId, $seoPathInfo);
         }
 
         return ['pathInfo' => $request->getPathInfo()];
