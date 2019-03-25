@@ -6,9 +6,9 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Statement;
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Doctrine\FetchModeHelper;
-use Shopware\Core\Framework\Struct\Uuid;
 use Shopware\Core\PlatformRequest;
 use Shopware\Core\StorefrontRequest;
+use Shopware\Storefront\Framework\Seo\SeoResolver;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
@@ -49,12 +49,12 @@ class RequestTransformer
 
         $baseUrl = str_replace($request->getSchemeAndHttpHost(), '', $salesChannel['url']);
 
-        $uri = $this->resolveSeoUrl($request, $baseUrl, $salesChannel['salesChannelId']);
+        $resolved = $this->resolveSeoUrl($request, $baseUrl, $salesChannel['salesChannelId']);
 
         $server = array_merge(
             $_SERVER,
             [
-                'REQUEST_URI' => $baseUrl . $uri,
+                'REQUEST_URI' => $baseUrl . $resolved['pathInfo'],
                 'SCRIPT_NAME' => $baseUrl . '/index.php',
                 'SCRIPT_FILENAME' => $baseUrl . '/index.php',
             ]
@@ -68,6 +68,10 @@ class RequestTransformer
         $clone->attributes->set(StorefrontRequest::ATTRIBUTE_DOMAIN_SNIPPET_SET_ID, $salesChannel['snippetSetId']);
         $clone->attributes->set(StorefrontRequest::ATTRIBUTE_DOMAIN_CURRENCY_ID, $salesChannel['currencyId']);
         $clone->attributes->set(StorefrontRequest::ATTRIBUTE_DOMAIN_ID, $salesChannel['id']);
+
+        if (isset($resolved['canonicalPathInfo'])) {
+            $clone->attributes->set(StorefrontRequest::ATTRIBUTE_CANONICAL_LINK, $request->getSchemeAndHttpHost() . $baseUrl . $resolved['canonicalPathInfo']);
+        }
 
         $clone->headers->set(PlatformRequest::HEADER_LANGUAGE_ID, $salesChannel['languageId']);
 
@@ -143,40 +147,17 @@ class RequestTransformer
         return $bestMatch;
     }
 
-    private function resolveSeoUrl(Request $request, string $baseUrl, string $salesChannelId): string
+    private function resolveSeoUrl(Request $request, string $baseUrl, string $salesChannelId): array
     {
-        $pathInfo = $request->getPathInfo();
-        if (!empty($baseUrl) && strpos($pathInfo, $baseUrl) === 0) {
-            $pathInfo = substr($pathInfo, strlen($baseUrl));
+        $seoPathInfo = $request->getPathInfo();
+        if (!empty($baseUrl) && strpos($seoPathInfo, $baseUrl) === 0) {
+            $seoPathInfo = substr($seoPathInfo, strlen($baseUrl));
         }
 
-        /** @var Statement $statement */
-        $statement = $this->connection->createQueryBuilder()
-            ->select('path_info')
-            ->from('seo_url')
-            ->where('sales_channel_id = :salesChannelId')
-            ->andWhere('seo_path_info = :seoPath')
-            ->setMaxResults(1)
-            ->setParameter('salesChannelId', Uuid::fromHexToBytes($salesChannelId))
-            ->setParameter('seoPath', ltrim($pathInfo, '/'))
-            ->execute();
-
-        $url = $statement->fetchColumn();
-
-        if (empty($url)) {
-            return $request->getPathInfo();
+        if ($_ENV['FEATURE_NEXT_741'] ?? false) {
+            return (new SeoResolver($this->connection))->resolveSeoPath($salesChannelId, $seoPathInfo);
         }
 
-        $uri = $request->getRequestUri();
-
-        if (!empty($baseUrl) && strpos($uri, $baseUrl) === 0) {
-            $uri = substr($uri, strlen($baseUrl));
-        }
-
-        if (strpos($uri, $pathInfo) === 0) {
-            $uri = $url . substr($uri, strlen($pathInfo));
-        }
-
-        return $uri;
+        return ['pathInfo' => $request->getPathInfo()];
     }
 }

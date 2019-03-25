@@ -1,5 +1,6 @@
 <?php
 
+use Shopware\Core\StorefrontRequest;
 use Shopware\Development\Kernel;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\Dotenv\Dotenv;
@@ -52,5 +53,10 @@ $request = $requestBuilder->transform(
 
 $kernel = new Kernel($env, $debug, $connection);
 $response = $kernel->handle($request);
+$canonical = $request->attributes->get(StorefrontRequest::ATTRIBUTE_CANONICAL_LINK);
+if ($canonical) {
+    $response->headers->set('Link', '<'.$canonical.'>; rel="canonical"');
+}
+
 $response->send();
 $kernel->terminate($request, $response);
