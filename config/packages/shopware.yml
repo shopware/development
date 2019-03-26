@@ -19,7 +19,6 @@ shopware:
 
     store:
         api_url: 'https://api.shopware.com'
-        host: null
 
     admin_worker:
         enable_admin_worker: true
