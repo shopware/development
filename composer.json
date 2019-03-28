@@ -51,14 +51,14 @@
         "ext-xmlwriter": "*",
         "bheller/images-generator": "1.0.1",
         "fzaninotto/faker": "1.8.0",
-        "mbezhanov/faker-provider-collection": "1.1.1",
+        "mbezhanov/faker-provider-collection": "1.2.1",
         "kubawerlos/php-cs-fixer-custom-fixers": "1.13.0",
-        "symfony/browser-kit": "4.2.2",
-        "symfony/phpunit-bridge": "4.2.2",
-        "symfony/var-dumper": "4.2.2",
-        "symfony/stopwatch": "4.2.2",
-        "symfony/web-profiler-bundle": "4.2.2",
-        "league/flysystem-memory": "1.0.1",
-        "phpunit/phpunit": "8.0.4"
+        "phpunit/phpunit": "8.0.6",
+        "symfony/browser-kit": "4.2.4",
+        "symfony/phpunit-bridge": "4.2.4",
+        "symfony/var-dumper": "4.2.4",
+        "symfony/stopwatch": "4.2.4",
+        "symfony/web-profiler-bundle": "4.2.4",
+        "league/flysystem-memory": "1.0.1"
     }
 }
