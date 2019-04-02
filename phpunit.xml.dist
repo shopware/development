@@ -35,7 +35,7 @@
                 </array>
             </arguments>
         </listener>
-        <!--<listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener" />-->
+        <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener" />
     </listeners>
 
     <!-- See also: vendor/shopware/platform/phpunit.xml.dist -->
