@@ -54,10 +54,6 @@ storefront-product-api:
     resource: ../vendor/shopware/platform/src/Core/Content/Product/Storefront/
     type: annotation
 
-storefront-context-api:
-    resource: ../vendor/shopware/platform/src/Core/Checkout/Context/Storefront/
-    type: annotation
-
 storefront-checkout-api:
     resource: ../vendor/shopware/platform/src/Core/Checkout/Cart/Storefront/
     type: annotation
