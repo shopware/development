@@ -244,7 +244,7 @@ class RequestTransformerTest extends TestCase
     {
         $salesChannels = array_map(function ($salesChannelData) {
             $defaults = [
-                'typeId' => Defaults::SALES_CHANNEL_STOREFRONT,
+                'typeId' => Defaults::SALES_CHANNEL_TYPE_STOREFRONT,
                 'accessKey' => AccessKeyHelper::generateAccessKey('sales-channel'),
                 'languageId' => Defaults::LANGUAGE_SYSTEM,
                 'snippetSetId' => $this->getSnippetSetIdForLocale(self::LOCALE_EN_GB_ISO),

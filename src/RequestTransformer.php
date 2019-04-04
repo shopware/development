@@ -109,7 +109,7 @@ class RequestTransformer
             ->innerJoin('domain', 'snippet_set', 'snippet_set', 'snippet_set.id = domain.snippet_set_id')
             ->where('sales_channel.type_id = UNHEX(:typeId)')
             ->andWhere('sales_channel.active')
-            ->setParameter('typeId', Defaults::SALES_CHANNEL_STOREFRONT)
+            ->setParameter('typeId', Defaults::SALES_CHANNEL_TYPE_STOREFRONT)
             ->execute();
         $domains = FetchModeHelper::groupUnique($statement->fetchAll());
 
