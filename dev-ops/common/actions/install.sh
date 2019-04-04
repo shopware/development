@@ -11,4 +11,6 @@ INCLUDE: ./init-test-databases.sh
 INCLUDE: ./demo-data.sh
 INCLUDE: ../../administration/actions/init.sh
 INCLUDE: ../../administration/actions/build.sh
+INCLUDE: ../../storefront/actions/install.sh
+INCLUDE: ../../storefront/actions/prod.sh
 bin/console assets:install
