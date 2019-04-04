@@ -8,7 +8,7 @@ use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Api\Util\AccessKeyHelper;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEvent;
-use Shopware\Core\Framework\Struct\Uuid;
+use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
 use Shopware\Core\PlatformRequest;
 use Shopware\Development\RequestTransformer;
@@ -62,12 +62,12 @@ class RequestTransformerTest extends TestCase
 
     public function domainProvider(): array
     {
-        $germanId = Uuid::uuid4()->getHex();
-        $englishId = Uuid::uuid4()->getHex();
-        $gerUkId = Uuid::uuid4()->getHex();
+        $germanId = Uuid::randomHex();
+        $englishId = Uuid::randomHex();
+        $gerUkId = Uuid::randomHex();
 
-        $gerDomainId = Uuid::uuid4()->getHex();
-        $ukDomainId = Uuid::uuid4()->getHex();
+        $gerDomainId = Uuid::randomHex();
+        $ukDomainId = Uuid::randomHex();
 
         return [
             'single' => [
