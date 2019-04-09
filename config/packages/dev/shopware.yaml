@@ -2,3 +2,5 @@ shopware:
     cache:
         entity_cache:
             enabled: false
+twig:
+    cache: false
