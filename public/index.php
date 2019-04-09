@@ -6,7 +6,7 @@ use Symfony\Component\Debug\Debug;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
 
-require __DIR__.'/../vendor/autoload.php';
+$classLoader = require __DIR__.'/../vendor/autoload.php';
 
 // The check is to ensure we don't use .env if APP_ENV is defined
 if (!isset($_SERVER['APP_ENV']) && !isset($_ENV['APP_ENV'])) {
@@ -51,7 +51,7 @@ $request = $requestBuilder->transform(
     Request::createFromGlobals()
 );
 
-$kernel = new Kernel($env, $debug, $connection);
+$kernel = new Kernel($env, $debug, $classLoader, $connection);
 $response = $kernel->handle($request);
 $canonical = $request->attributes->get(StorefrontRequest::ATTRIBUTE_CANONICAL_LINK);
 if ($canonical) {

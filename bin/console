@@ -9,7 +9,7 @@ use Symfony\Component\Dotenv\Dotenv;
 
 set_time_limit(0);
 
-require __DIR__.'/../vendor/autoload.php';
+$classLoader = require __DIR__.'/../vendor/autoload.php';
 
 if (!class_exists(Application::class)) {
     throw new \RuntimeException('You need to add "symfony/framework-bundle" as a Composer dependency.');
@@ -33,6 +33,6 @@ if ($debug) {
     }
 }
 
-$kernel = new Kernel($env, $debug);
+$kernel = new Kernel($env, $debug, $classLoader);
 $application = new Application($kernel);
 $application->run($input);
