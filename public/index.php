@@ -1,6 +1,6 @@
 <?php
 
-use Shopware\Core\StorefrontRequest;
+use Shopware\Core\SalesChannelRequest;
 use Shopware\Development\Kernel;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\Dotenv\Dotenv;
@@ -53,7 +53,7 @@ $request = $requestBuilder->transform(
 
 $kernel = new Kernel($env, $debug, $classLoader, $connection);
 $response = $kernel->handle($request);
-$canonical = $request->attributes->get(StorefrontRequest::ATTRIBUTE_CANONICAL_LINK);
+$canonical = $request->attributes->get(SalesChannelRequest::ATTRIBUTE_CANONICAL_LINK);
 if ($canonical) {
     $response->headers->set('Link', '<'.$canonical.'>; rel="canonical"');
 }

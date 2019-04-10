@@ -12,7 +12,7 @@ use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
 use Shopware\Core\PlatformRequest;
 use Shopware\Development\RequestTransformer;
-use Shopware\Core\StorefrontRequest;
+use Shopware\Core\SalesChannelRequest;
 use Symfony\Component\HttpFoundation\Request;
 
 class RequestTransformerTest extends TestCase
@@ -50,11 +50,11 @@ class RequestTransformerTest extends TestCase
 
             static::assertSame($expectedRequest->salesChannelId, $resolved->attributes->get(PlatformRequest::ATTRIBUTE_SALES_CHANNEL_ID));
 
-            static::assertSame($expectedRequest->domainId, $resolved->attributes->get(StorefrontRequest::ATTRIBUTE_DOMAIN_ID));
-            static::assertSame($expectedRequest->isStorefrontRequest, $resolved->attributes->get(StorefrontRequest::ATTRIBUTE_IS_STOREFRONT_REQUEST));
-            static::assertSame($expectedRequest->locale, $resolved->attributes->get(StorefrontRequest::ATTRIBUTE_DOMAIN_LOCALE));
-            static::assertSame($expectedRequest->currency, $resolved->attributes->get(StorefrontRequest::ATTRIBUTE_DOMAIN_CURRENCY_ID));
-            static::assertSame($expectedRequest->snippetSetId, $resolved->attributes->get(StorefrontRequest::ATTRIBUTE_DOMAIN_SNIPPET_SET_ID));
+            static::assertSame($expectedRequest->domainId, $resolved->attributes->get(SalesChannelRequest::ATTRIBUTE_DOMAIN_ID));
+            static::assertSame($expectedRequest->isStorefrontRequest, $resolved->attributes->get(SalesChannelRequest::ATTRIBUTE_IS_SALES_CHANNEL_REQUEST));
+            static::assertSame($expectedRequest->locale, $resolved->attributes->get(SalesChannelRequest::ATTRIBUTE_DOMAIN_LOCALE));
+            static::assertSame($expectedRequest->currency, $resolved->attributes->get(SalesChannelRequest::ATTRIBUTE_DOMAIN_CURRENCY_ID));
+            static::assertSame($expectedRequest->snippetSetId, $resolved->attributes->get(SalesChannelRequest::ATTRIBUTE_DOMAIN_SNIPPET_SET_ID));
 
             static::assertSame($expectedRequest->language, $resolved->headers->get(PlatformRequest::HEADER_LANGUAGE_ID));
         }
