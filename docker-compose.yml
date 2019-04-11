@@ -10,7 +10,7 @@ services:
     volumes:
       - .:/app
       - ~/.composer:/.composer
-      - ~/.npm:/home/application/.npm
+      - ~/.npm:/.npm
     tmpfs:
       - /tmp:mode=1777
 
@@ -20,4 +20,3 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: app
       MYSQL_PASSWORD: app
-      
