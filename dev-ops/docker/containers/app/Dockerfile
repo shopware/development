@@ -1,7 +1,6 @@
 FROM webdevops/php-apache:7.2
 
 COPY wait-for-it.sh /usr/local/bin/
-COPY addExternalUser.sh /addExternalUser
 
 ENV COMPOSER_HOME=/.composer
 ENV WEB_DOCUMENT_ROOT=/app/public
@@ -28,3 +27,4 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
 COPY php-config.ini /usr/local/etc/php/conf.d/
 
 WORKDIR /app
+
