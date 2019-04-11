@@ -34,12 +34,8 @@ api-attribute-set-actions:
     resource: ../vendor/shopware/platform/src/Core/Framework/Attribute/
     type: annotation
 
-api-check-user-email-actions:
-    resource: ../vendor/shopware/platform/src/Core/System/User
-    type: annotation
-
-api-user-recovery-actions:
-    resource: ../vendor/shopware/platform/src/Core/System/User/Recovery
+api-user-actions:
+    resource: ../vendor/shopware/platform/src/Core/System/User/Api
     type: annotation
 
 api-system-config-actions:
