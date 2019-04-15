@@ -29,8 +29,7 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "Shopware\\Development\\": "src/",
-            "": "custom/plugins/"
+            "Shopware\\Development\\": "src/"
         }
     },
     "autoload-dev": {
