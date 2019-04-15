@@ -7,7 +7,7 @@ use Doctrine\DBAL\Driver\Statement;
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Doctrine\FetchModeHelper;
 use Shopware\Core\PlatformRequest;
-use Shopware\Core\StorefrontRequest;
+use Shopware\Core\SalesChannelRequest;
 use Shopware\Storefront\Framework\Seo\SeoResolver;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
@@ -27,7 +27,7 @@ class RequestTransformer
         '/_profiler/',
         '/_error/',
         '/api/',
-        '/storefront-api/',
+        '/sales-channel-api/',
         '/admin/',
     ];
 
@@ -63,14 +63,14 @@ class RequestTransformer
         $clone = $request->duplicate(null, null, null, null, null, $server);
 
         $clone->attributes->set(PlatformRequest::ATTRIBUTE_SALES_CHANNEL_ID, $salesChannel['salesChannelId']);
-        $clone->attributes->set(StorefrontRequest::ATTRIBUTE_IS_STOREFRONT_REQUEST, true);
-        $clone->attributes->set(StorefrontRequest::ATTRIBUTE_DOMAIN_LOCALE, $salesChannel['locale']);
-        $clone->attributes->set(StorefrontRequest::ATTRIBUTE_DOMAIN_SNIPPET_SET_ID, $salesChannel['snippetSetId']);
-        $clone->attributes->set(StorefrontRequest::ATTRIBUTE_DOMAIN_CURRENCY_ID, $salesChannel['currencyId']);
-        $clone->attributes->set(StorefrontRequest::ATTRIBUTE_DOMAIN_ID, $salesChannel['id']);
+        $clone->attributes->set(SalesChannelRequest::ATTRIBUTE_IS_SALES_CHANNEL_REQUEST, true);
+        $clone->attributes->set(SalesChannelRequest::ATTRIBUTE_DOMAIN_LOCALE, $salesChannel['locale']);
+        $clone->attributes->set(SalesChannelRequest::ATTRIBUTE_DOMAIN_SNIPPET_SET_ID, $salesChannel['snippetSetId']);
+        $clone->attributes->set(SalesChannelRequest::ATTRIBUTE_DOMAIN_CURRENCY_ID, $salesChannel['currencyId']);
+        $clone->attributes->set(SalesChannelRequest::ATTRIBUTE_DOMAIN_ID, $salesChannel['id']);
 
         if (isset($resolved['canonicalPathInfo'])) {
-            $clone->attributes->set(StorefrontRequest::ATTRIBUTE_CANONICAL_LINK, $request->getSchemeAndHttpHost() . $baseUrl . $resolved['canonicalPathInfo']);
+            $clone->attributes->set(SalesChannelRequest::ATTRIBUTE_CANONICAL_LINK, $request->getSchemeAndHttpHost() . $baseUrl . $resolved['canonicalPathInfo']);
         }
 
         $clone->headers->set(PlatformRequest::HEADER_LANGUAGE_ID, $salesChannel['languageId']);

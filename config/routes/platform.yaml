@@ -50,34 +50,34 @@ api-store-actions:
     resource: ../vendor/shopware/platform/src/Core/Framework/Store/
     type: annotation
 
-storefront-product-api:
-    resource: ../vendor/shopware/platform/src/Core/Content/Product/Storefront/
-    type: annotation
-
-storefront-checkout-api:
-    resource: ../vendor/shopware/platform/src/Core/Checkout/Cart/Storefront/
-    type: annotation
-
-storefront-customer-api:
-    resource: ../vendor/shopware/platform/src/Core/Checkout/Customer/Storefront/
-    type: annotation
-
-storefront-category-api:
-    resource: ../vendor/shopware/platform/src/Core/Content/Category/Storefront/
-    type: annotation
-
-storefront-sales-channel-api:
-    resource: ../vendor/shopware/platform/src/Core/System/SalesChannel/Storefront/
-    type: annotation
-
-storefront-cms-api:
-    resource: ../vendor/shopware/platform/src/Core/Content/Cms/Storefront/
-    type: annotation
-
 number-range-api:
     resource: ../vendor/shopware/platform/src/Core/System/NumberRange/
     type: annotation
 
 payment:
     resource: ../vendor/shopware/platform/src/Core/Checkout/Payment/
+    type: annotation
+
+sales-channel-product-api:
+    resource: ../vendor/shopware/platform/src/Core/Content/Product/SalesChannel/
+    type: annotation
+
+sales-channel-checkout-api:
+    resource: ../vendor/shopware/platform/src/Core/Checkout/Cart/SalesChannel/
+    type: annotation
+
+sales-channel-customer-api:
+    resource: ../vendor/shopware/platform/src/Core/Checkout/Customer/SalesChannel/
+    type: annotation
+
+sales-channel-category-api:
+    resource: ../vendor/shopware/platform/src/Core/Content/Category/SalesChannel/
+    type: annotation
+
+sales-channel-api:
+    resource: ../vendor/shopware/platform/src/Core/System/SalesChannel/SalesChannel/
+    type: annotation
+
+sales-channel-cms-api:
+    resource: ../vendor/shopware/platform/src/Core/Content/Cms/SalesChannel/
     type: annotation
