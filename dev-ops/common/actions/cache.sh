@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 #DESCRIPTION: clears all caches
 
-bin/console cache:clear
+rm -Rf var/cache/{prod,dev,test}____*

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #DESCRIPTION: initialization of shopware
 
-rm -Rf var/cache/{prod,dev,test}____*
+INCLUDE: ./cache.sh
 
 bin/console database:migrate --all Shopware\\
 bin/console database:migrate-destructive --all Shopware\\
