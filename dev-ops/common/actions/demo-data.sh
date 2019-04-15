@@ -4,5 +4,5 @@
 APP_ENV=prod bin/console framework:demodata
 APP_ENV=prod bin/console dbal:refresh:index
 
-# clear cache for current environment
+# clear cache
 INCLUDE: ./cache.sh
