@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 #DESCRIPTION: initialization of shopware
 
-bin/console cache:clear --env=prod
-bin/console cache:clear --env=dev
-bin/console cache:clear --env=test
+rm -Rf var/cache/{prod,dev,test}____*
 
 bin/console database:migrate --all Shopware\\
 bin/console database:migrate-destructive --all Shopware\\
