@@ -73,6 +73,7 @@ class RequestTransformer
             $clone->attributes->set(SalesChannelRequest::ATTRIBUTE_CANONICAL_LINK, $request->getSchemeAndHttpHost() . $baseUrl . $resolved['canonicalPathInfo']);
         }
 
+        $clone->headers->add($request->headers->all());
         $clone->headers->set(PlatformRequest::HEADER_LANGUAGE_ID, $salesChannel['languageId']);
 
         return $clone;
