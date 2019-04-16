@@ -70,6 +70,14 @@
 
         <service id="messenger.test_receiver_locator" alias="messenger.receiver_locator" public="true"/>
         <service id="messenger.bus.test_shopware" alias="messenger.bus.shopware" public="true"/>
+
+        <service id="test.client" class="Shopware\Core\Framework\Test\TestCaseHelper\TestClient" shared="false" public="true">
+            <argument type="service" id="kernel" />
+            <argument type="service" id="Doctrine\DBAL\Connection" />
+            <argument>%test.client.parameters%</argument>
+            <argument type="service" id="test.client.history" />
+            <argument type="service" id="test.client.cookiejar" />
+        </service>
     </services>
 
 </container>
