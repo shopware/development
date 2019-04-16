@@ -46,7 +46,7 @@ if ($env === 'dev') {
     $connection->getConfiguration()->setSQLLogger(new \Doctrine\DBAL\Logging\DebugStack());
 }
 
-$requestBuilder = new \Shopware\Development\RequestTransformer($connection);
+$requestBuilder = new Shopware\Storefront\Framework\Routing\RequestTransformer($connection);
 $request = $requestBuilder->transform(
     Request::createFromGlobals()
 );
