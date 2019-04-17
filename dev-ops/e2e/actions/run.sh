@@ -1,9 +1,10 @@
 #!/usr/bin/env sh
+
 #DESCRIPTION: runs e2e tests with nightwatch for the administration
 
-bin/console administration:dump:features
-
 INCLUDE: ./../../common/actions/cache.sh
+
+bin/console administration:dump:features
 
 INCLUDE: ./dump-db.sh
 
