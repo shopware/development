@@ -9,17 +9,17 @@
         <service id="Shopware\Core\Checkout\Test\Payment\Handler\AsyncTestPaymentHandler">
             <argument type="service" id="order_transaction.repository"/>
             <argument type="service" id="Shopware\Core\System\StateMachine\StateMachineRegistry"/>
-            <tag name="payment.method.async"/>
+            <tag name="shopware.payment.method.async"/>
         </service>
 
         <service id="Shopware\Core\Checkout\Test\Payment\Handler\SyncTestPaymentHandler">
             <argument type="service" id="order_transaction.repository"/>
             <argument type="service" id="Shopware\Core\System\StateMachine\StateMachineRegistry"/>
-            <tag name="payment.method.sync"/>
+            <tag name="shopware.payment.method.sync"/>
         </service>
 
         <service id="Shopware\Core\Framework\Test\Filesystem\Adapter\MemoryAdapterFactory">
-            <tag name="Shopware\Core\Framework\Filesystem\FilesystemFactory"/>
+            <tag name="shopware.filesystem.factory"/>
         </service>
 
         <service id="Shopware\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\NamedDefinition">
