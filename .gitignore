@@ -27,6 +27,7 @@
 /dev-ops/analyze/tmp
 !/dev-ops/analyze/tmp/**/.gitkeep
 /selenium-debug.log
+chromedriver.log
 /platform/
 ###> symfony/framework-bundle ###
 .env
