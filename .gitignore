@@ -11,6 +11,9 @@
 /custom/*
 !/build/artifacts/.gitkeep
 !/build/media/.gitkeep
+/public/fonts/*
+/public/img/*
+!/public/img/.gitkeep
 /public/media/*
 /public/thumbnail/*
 !/public/media/.gitkeep
