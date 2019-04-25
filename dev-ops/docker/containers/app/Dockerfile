@@ -17,13 +17,14 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
     && mkdir -p /usr/share/man/man1 \
     && curl -sL https://deb.nodesource.com/setup_11.x | bash \
 
-    && apt-install mysql-client nodejs google-chrome-stable libicu-dev graphviz vim \
+    && apt-install mysql-client nodejs google-chrome-stable libicu-dev graphviz vim bash-completion \
     && npm i npm -g \
 
     && ln -s /app/psh.phar /bin/psh \
 
     && pecl install pcov \
-    && docker-php-ext-enable pcov
+    && docker-php-ext-enable pcov \
+    && echo "[ -f /app/bin/console ] && source <(cd /app && bin/console _completion --generate-hook --shell-type bash)" | tee -a /home/application/.bashrc
 
 COPY php-config.ini /usr/local/etc/php/conf.d/
 
