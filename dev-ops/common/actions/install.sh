@@ -10,7 +10,5 @@ INCLUDE: ./init-shopware.sh
 INCLUDE: ./init-test-databases.sh
 INCLUDE: ./demo-data.sh
 INCLUDE: ../../administration/actions/init.sh
-INCLUDE: ../../administration/actions/build.sh
-INCLUDE: ../../storefront/actions/install.sh
-INCLUDE: ../../storefront/actions/prod.sh
+INCLUDE: ../../storefront/actions/init.sh
 bin/console assets:install
