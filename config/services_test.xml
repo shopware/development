@@ -7,14 +7,12 @@
         <defaults public="true"/>
 
         <service id="Shopware\Core\Checkout\Test\Payment\Handler\AsyncTestPaymentHandler">
-            <argument type="service" id="order_transaction.repository"/>
-            <argument type="service" id="Shopware\Core\System\StateMachine\StateMachineRegistry"/>
+            <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler"/>
             <tag name="shopware.payment.method.async"/>
         </service>
 
         <service id="Shopware\Core\Checkout\Test\Payment\Handler\SyncTestPaymentHandler">
-            <argument type="service" id="order_transaction.repository"/>
-            <argument type="service" id="Shopware\Core\System\StateMachine\StateMachineRegistry"/>
+            <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler"/>
             <tag name="shopware.payment.method.sync"/>
         </service>
 
