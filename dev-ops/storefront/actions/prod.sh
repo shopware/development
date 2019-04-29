@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
-#DESCRIPTION: Builds the project for production
+#DESCRIPTION: (Deprecated, use build instead) Builds the project for production
 
-PROJECT_ROOT=__PROJECT_ROOT__/  npm --prefix vendor/shopware/platform/src/Storefront/Resources/ run production
+echo "Using storefront:prod is deprecated, please use storefront:build instead!"
+INCLUDE: ./build.sh

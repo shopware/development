@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-INCLUDE: ./../../administration/actions/init.sh
+INCLUDE: ./../../administration/actions/install-dependencies.sh
 INCLUDE: ./../../administration/actions/unit.sh
