@@ -19,8 +19,9 @@ shopware:
 
     admin_worker:
         enable_admin_worker: true
-        poll_interval:
-            default: 300
+        poll_interval: 30
+        transports: ["default"]
+
     cache:
         entity_cache:
             enabled: true

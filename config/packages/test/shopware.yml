@@ -8,3 +8,6 @@ shopware:
             type: "memory"
             config:
                 root: ~
+
+    admin_worker:
+        poll_interval: 1
