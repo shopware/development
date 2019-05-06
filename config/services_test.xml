@@ -44,6 +44,14 @@
             <tag name="shopware.entity.definition" entity="root_sub_many" />
         </service>
 
+        <service id="Shopware\Core\Framework\Test\DataAbstractionLayer\Write\Validation\TestDefinition\TestDefinition">
+            <tag name="shopware.entity.definition" entity="_test_lock" />
+        </service>
+
+        <service id="Shopware\Core\Framework\Test\DataAbstractionLayer\Write\Validation\TestDefinition\TestTranslationDefinition">
+            <tag name="shopware.entity.definition" entity="_test_lock_translation" />
+        </service>
+
         <service id="Shopware\Core\Framework\Test\TestCaseHelper\ReceiverLocatorDecorator" decorates="messenger.receiver_locator">
             <argument type="service" id="Shopware\Core\Framework\Test\TestCaseHelper\ReceiverLocatorDecorator.inner"/>
         </service>
