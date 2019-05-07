@@ -1,5 +1,6 @@
 <?php
 
+use PackageVersions\Versions;
 use Shopware\Development\Kernel;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\Dotenv\Dotenv;
@@ -46,7 +47,9 @@ if (class_exists('\Shopware\Storefront\Framework\Routing\RequestTransformer')) {
     $request = $requestBuilder->transform($request);
 }
 
-$kernel = new Kernel($env, $debug, $classLoader, $connection);
+$shopwareVersion = Versions::getVersion('shopware/platform');
+
+$kernel = new Kernel($env, $debug, $classLoader, $shopwareVersion, $connection);
 $response = $kernel->handle($request);
 $response->send();
 $kernel->terminate($request, $response);

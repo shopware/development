@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
 
+use PackageVersions\Versions;
 use Shopware\Development\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -33,6 +34,8 @@ if ($debug) {
     }
 }
 
-$kernel = new Kernel($env, $debug, $classLoader);
+$shopwareVersion = Versions::getVersion('shopware/platform');
+
+$kernel = new Kernel($env, $debug, $classLoader, $shopwareVersion);
 $application = new Application($kernel);
 $application->run($input);
