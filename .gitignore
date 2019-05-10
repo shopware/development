@@ -30,6 +30,7 @@
 /public/thumbnail/*
 !/public/thumbnail/.gitkeep
 /public/plugins/*
+/public/assets/*
 
 /files/*
 
