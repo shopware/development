@@ -42,7 +42,7 @@
     },
     "require": {
         "ocramius/package-versions": "1.4.0",
-        "shopware/platform": "dev-6.0-dp"
+        "shopware/platform": "dev-master"
     },
     "scripts": {
         "post-update-cmd": [
