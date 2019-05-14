@@ -21,6 +21,19 @@ services:
       MYSQL_USER: app
       MYSQL_PASSWORD: app
 
+  app_cypress:
+    build: dev-ops/docker/containers/cypress
+    tty: true
+    links:
+      - app_server:docker.vm
+    environment:
+      - CYPRESS_baseUrl=http://docker.vm:8000
+    depends_on:
+      - app_server
+    volumes:
+      - .:/app
+      - ./platform/src/Administration/Resources/cypress:/e2e
+
   adminer:
     image: adminer:latest
     links:

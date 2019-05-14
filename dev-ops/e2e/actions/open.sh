@@ -6,6 +6,5 @@ INCLUDE: ./../../common/actions/cache.sh
 
 bin/console administration:dump:features
 
-INCLUDE: ./dump-db.sh
-
-vendor/shopware/platform/src/Administration/Resources/e2e/node_modules/.bin/cypress open --project ./vendor/shopware/platform/src/Administration/Resources/e2e
+npm clean-install --prefix vendor/shopware/platform/src/Administration/Resources/cypress/
+vendor/shopware/platform/src/Administration/Resources/cypress/node_modules/.bin/cypress open --project ./vendor/shopware/platform/src/Administration/Resources/cypress

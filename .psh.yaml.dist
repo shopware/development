@@ -28,9 +28,9 @@ const:
   APP_WATCH: "false"
   SSH_PRIVATE_KEY_PATH: ""
   ESLINT_DISABLE: "true"
-  NIGHTWATCH_HEADLESS: "true"
-  NIGHTWATCH_ENV: "administration"
-  NIGHTWATCH_PARAMS: ""
+  CYPRESS_HEADLESS: "true"
+  CYPRESS_ENV: "administration"
+  CYPRESS_PARAMS: ""
   CHROME_BIN: ""
   E2E_RESTORE_DUMP_PATH: /tmp/shopware_e2e_dump.sql
   FEATURES: |
@@ -41,6 +41,7 @@ dynamic:
   USERKEY: echo "$(id -u):$(id -g)"
   APP_ID: docker-compose ps -q app_server
   MYSQL_ID: docker-compose ps -q app_mysql
+  CYPRESS_ID: docker-compose ps -q app_cypress
   USER_ID: id -u
   GROUP_ID: id -g
   E2E_ENV: if [ -z "$(grep docker /proc/self/cgroup)" ]; then echo "default"; else echo "docker"; fi
@@ -71,6 +72,8 @@ environments:
         destination: "./docker-compose.override.yml"
 
   administration:
+    const:
+      CYPRESS_ENV: "administration"
     dynamic:
       HOST: if [ -z "$(grep docker /proc/self/cgroup)" ]; then echo "localhost"; else echo "0.0.0.0"; fi
     paths:
@@ -89,6 +92,8 @@ environments:
         destination: "./docker-compose.override.yml"
 
   storefront:
+    const:
+      CYPRESS_ENV: "storefront"
     paths:
       - "dev-ops/storefront/actions"
 

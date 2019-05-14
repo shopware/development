@@ -1,13 +1,5 @@
 #!/usr/bin/env sh
 
-#DESCRIPTION: runs e2e tests with nightwatch for the administration
+# INCLUDE: ./../scripts/prepare-app-server-for-e2e.sh
 
-INCLUDE: ./../../common/actions/cache.sh
-
-bin/console administration:dump:features
-
-INCLUDE: ./dump-db.sh
-
-# APP_WATCH=__APP_WATCH__ DEVPORT=__DEVPORT__ E2E_ENV=__E2E_ENV__ PROJECT_ROOT=__PROJECT_ROOT__/  NIGHTWATCH_HEADLESS=__NIGHTWATCH_HEADLESS__ APP_URL=__APP_URL__ NIGHTWATCH_ENV=__NIGHTWATCH_ENV__ DB_NAME=__DB_NAME__ vendor/shopware/platform/src/Administration/Resources/e2e/node_modules/nightwatch/bin/nightwatch --config vendor/shopware/platform/src/Administration/Resources/e2e/runner-config.js --reporter junit --env __E2E_ENV__ __NIGHTWATCH_PARAMS__
-
-vendor/shopware/platform/src/Administration/Resources/e2e/node_modules/.bin/cypress run --project ./vendor/shopware/platform/src/Administration/Resources/e2e --spec "vendor/shopware/platform/src/Administration/Resources/e2e/cypress/integration/administration/sw-media/sw-media-upload.spec.js" --reporter junit
+docker exec -u __USERKEY__ __CYPRESS_ID__ npx cypress run --browser chrome --spec /e2e/cypress/integration/__CYPRESS_ENV__/**/* --project /e2e --config baseUrl=__APP_URL__ || echo Failures: $?
