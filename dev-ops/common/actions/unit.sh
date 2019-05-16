@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #DESCRIPTION: execute unit tests and generate coverage information
 
-php -d pcov.enabled=1
+php -d pcov.enabled=1 -d pcov.directory=vendor/shopware/platform
    vendor/bin/phpunit
    --configuration vendor/shopware/platform/phpunit.xml.dist
    --log-junit build/artifacts/phpunit.junit.xml
