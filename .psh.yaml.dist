@@ -29,7 +29,7 @@ const:
   SSH_PRIVATE_KEY_PATH: ""
   ESLINT_DISABLE: "true"
   CYPRESS_HEADLESS: "true"
-  CYPRESS_ENV: "administration"
+  CYPRESS_ENV: "Administration"
   CYPRESS_PARAMS: ""
   CHROME_BIN: ""
   E2E_RESTORE_DUMP_PATH: /tmp/shopware_e2e_dump.sql
@@ -72,8 +72,6 @@ environments:
         destination: "./docker-compose.override.yml"
 
   administration:
-    const:
-      CYPRESS_ENV: "administration"
     dynamic:
       HOST: if [ -z "$(grep docker /proc/self/cgroup)" ]; then echo "localhost"; else echo "0.0.0.0"; fi
     paths:
@@ -93,7 +91,7 @@ environments:
 
   storefront:
     const:
-      CYPRESS_ENV: "storefront"
+      CYPRESS_ENV: "Storefront"
     paths:
       - "dev-ops/storefront/actions"
 

@@ -32,8 +32,8 @@ services:
       - app_server
     volumes:
       - .:/app
-      - ./platform/src/Administration/Resources/cypress:/e2e-administration
-      - ./platform/src/Storefront/Resources/e2e:/e2e-storefront
+      - ./platform/src/Administration/Resources/e2e:/e2e-Administration
+      - ./platform/src/Storefront/Resources/e2e:/e2e-Storefront
 
   adminer:
     image: adminer:latest
