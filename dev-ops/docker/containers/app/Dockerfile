@@ -25,7 +25,7 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
     && pecl install pcov \
     && docker-php-ext-enable pcov
 
-COPY php-config.ini /usr/local/etc/php/conf.d/
+COPY php-config.ini /usr/local/etc/php/conf.d/99-docker.ini
 
 WORKDIR /app
 
