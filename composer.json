@@ -34,6 +34,7 @@
         }
     },
     "require": {
+        "php": "~7.2",
         "ocramius/package-versions": "1.4.0",
         "shopware/platform": "dev-master"
     },
