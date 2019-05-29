@@ -22,7 +22,7 @@ services:
       MYSQL_PASSWORD: app
 
   app_cypress:
-    build: dev-ops/docker/containers/cypress
+    image: cypress/browsers:node10.2.1-chrome74
     tty: true
     links:
       - app_server:docker.vm
