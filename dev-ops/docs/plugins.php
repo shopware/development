@@ -3,7 +3,6 @@
 return [
     'swag-docs-administration-new-field' => 'AdministrationNewField',
     'swag-docs-api-controller' => 'ApiController',
-//    'attributecrud' => 'AttributeCrud',
     'swag-docs-base-class' => 'BaseClass',
     'swag-docs-custom-entity' => 'CustomEntity',
     'swag-docs-custom-entity-translations' => 'CustomEntityTranslations',
@@ -20,4 +19,13 @@ return [
     'swag-docs-service-decoration' => 'ServiceDecoration',
     'swag-docs-storefront-api-controller' => 'StorefrontApiController',
     'swag-docs-subscriber-plugin' => 'SubscriberPlugin',
+    'swag-docs-new-tab' => 'NewTab',
+    'swag-docs-custom-component' => 'CustomComponent',
+    'swag-docs-custom-module' => 'CustomModule',
+    'swag-docs-custom-rule' => 'CustomRule',
+    'swag-docs-extending-block' => 'ExtendingBlock',
+    'swag-docs-administration-new-column' => 'AdministrationNewColumn',
+    'swag-docs-cart-add-discount' => 'CartAddDiscountForProduct',
+    'swag-docs-cart-change-price' => 'CartChangePrice',
+    'swag-docs-rest-api-handling' => 'RestApiHandling',
 ];
