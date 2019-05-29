@@ -9,17 +9,26 @@
 /docker-compose.override.yml
 
 /config/jwt/*
+!/config/jwt/.gitkeep
 
-/custom/plugins/*
+/custom/*
 
 /build/*
+!/build/artifacts/.gitkeep
+!/build/media/.gitkeep
 
 /public/fonts/*
+!/public/fonts/.gitkeep
 /public/img/*
+!/public/img/.gitkeep
 /public/css/*
+!/public/css/.gitkeep
 /public/js/*
+!/public/js/.gitkeep
 /public/media/*
+!/public/media/.gitkeep
 /public/thumbnail/*
+!/public/thumbnail/.gitkeep
 /public/plugins/*
 /public/assets/*
 
@@ -31,6 +40,7 @@
 /dev-ops/analyze/vendor-bin/**/vendor
 /dev-ops/analyze/.jscpd
 /dev-ops/analyze/tmp
+!/dev-ops/analyze/tmp/**/.gitkeep
 
 /selenium-debug.log
 chromedriver.log
@@ -50,5 +60,3 @@ chromedriver.log
 ###> phpunit/phpunit ###
 /phpunit.xml
 ###< phpunit/phpunit ###
-
-!.gitkeep
