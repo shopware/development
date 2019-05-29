@@ -1,7 +1,9 @@
 <?php
 
+use Doctrine\DBAL\Exception\ConnectionException;
 use PackageVersions\Versions;
 use Shopware\Development\Kernel;
+use Shopware\Storefront\Framework\Routing\RequestTransformer;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +35,7 @@ if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false
     Request::setTrustedHosts(explode(',', $trustedHosts));
 }
 
-
+// resolve SEO urls
 $request = Request::createFromGlobals();
 $connection = Kernel::getConnection();
 
@@ -41,15 +43,17 @@ if ($env === 'dev') {
     $connection->getConfiguration()->setSQLLogger(new \Doctrine\DBAL\Logging\DebugStack());
 }
 
-// resolve SEO urls
-if (class_exists('\Shopware\Storefront\Framework\Routing\RequestTransformer')) {
-    $requestBuilder = new \Shopware\Storefront\Framework\Routing\RequestTransformer($connection);
-    $request = $requestBuilder->transform($request);
+try {
+    $request = (new RequestTransformer($connection))
+        ->transform($request);
+
+    $shopwareVersion = Versions::getVersion('shopware/platform');
+
+    $kernel = new Kernel($env, $debug, $classLoader, $shopwareVersion, $connection);
+
+    $response = $kernel->handle($request);
+} catch (ConnectionException $e) {
+    throw new RuntimeException($e->getMessage());
 }
-
-$shopwareVersion = Versions::getVersion('shopware/platform');
-
-$kernel = new Kernel($env, $debug, $classLoader, $shopwareVersion, $connection);
-$response = $kernel->handle($request);
 $response->send();
 $kernel->terminate($request, $response);
