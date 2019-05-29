@@ -16,3 +16,7 @@ services:
       - "4406:3306"
     volumes:
       - ./dev-ops/docker/_volumes/mysql:/mysql-data
+
+  adminer:
+    ports:
+      - "8001:8080"
