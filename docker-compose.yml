@@ -20,3 +20,8 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: app
       MYSQL_PASSWORD: app
+
+  adminer:
+    image: adminer:latest
+    links:
+      - app_mysql:mysql
