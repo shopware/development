@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
-
-bin/console docs:dump-er
-bin/console docs:dump-core-characteristics
-bin/console docs:dump-platform-updates
+# Description: Generates all images and dumps converts the markdown files.
 
 docker build -t shopware-plattform-plantuml dev-ops/docs/docker/plantuml/.
 sh ./dev-ops/docs/scripts/render_puml.sh __DOCS_DIR__
