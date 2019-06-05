@@ -36,6 +36,7 @@ const:
   FEATURES: |
     FEATURE_NEXT_516=1
   DEVPORT: "8080"
+  XDEBUG: "false"
 
 dynamic:
   USERKEY: echo "$(id -u):$(id -g)"

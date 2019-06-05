@@ -1,5 +1,7 @@
 FROM webdevops/php-apache:7.2
 
+ARG XDEBUG_SELECT
+
 COPY wait-for-it.sh /usr/local/bin/
 
 ENV COMPOSER_HOME=/.composer
@@ -23,7 +25,12 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
     && ln -s /app/psh.phar /bin/psh \
     \
     && pecl install pcov-1.0.3 \
-    && docker-php-ext-enable pcov
+    && docker-php-ext-enable pcov \
+    \
+    && if [ "$XDEBUG_SELECT" = "true" ]; then \
+    pecl install xdebug-2.6.0 \
+    && docker-php-ext-enable xdebug; \
+    fi
 
 COPY php-config.ini /usr/local/etc/php/conf.d/99-docker.ini
 
