@@ -1,4 +1,0 @@
-parameters:
-  exclude_paths:
-    - '*/Docs/*'
-  php_version_features: '7.2'
