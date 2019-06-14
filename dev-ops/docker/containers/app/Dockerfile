@@ -5,6 +5,11 @@ COPY wait-for-it.sh /usr/local/bin/
 ENV COMPOSER_HOME=/.composer
 ENV NPM_CONFIG_CACHE=/.npm
 ENV WEB_DOCUMENT_ROOT=/app/public
+ARG USER_ID
+ARG GROUP_ID
+
+RUN groupadd -r -g ${GROUP_ID} appuser || true
+RUN useradd -r -u ${USER_ID} -g ${GROUP_ID} appuser || true
 
 RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd/vhost.conf \
     && echo "Listen 8000" | tee -a /etc/apache2/ports.conf \
