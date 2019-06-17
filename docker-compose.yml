@@ -28,8 +28,6 @@ services:
       - app_server:docker.vm
     environment:
       - CYPRESS_baseUrl=http://docker.vm:8000
-    depends_on:
-      - app_server
     volumes:
       - .:/app
       - ./platform/src/Administration/Resources/e2e:/e2e-Administration

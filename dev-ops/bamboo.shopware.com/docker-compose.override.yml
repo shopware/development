@@ -13,15 +13,5 @@ services:
       APPLICATION_GID: __GROUP_ID__
 
   app_mysql:
-    environment:
-      CONTAINER_UID: __USER_ID__
-      APPLICATION_UID: __USER_ID__
-      APPLICATION_GID: __GROUP_ID__
     tmpfs:
     - /mysql-data
-
-  app_cypress:
-    environment:
-      CONTAINER_UID: __USER_ID__
-      APPLICATION_UID: __USER_ID__
-      APPLICATION_GID: __GROUP_ID__

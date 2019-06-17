@@ -31,6 +31,7 @@ const:
   CYPRESS_HEADLESS: "true"
   CYPRESS_ENV: "Administration"
   CYPRESS_PARAMS: ""
+  CYPRESS_LOCAL: false
   CHROME_BIN: ""
   E2E_RESTORE_DUMP_PATH: /tmp/shopware_e2e_dump.sql.gz
   FEATURES: |
@@ -78,6 +79,8 @@ environments:
       - "dev-ops/administration/actions"
 
   e2e:
+    const:
+      DB_NAME: "shopware_e2e"
     paths:
       - "dev-ops/e2e/actions"
     const:
@@ -89,8 +92,6 @@ environments:
         destination: "./docker-compose.override.yml"
 
   storefront:
-    const:
-      CYPRESS_ENV: "Storefront"
     paths:
       - "dev-ops/storefront/actions"
 
