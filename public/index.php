@@ -2,8 +2,8 @@
 
 use Doctrine\DBAL\Exception\ConnectionException;
 use PackageVersions\Versions;
+use Shopware\Core\Framework\Routing\RequestTransformerInterface;
 use Shopware\Development\Kernel;
-use Shopware\Storefront\Framework\Routing\RequestTransformer;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,12 +44,15 @@ if ($env === 'dev') {
 }
 
 try {
-    $request = (new RequestTransformer($connection))
-        ->transform($request);
-
     $shopwareVersion = Versions::getVersion('shopware/platform');
 
     $kernel = new Kernel($env, $debug, $classLoader, $shopwareVersion, $connection);
+    $kernel->boot();
+
+    // resolves seo urls and detects storefront sales channels
+    $request = $kernel->getContainer()
+        ->get(RequestTransformerInterface::class)
+        ->transform($request);
 
     $response = $kernel->handle($request);
 } catch (ConnectionException $e) {
