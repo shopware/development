@@ -7,6 +7,8 @@ services:
       args:
         USER_ID: __USER_ID__
         GROUP_ID: __GROUP_ID__
+    volumes:
+      - ~/.npm:/.npm
     environment:
       CONTAINER_UID: __USER_ID__
       APPLICATION_UID: __USER_ID__
