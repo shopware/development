@@ -31,3 +31,8 @@ services:
   mailhog:
     ports:
       - "8002:8025"
+
+  elasticsearch:
+    ports:
+      - "9200:9200"
+      - "9300:9300"

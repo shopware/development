@@ -35,8 +35,9 @@ const:
   CYPRESS_LOCAL: false
   CHROME_BIN: ""
   E2E_RESTORE_DUMP_PATH: /tmp/shopware_e2e_dump.sql.gz
-  SHOPWARE_SES_HOSTS: "localhost:9200"
+  SHOPWARE_SES_HOSTS: "elasticsearch:9200"
   SHOPWARE_SES_ENABLED: "0"
+  SHOPWARE_SES_INDEXING_ENABLED: "0"
   FEATURES: |
     FEATURE_NEXT_516=1
   DEVPORT: "8080"
