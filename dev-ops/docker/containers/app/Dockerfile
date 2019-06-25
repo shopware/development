@@ -22,8 +22,10 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
     && mkdir -p /usr/share/man/man1 \
     && curl -sL https://deb.nodesource.com/setup_11.x | bash \
     \
+    && mkdir -p ${NPM_CONFIG_CACHE} \
     && apt-install mysql-client nodejs google-chrome-stable libicu-dev graphviz vim \
     && npm i npm -g \
+    && chown -R ${USER_ID}:${GROUP_ID} ${NPM_CONFIG_CACHE} \
     \
     && ln -s /app/psh.phar /bin/psh \
     \
