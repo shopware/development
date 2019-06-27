@@ -21,6 +21,18 @@ services:
       MYSQL_USER: app
       MYSQL_PASSWORD: app
 
+  app_cypress:
+    image: cypress/browsers:node10.2.1-chrome74
+    tty: true
+    links:
+      - app_server:docker.vm
+    environment:
+      - CYPRESS_baseUrl=http://docker.vm:8000
+    volumes:
+      - .:/app
+      - ./platform/src/Administration/Resources/e2e:/e2e-Administration
+      - ./platform/src/Storefront/Resources/e2e:/e2e-Storefront
+
   adminer:
     image: adminer:latest
     links:

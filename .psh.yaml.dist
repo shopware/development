@@ -28,11 +28,12 @@ const:
   APP_WATCH: "false"
   SSH_PRIVATE_KEY_PATH: ""
   ESLINT_DISABLE: "true"
-  NIGHTWATCH_HEADLESS: "true"
-  NIGHTWATCH_ENV: "administration"
-  NIGHTWATCH_PARAMS: ""
+  CYPRESS_HEADLESS: "true"
+  CYPRESS_ENV: "Administration"
+  CYPRESS_PARAMS: ""
+  CYPRESS_LOCAL: false
   CHROME_BIN: ""
-  E2E_RESTORE_DUMP_PATH: /tmp/shopware_e2e_dump.sql
+  E2E_RESTORE_DUMP_PATH: /tmp/shopware_e2e_dump.sql.gz
   FEATURES: |
     FEATURE_NEXT_516=1
   DEVPORT: "8080"
@@ -41,6 +42,7 @@ dynamic:
   USERKEY: echo "$(id -u):$(id -g)"
   APP_ID: docker-compose ps -q app_server
   MYSQL_ID: docker-compose ps -q app_mysql
+  CYPRESS_ID: docker-compose ps -q app_cypress
   USER_ID: id -u
   GROUP_ID: id -g
   E2E_ENV: if [ -z "$(grep docker /proc/self/cgroup)" ]; then echo "default"; else echo "docker"; fi
@@ -77,11 +79,12 @@ environments:
       - "dev-ops/administration/actions"
 
   e2e:
+    const:
+      DB_NAME: "shopware_e2e"
     paths:
       - "dev-ops/e2e/actions"
     const:
       APP_ENV: prod
-      DB_NAME: "shopware_e2e"
     templates:
       - source: ".env.dist"
         destination: ".env"

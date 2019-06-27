@@ -25,6 +25,7 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
     && mkdir -p ${NPM_CONFIG_CACHE} \
     && apt-install mysql-client nodejs google-chrome-stable libicu-dev graphviz vim \
     && npm i npm -g \
+    && npm i forever -g \
     && chown -R ${USER_ID}:${GROUP_ID} ${NPM_CONFIG_CACHE} \
     \
     && ln -s /app/psh.phar /bin/psh \
