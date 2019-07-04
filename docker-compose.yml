@@ -6,6 +6,7 @@ services:
       context: dev-ops/docker/containers/app
     links:
       - app_mysql:mysql
+      - mailhog:mailhog
     extra_hosts:
       - "docker.vm:127.0.0.1"
     volumes:
@@ -32,6 +33,9 @@ services:
       - .:/app
       - ./platform/src/Administration/Resources/e2e:/e2e-Administration
       - ./platform/src/Storefront/Resources/e2e:/e2e-Storefront
+
+  mailhog:
+    image: mailhog/mailhog
 
   adminer:
     image: adminer:latest
