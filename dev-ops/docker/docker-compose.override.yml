@@ -27,3 +27,7 @@ services:
   adminer:
     ports:
       - "8001:8080"
+
+  mailhog:
+    ports:
+      - "8002:8025"

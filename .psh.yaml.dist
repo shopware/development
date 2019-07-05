@@ -25,6 +25,7 @@ const:
   DB_NAME: "shopware"
   APP_URL: "http://localhost:8000"
   APP_ENV: "dev"
+  APP_MAILER_URL: "smtp://mailhog:1025"
   APP_WATCH: "false"
   SSH_PRIVATE_KEY_PATH: ""
   ESLINT_DISABLE: "true"
