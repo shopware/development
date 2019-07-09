@@ -3,4 +3,5 @@
 
 bin/console bundle:dump
 PROJECT_ROOT=__PROJECT_ROOT__/  npm --prefix vendor/shopware/platform/src/Storefront/Resources/ run production
+bin/console theme:compile
 bin/console assets:install
