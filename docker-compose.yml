@@ -41,3 +41,9 @@ services:
     image: adminer:latest
     links:
       - app_mysql:mysql
+
+  elasticsearch:
+    image: elastic/elasticsearch:7.1.1
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
