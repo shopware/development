@@ -54,10 +54,10 @@
         "mbezhanov/faker-provider-collection": "1.2.1",
         "phpunit/phpunit": "8.2.1",
         "smalot/pdfparser": "0.14.0",
-        "symfony/browser-kit": "4.3.1",
-        "symfony/phpunit-bridge": "4.3.1",
-        "symfony/stopwatch": "4.3.1",
-        "symfony/var-dumper": "4.3.1",
-        "symfony/web-profiler-bundle": "4.3.1"
+        "symfony/browser-kit": "4.3.2",
+        "symfony/phpunit-bridge": "4.3.2",
+        "symfony/stopwatch": "4.3.2",
+        "symfony/var-dumper": "4.3.2",
+        "symfony/web-profiler-bundle": "4.3.2"
     }
 }
