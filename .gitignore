@@ -27,6 +27,7 @@
 !/public/js/.gitkeep
 /public/media/*
 !/public/media/.gitkeep
+/public/theme/*
 /public/thumbnail/*
 !/public/thumbnail/.gitkeep
 /public/plugins/*
