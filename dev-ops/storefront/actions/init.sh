@@ -3,3 +3,4 @@
 
 INCLUDE: ./install-dependencies.sh
 INCLUDE: ./build.sh
+bin/console theme:change Storefront --all

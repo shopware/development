@@ -2,15 +2,16 @@ version: '3.3'
 
 services:
   app_server:
-    build: dev-ops/docker/containers/app
+    build:
+      context: dev-ops/docker/containers/app
     links:
       - app_mysql:mysql
+      - mailhog:mailhog
     extra_hosts:
       - "docker.vm:127.0.0.1"
     volumes:
       - .:/app
       - ~/.composer:/.composer
-      - ~/.npm:/.npm
     tmpfs:
       - /tmp:mode=1777
 
@@ -20,3 +21,29 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: app
       MYSQL_PASSWORD: app
+
+  app_cypress:
+    image: cypress/browsers:node10.11.0-chrome75
+    tty: true
+    links:
+      - app_server:docker.vm
+    environment:
+      - CYPRESS_baseUrl=http://docker.vm:8000
+    volumes:
+      - .:/app
+      - ./platform/src/Administration/Resources/e2e:/e2e-Administration
+      - ./platform/src/Storefront/Resources/e2e:/e2e-Storefront
+
+  mailhog:
+    image: mailhog/mailhog
+
+  adminer:
+    image: adminer:latest
+    links:
+      - app_mysql:mysql
+
+  elasticsearch:
+    image: elastic/elasticsearch:7.1.1
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node

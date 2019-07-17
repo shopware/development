@@ -3,16 +3,36 @@ version: "3.3"
 
 services:
   app_server:
+    build:
+      args:
+        USER_ID: __USER_ID__
+        GROUP_ID: __GROUP_ID__
+    volumes:
+      - ~/.npm:/.npm
     environment:
       CONTAINER_UID: __USER_ID__
       APPLICATION_UID: __USER_ID__
       APPLICATION_GID: __GROUP_ID__
     ports:
-      - 8000:8000
-      - 8080:8080
+      - "8000:8000"
+      - "8080:8080"
+      - "8005:8005"
 
   app_mysql:
     ports:
       - "4406:3306"
     volumes:
       - ./dev-ops/docker/_volumes/mysql:/mysql-data
+
+  adminer:
+    ports:
+      - "8001:8080"
+
+  mailhog:
+    ports:
+      - "8002:8025"
+
+  elasticsearch:
+    ports:
+      - "9200:9200"
+      - "9300:9300"

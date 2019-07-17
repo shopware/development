@@ -77,7 +77,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
         $configuration['DB_PORT'] = $io->ask('Database port', 3306, $emptyValidation);
         $configuration['DB_NAME'] = $io->ask('Database name', 'shopware', $emptyValidation);
         $configuration['DB_USER'] = $io->ask('Database user', 'app', $emptyValidation);
-        $configuration['DB_PASSWORD'] = $io->askHidden('Database password', $emptyValidation);
+        $configuration['DB_PASSWORD'] = $io->askHidden('Database password');
 
         $io->note('Checking database credentials');
         $connection = new PDO(
