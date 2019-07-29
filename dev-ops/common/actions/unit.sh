@@ -7,3 +7,4 @@ php -d pcov.enabled=1
    --log-junit build/artifacts/phpunit.junit.xml
    --coverage-clover build/artifacts/phpunit.clover.xml
    --coverage-html build/artifacts/phpunit-coverage-html
+   --coverage-text
