@@ -6,7 +6,10 @@ build:
     image: docker:18.09.7
     stage: build
     only:
-        - master
+        refs:
+            - master
+        changes:
+            - dev-ops/docker/containers/**/*
     services:
         - name: docker:18.09.7-dind
           alias: docker
