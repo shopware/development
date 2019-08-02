@@ -1,8 +1,8 @@
 variables:
     DOCKER_TLS_CERTDIR: "/certs"
-    IMAGE_TAG: shopware/development:latest
+    IMAGE_TAG: shopware/development
 
-build:
+.base:
     image: docker:18.09.7
     stage: build
     only:
@@ -16,6 +16,19 @@ build:
     before_script:
         - docker login -u $CI_REGISTRY_USER -p "$CI_REGISTRY_PASSWORD"
     script:
-        - docker build -t $IMAGE_TAG dev-ops/docker/containers/app
-        - docker push $IMAGE_TAG
+        - sed -ri -e "s!php-apache:7.2!php-apache:$PHP_VERSION!g" dev-ops/docker/containers/app/Dockerfile
+        - docker build -t $IMAGE_TAG:$PHP_VERSION dev-ops/docker/containers/app
+        - docker push $IMAGE_TAG:$PHP_VERSION
+
+build:7.2:
+    extends: .base
+    variables:
+        PHP_VERSION: "7.2"
+    after_script:
+        - docker tag $IMAGE_TAG:$PHP_VERSION $IMAGE_TAG:latest
+
+build:7.3:
+    extends: .base
+    variables:
+        PHP_VERSION: "7.3"
 
