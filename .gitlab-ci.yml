@@ -5,7 +5,7 @@ variables:
 build:
     image: docker:18.09.7
     stage: build
-        only:
+    only:
         - master
     services:
         - name: docker:18.09.7-dind
