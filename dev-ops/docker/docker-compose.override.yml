@@ -3,10 +3,6 @@ version: "3.3"
 
 services:
   app_server:
-    build:
-      args:
-        USER_ID: __USER_ID__
-        GROUP_ID: __GROUP_ID__
     volumes:
       - ~/.npm:/.npm
     environment:
