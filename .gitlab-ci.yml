@@ -1,0 +1,21 @@
+variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+    IMAGE_TAG: shopware/development:latest
+
+build:
+    image: docker:18.09.7
+    stage: build
+    only:
+        refs:
+            - master
+        changes:
+            - dev-ops/docker/containers/**/*
+    services:
+        - name: docker:18.09.7-dind
+          alias: docker
+    before_script:
+        - docker login -u $CI_REGISTRY_USER -p "$CI_REGISTRY_PASSWORD"
+    script:
+        - docker build -t $IMAGE_TAG dev-ops/docker/containers/app
+        - docker push $IMAGE_TAG
+

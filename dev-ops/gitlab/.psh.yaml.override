@@ -1,0 +1,3 @@
+const:
+  DB_USER: "root"
+  APP_URL: "http://docker.vm:8000"
