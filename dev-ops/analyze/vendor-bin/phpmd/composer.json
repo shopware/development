@@ -1,5 +1,0 @@
-{
-    "require": {
-        "phpmd/phpmd": "^2.6"
-    }
-}

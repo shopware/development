@@ -1,5 +1,5 @@
 #!/usr/bin/env php
-<?php
+<?php declare(strict_types=1);
 
 if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
     exec('composer install --working-dir=' . __DIR__);
@@ -9,12 +9,14 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Process\Process;
 
 (new Application('setup', '1.0.0'))
     ->register('setup')
-    ->addOption('force', 'f', \Symfony\Component\Console\Input\InputOption::VALUE_NONE, 'Force setup')
+    ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force setup')
     ->setCode(function (InputInterface $input, OutputInterface $output) {
 
         function createEnvFile(SymfonyStyle $io, array $configuration): void
@@ -27,7 +29,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
             file_put_contents(__DIR__ . '/../.psh.yaml.override', $psh);
 
-            $process = new \Symfony\Component\Process\Process('php psh.phar install');
+            $process = new Process('php psh.phar install');
             $process->setTimeout(0);
             $process->setWorkingDirectory(__DIR__ . '/../');
             $process->start();
@@ -39,14 +41,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
         $configuration = [];
         $emptyValidation = function ($value) {
-            if (trim($value) === '') {
-                throw new \Exception('This value is required.');
+            if (trim((string) $value) === '') {
+                throw new \RuntimeException('This value is required.');
             }
 
             return $value;
         };
 
-        $io = new \Symfony\Component\Console\Style\SymfonyStyle($input, $output);
+        $io = new SymfonyStyle($input, $output);
 
         $io->title('Shopware setup process');
         $io->text('This tool will setup your instance.');
@@ -62,11 +64,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
             $value = trim($value);
 
             if ($value === '') {
-                throw new \Exception('Shop URL is required.');
+                throw new \RuntimeException('Shop URL is required.');
             }
 
             if (!filter_var($value, FILTER_VALIDATE_URL)) {
-                throw new \Exception('Invalid URL.');
+                throw new \RuntimeException('Invalid URL.');
             }
 
             return $value;

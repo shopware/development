@@ -1,5 +1,0 @@
-{
-    "require": {
-        "phpmetrics/phpmetrics": "^2.4"
-    }
-}

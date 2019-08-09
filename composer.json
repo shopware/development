@@ -28,11 +28,6 @@
             "Shopware\\Development\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Shopware\\Development\\Test\\": "tests/"
-        }
-    },
     "require": {
         "php": "~7.2",
         "ocramius/package-versions": "1.4.0",
@@ -40,7 +35,7 @@
     },
     "scripts": {
         "post-update-cmd": [
-            "ln -sf ../../bin/pre-commit vendor/shopware/platform/.git/hooks/pre-commit"
+            "ln -sf $PWD/dev-ops/pre-commit vendor/shopware/platform/.git/hooks/pre-commit"
         ]
     },
     "require-dev": {
@@ -49,7 +44,6 @@
         "bheller/images-generator": "1.0.1",
         "fzaninotto/faker": "1.8.0",
         "johnkary/phpunit-speedtrap": "3.1.0",
-        "kubawerlos/php-cs-fixer-custom-fixers": "1.15.1",
         "league/flysystem-memory": "1.0.2",
         "mbezhanov/faker-provider-collection": "1.2.1",
         "phpunit/phpunit": "8.3.4",
