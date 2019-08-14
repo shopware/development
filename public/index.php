@@ -40,7 +40,9 @@ $request = Request::createFromGlobals();
 $connection = Kernel::getConnection();
 
 if ($env === 'dev') {
-    $connection->getConfiguration()->setSQLLogger(new \Doctrine\DBAL\Logging\DebugStack());
+    $connection->getConfiguration()->setSQLLogger(
+        new \Shopware\Core\Profiling\Doctrine\DebugStack()
+    );
 }
 
 try {
