@@ -8,5 +8,10 @@
             <argument type="service" id="Doctrine\DBAL\Connection" />
             <tag name="console.command"/>
         </service>
+
+        <service id="Shopware\Development\Command\ConfigDebugCommand">
+            <argument type="service" id="service_container"/>
+            <tag name="console.command"/>
+        </service>
     </services>
 </container>
