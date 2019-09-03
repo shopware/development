@@ -64,19 +64,6 @@ environments:
       - source: "dev-ops/docker/docker-compose.override.yml"
         destination: "./docker-compose.override.yml"
 
-  bamboo:
-    paths:
-      - "dev-ops/common/actions"
-      - "dev-ops/bamboo.shopware.com/actions"
-    const:
-      APP_ENV: prod
-      APP_URL: "http://docker.vm:8000"
-    templates:
-      - source: ".env.dist"
-        destination: ".env"
-      - source: "dev-ops/bamboo.shopware.com/docker-compose.override.yml"
-        destination: "./docker-compose.override.yml"
-
   administration:
     dynamic:
       HOST: if [ -z "$(grep docker /proc/self/cgroup)" ]; then echo "localhost"; else echo "0.0.0.0"; fi
@@ -104,24 +91,3 @@ environments:
         DOCS_DIR: "./vendor/shopware/platform/src/Docs"
     paths:
       - "dev-ops/docs/actions"
-
-  analyze:
-    const:
-        PLATFORM_DIR: "./vendor/shopware/platform"
-    templates:
-      - source: "./dev-ops/analyze/template/depfile.domain.core.deep.yml"
-        destination: "./dev-ops/analyze/tmp/depfiles/depfile.domain.core.deep.yml"
-
-      - source: "./dev-ops/analyze/template/depfile.domain.core.framework.dal.yml"
-        destination: "./dev-ops/analyze/tmp/depfiles/depfile.domain.core.framework.dal.yml"
-
-      - source: "./dev-ops/analyze/template/depfile.domain.platform.yml"
-        destination: "./dev-ops/analyze/tmp/depfiles/depfile.domain.platform.yml"
-
-      - source: "./dev-ops/analyze/template/depfile.technical.repositories.yml"
-        destination: "./dev-ops/analyze/tmp/depfiles/depfile.technical.repositories.yml"
-
-      - source: "./dev-ops/analyze/template/depfile.yml"
-        destination: "./dev-ops/analyze/tmp/depfiles/depfile.yml"
-    paths:
-      - "dev-ops/analyze/actions"

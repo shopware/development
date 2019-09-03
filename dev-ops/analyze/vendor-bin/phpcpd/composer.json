@@ -1,5 +1,0 @@
-{
-    "require": {
-        "sebastian/phpcpd": "^4.1"
-    }
-}
