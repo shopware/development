@@ -38,7 +38,7 @@ then
     done
 
     php ${PROJECT_ROOT}/dev-ops/analyze/vendor/bin/phpstan analyze --no-progress --configuration ${PROJECT_ROOT}/vendor/shopware/platform/phpstan.neon --autoload-file="$AUTOLOAD_FILE" ${PHP_FILES}
-#    php ${PROJECT_ROOT}/dev-ops/analyze/vendor/bin/psalm --config=${PROJECT_ROOT}/vendor/shopware/platform/psalm.xml --threads=2 --show-info=false --root=${PROJECT_ROOT} ${PHP_FILES} needs https://github.com/vimeo/psalm/pull/2001 to work correctly
+    php ${PROJECT_ROOT}/dev-ops/analyze/vendor/bin/psalm --config=${PROJECT_ROOT}/vendor/shopware/platform/psalm.xml --threads=2 --show-info=false --root=${PROJECT_ROOT} ${PHP_FILES}
 fi
 
 UNSTAGED_FILES="$(git diff --name-only -- ${PHP_FILES} ${JS_FILES} ${SCSS_FILES})"
