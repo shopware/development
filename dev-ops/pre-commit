@@ -30,17 +30,6 @@ then
     exit 0
 fi
 
-if [[ -n "$PHP_FILES" ]]
-then
-    for FILE in ${PHP_FILES}
-    do
-        php -l -d display_errors=0 "$FILE" 1> /dev/null
-    done
-
-    php ${PROJECT_ROOT}/dev-ops/analyze/vendor/bin/phpstan analyze --no-progress --configuration ${PROJECT_ROOT}/vendor/shopware/platform/phpstan.neon --autoload-file="$AUTOLOAD_FILE" ${PHP_FILES}
-    php ${PROJECT_ROOT}/dev-ops/analyze/vendor/bin/psalm --config=${PROJECT_ROOT}/vendor/shopware/platform/psalm.xml --threads=2 --show-info=false --root=${PROJECT_ROOT} ${PHP_FILES}
-fi
-
 UNSTAGED_FILES="$(git diff --name-only -- ${PHP_FILES} ${JS_FILES} ${SCSS_FILES})"
 
 if [[ -n "$UNSTAGED_FILES" ]]
@@ -58,6 +47,14 @@ if [[ -n "$PHP_FILES" ]]
 then
     # fix code style and update the commit
     php ${PROJECT_ROOT}/dev-ops/analyze/vendor/bin/php-cs-fixer fix --config=.php_cs.dist --quiet -vv ${PHP_FILES}
+
+    for FILE in ${PHP_FILES}
+    do
+        php -l -d display_errors=0 "$FILE" 1> /dev/null
+    done
+
+    php ${PROJECT_ROOT}/dev-ops/analyze/vendor/bin/phpstan analyze --no-progress --configuration ${PROJECT_ROOT}/vendor/shopware/platform/phpstan.neon --autoload-file="$AUTOLOAD_FILE" ${PHP_FILES}
+    php ${PROJECT_ROOT}/dev-ops/analyze/vendor/bin/psalm --config=${PROJECT_ROOT}/vendor/shopware/platform/psalm.xml --threads=2 --show-info=false --root=${PROJECT_ROOT} ${PHP_FILES}
 fi
 
 if [[ -n "$SCSS_ADMIN_FILES" ]]
