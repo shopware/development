@@ -2,6 +2,7 @@
 
 use Doctrine\DBAL\Exception\ConnectionException;
 use PackageVersions\Versions;
+use Shopware\Core\Framework\Plugin\KernelPluginLoader\DbalKernelPluginLoader;
 use Shopware\Core\Framework\Routing\RequestTransformerInterface;
 use Shopware\Development\Kernel;
 use Symfony\Component\Debug\Debug;
@@ -48,7 +49,9 @@ if ($env === 'dev') {
 try {
     $shopwareVersion = Versions::getVersion('shopware/platform');
 
-    $kernel = new Kernel($env, $debug, $classLoader, $shopwareVersion, $connection);
+    $pluginLoader = new DbalKernelPluginLoader($classLoader, null, $connection);
+
+    $kernel = new Kernel($env, $debug, $pluginLoader, $shopwareVersion, $connection);
     $kernel->boot();
 
     // resolves seo urls and detects storefront sales channels
