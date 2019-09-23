@@ -32,9 +32,7 @@ class ConfigDebugCommand extends Command
 
         $bundles = $this->container->get('kernel')->getBundles();
 
-        $names = array_keys($bundles);
-
-        foreach ($names as $name) {
+        foreach (array_keys($bundles) as $name) {
             $arguments = [
                 'command' => 'debug:config',
                 'name'    => $name
@@ -42,12 +40,13 @@ class ConfigDebugCommand extends Command
 
             $greetInput = new ArrayInput($arguments);
 
-            /** @var Command $command */
             try {
                 $command->run($greetInput, $output);
             } catch (\Exception $e) {
                 $output->writeln($e->getMessage());
             }
         }
+
+        return null;
     }
 }
