@@ -17,6 +17,9 @@ $cacheDir = $kernel->getCacheDir();
 $relativeCacheDir = str_replace($projectDir, '', $cacheDir);
 
 $phpStanConfigDist = file_get_contents(__DIR__ . '/../../platform/phpstan.neon.dist');
+if ($phpStanConfigDist === false) {
+    throw new RuntimeException('phpstan.neon.dist file not found');
+}
 
 // because the cache dir is hashed by Shopware, we need to set the PHPStan config dynamically
 $phpStanConfig = str_replace(

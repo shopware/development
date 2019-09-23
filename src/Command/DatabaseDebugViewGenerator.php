@@ -45,15 +45,17 @@ EOD;
 
         $tableNames = $this->connection->getSchemaManager()->listTableNames();
 
-        $io->progressStart(count($tableNames));
+        $io->progressStart(\count($tableNames));
         foreach ($tableNames as $tableName) {
             $viewColumns = $this->getColumns($tableName);
             $this->updateDatabaseView($tableName, $viewColumns);
-            $io->progressAdvance(1);
+            $io->progressAdvance();
         }
 
         $io->progressFinish();
-        $io->success('Done creating ' . count($tableNames) . ' views');
+        $io->success('Done creating ' . \count($tableNames) . ' views');
+
+        return null;
     }
 
     protected function updateDatabaseView($tableName, array $viewColumns): void
