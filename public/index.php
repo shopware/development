@@ -5,9 +5,11 @@ use PackageVersions\Versions;
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\DbalKernelPluginLoader;
 use Shopware\Core\Framework\Routing\RequestTransformerInterface;
 use Shopware\Development\Kernel;
+use Shopware\Storefront\Framework\Cache\CacheStore;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\HttpCache\HttpCache;
 
 $classLoader = require __DIR__.'/../vendor/autoload.php';
 
@@ -59,9 +61,18 @@ try {
         ->get(RequestTransformerInterface::class)
         ->transform($request);
 
+    $enabled = $kernel->getContainer()->getParameter('shopware.http.cache.enabled');
+    if ($enabled) {
+        $store = $kernel->getContainer()->get(CacheStore::class);
+
+        $kernel = new HttpCache($kernel, $store, null, ['debug' => $debug]);
+    }
+
     $response = $kernel->handle($request);
+
 } catch (ConnectionException $e) {
     throw new RuntimeException($e->getMessage());
 }
+
 $response->send();
 $kernel->terminate($request, $response);
