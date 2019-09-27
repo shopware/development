@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Shopware\Development\Command;
 
@@ -35,7 +37,7 @@ class ConfigDebugCommand extends Command
         foreach (array_keys($bundles) as $name) {
             $arguments = [
                 'command' => 'debug:config',
-                'name'    => $name
+                'name' => $name,
             ];
 
             $greetInput = new ArrayInput($arguments);
