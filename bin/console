@@ -38,7 +38,6 @@ if ($debug) {
 $shopwareVersion = Versions::getVersion('shopware/platform');
 
 $connection = Kernel::getConnection();
-$pluginLoader = new DbalKernelPluginLoader($classLoader, null, $connection);
-$kernel = new Kernel($env, $debug, $pluginLoader, $shopwareVersion, $connection);
+$kernel = new Kernel($env, $debug, $classLoader, $shopwareVersion, $connection);
 $application = new Application($kernel);
 $application->run($input);
