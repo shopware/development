@@ -12,7 +12,9 @@ $shopwareVersion = Versions::getVersion('shopware/platform');
 
 $pluginLoader = new StaticKernelPluginLoader($classLoader);
 
-$kernel = new Kernel('dev', true, $pluginLoader, $shopwareVersion);
+$cacheId = 'default';
+
+$kernel = new Kernel('dev', true, $pluginLoader, $cacheId, $shopwareVersion);
 $kernel->boot();
 $projectDir = $kernel->getProjectDir();
 $cacheDir = $kernel->getCacheDir();

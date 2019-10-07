@@ -1,9 +1,11 @@
 <?php
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\ConnectionException;
 use PackageVersions\Versions;
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\DbalKernelPluginLoader;
 use Shopware\Core\Framework\Routing\RequestTransformerInterface;
+use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Development\Kernel;
 use Shopware\Storefront\Framework\Cache\CacheStore;
 use Symfony\Component\Debug\Debug;
@@ -48,12 +50,28 @@ if ($env === 'dev') {
     );
 }
 
+function getCacheId(Connection $connection): string
+{
+    try {
+        $cacheId = $connection->fetchColumn(
+            'SELECT `value` FROM app_config WHERE `key` = :key',
+            ['key' => 'cache-id']
+        );
+    } catch (\Exception $e) {
+        return Uuid::randomHex();
+    }
+
+    return $cacheId ?? Uuid::randomHex();
+}
+
 try {
     $shopwareVersion = Versions::getVersion('shopware/platform');
 
     $pluginLoader = new DbalKernelPluginLoader($classLoader, null, $connection);
 
-    $kernel = new Kernel($env, $debug, $pluginLoader, $shopwareVersion, $connection);
+    $cacheId = getCacheId($connection);
+
+    $kernel = new Kernel($env, $debug, $pluginLoader, $cacheId, $shopwareVersion, $connection);
     $kernel->boot();
 
     // resolves seo urls and detects storefront sales channels
