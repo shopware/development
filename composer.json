@@ -48,11 +48,11 @@
         "mbezhanov/faker-provider-collection": "1.2.1",
         "phpunit/phpunit": "8.4.0",
         "smalot/pdfparser": "0.14.0",
-        "symfony/browser-kit": "4.3.4",
-        "symfony/dependency-injection": "4.3.4",
-        "symfony/phpunit-bridge": "4.3.4",
-        "symfony/stopwatch": "4.3.4",
-        "symfony/var-dumper": "4.3.4",
-        "symfony/web-profiler-bundle": "4.3.4"
+        "symfony/browser-kit": "4.3.5",
+        "symfony/dependency-injection": "4.3.5",
+        "symfony/phpunit-bridge": "4.3.5",
+        "symfony/stopwatch": "4.3.5",
+        "symfony/var-dumper": "4.3.5",
+        "symfony/web-profiler-bundle": "4.3.5"
     }
 }
