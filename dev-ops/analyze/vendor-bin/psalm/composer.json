@@ -1,5 +1,5 @@
 {
     "require-dev": {
-        "vimeo/psalm": "3.5.3"
+        "vimeo/psalm": "3.6.0"
     }
 }
