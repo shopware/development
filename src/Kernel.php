@@ -13,10 +13,11 @@ class Kernel extends \Shopware\Core\Kernel
         string $environment,
         bool $debug,
         KernelPluginLoader $pluginLoader,
+        string $cacheId,
         ?string $version = null,
         ?Connection $connection = null
     ) {
-        parent::__construct($environment, $debug, $pluginLoader, $version);
+        parent::__construct($environment, $debug, $pluginLoader, $cacheId, $version);
 
         self::$connection = $connection;
         if (!$connection) {
