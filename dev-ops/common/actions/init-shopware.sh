@@ -6,6 +6,8 @@ INCLUDE: ./cache.sh
 bin/console database:migrate --all Shopware\\
 bin/console database:migrate-destructive --all Shopware\\
 
+bin/console dal:refresh:index
+
 bin/console scheduled-task:register
 
 bin/console plugin:refresh
