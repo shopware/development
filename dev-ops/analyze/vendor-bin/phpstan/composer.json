@@ -1,8 +1,8 @@
 {
     "require-dev": {
-        "phpstan/extension-installer": "1.0.2",
-        "phpstan/phpstan": "0.11.16",
-        "phpstan/phpstan-phpunit": "0.11.2",
+        "phpstan/extension-installer": "^1.0.3",
+        "phpstan/phpstan": "^0.11.17",
+        "phpstan/phpstan-phpunit": "^0.11.2",
         "phpstan/phpstan-symfony": "^0.11.6"
     }
 }
