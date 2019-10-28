@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 #DESCRIPTION: build the component library for production
 
-PROJECT_ROOT=__PROJECT_ROOT__ npm run --prefix vendor/shopware/platform/src/Administration/Resources/nuxt-component-library/ generate
+PROJECT_ROOT=__PROJECT_ROOT__ npm run --prefix vendor/shopware/platform/src/Administration/Resources/administration/build/nuxt-component-library/ generate
