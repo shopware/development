@@ -8,6 +8,7 @@ use Shopware\Core\Framework\Routing\RequestTransformerInterface;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Development\Kernel;
 use Shopware\Storefront\Framework\Cache\CacheStore;
+use Shopware\Storefront\Framework\Csrf\CsrfPlaceholderHandler;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
@@ -79,6 +80,8 @@ try {
         ->get(RequestTransformerInterface::class)
         ->transform($request);
 
+    $csrfTokenHelper = $kernel->getContainer()->get(CsrfPlaceholderHandler::class);
+
     $enabled = $kernel->getContainer()->getParameter('shopware.http.cache.enabled');
     if ($enabled) {
         $store = $kernel->getContainer()->get(CacheStore::class);
@@ -87,6 +90,9 @@ try {
     }
 
     $response = $kernel->handle($request);
+
+    // replace csrf placeholder with fresh tokens
+    $response = $csrfTokenHelper->replaceCsrfToken($response);
 
 } catch (ConnectionException $e) {
     throw new RuntimeException($e->getMessage());
