@@ -16,7 +16,7 @@ PHP_FILES="$(git diff --cached --name-only --diff-filter=ACMR HEAD | grep -E '^s
 SCSS_FILES="$(git diff --cached --name-only --diff-filter=ACMR HEAD | grep -E '\.(scss)$')"
 SCSS_ADMIN_FILES="$(git diff --cached --name-only --diff-filter=ACMR HEAD | grep -E '^src/Administration/Resources/app/administration/.*\.(scss)$')"
 JS_ADMIN_FILES="$(git diff --cached --name-only --diff-filter=ACMR HEAD | grep -E '^src/Administration/Resources/app/administration/.*\.(js)$')"
-JS_E2E_FILES="$(git diff --cached --name-only --diff-filter=ACMR HEAD | grep -E '^src/Administration/Resources/e2e/.*\.(js)$')"
+JS_E2E_FILES="$(git diff --cached --name-only --diff-filter=ACMR HEAD | grep -E '^src/Administration/Resources/app/administration/test/e2e/.*\.(js)$')"
 JS_STOREFRONT_FILES="$(git diff --cached --name-only --diff-filter=ACMR HEAD | grep -E '^src/Storefront/Resources/app/storefront/src/script/.*\.(js)$')"
 JS_FILES="$(git diff --cached --name-only --diff-filter=ACMR HEAD | grep -E '\.(js)$')"
 
@@ -87,9 +87,9 @@ fi
 
 if [[ -n "$JS_E2E_FILES" ]]
 then
-    if [[ -x ${PLATFORM_ROOT}/src/Administration/Resources/e2e/node_modules/.bin/eslint ]]
+    if [[ -x ${PLATFORM_ROOT}/src/Administration/Resources/app/administration/test/e2e/node_modules/.bin/eslint ]]
     then
-        ${PLATFORM_ROOT}/src/Administration/Resources/e2e/node_modules/.bin/eslint --config src/Administration/Resources/e2e/.eslintrc.js --ext .js,.vue --fix ${JS_E2E_FILES}
+        ${PLATFORM_ROOT}/src/Administration/Resources/app/administration/test/e2e/node_modules/.bin/eslint --config src/Administration/Resources/app/administration/test/e2e/.eslintrc.js --ext .js,.vue --fix ${JS_E2E_FILES}
     else
         echo "Skipped ESLint checks on E2E, because it's not installed."
     fi
