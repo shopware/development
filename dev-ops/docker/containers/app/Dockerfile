@@ -1,4 +1,4 @@
-FROM webdevops/php-apache:7.2
+FROM webdevops/php-apache-dev:7.2
 
 COPY wait-for-it.sh /usr/local/bin/
 
