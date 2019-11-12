@@ -1,6 +1,6 @@
 {
     "require-dev": {
-        "vimeo/psalm": "^3.6.2",
+        "vimeo/psalm": "^3.6.5",
         "symfony/expression-language": "^3.3 || ^4.0"
     }
 }
