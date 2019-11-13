@@ -46,13 +46,13 @@
         "johnkary/phpunit-speedtrap": "3.1.0",
         "league/flysystem-memory": "1.0.2",
         "mbezhanov/faker-provider-collection": "1.2.1",
-        "phpunit/phpunit": "8.4.0",
+        "phpunit/phpunit": "8.4.3",
         "smalot/pdfparser": "0.14.0",
-        "symfony/browser-kit": "4.3.5",
-        "symfony/dependency-injection": "4.3.5",
-        "symfony/phpunit-bridge": "4.3.5",
-        "symfony/stopwatch": "4.3.5",
-        "symfony/var-dumper": "4.3.5",
-        "symfony/web-profiler-bundle": "4.3.5"
+        "symfony/browser-kit": "4.3.7",
+        "symfony/dependency-injection": "4.3.7",
+        "symfony/phpunit-bridge": "4.3.7",
+        "symfony/stopwatch": "4.3.7",
+        "symfony/var-dumper": "4.3.7",
+        "symfony/web-profiler-bundle": "4.3.7"
     }
 }
