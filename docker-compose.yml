@@ -9,7 +9,6 @@ services:
     extra_hosts:
       - "docker.vm:127.0.0.1"
     volumes:
-      - .:/app
       - ~/.composer:/.composer
     tmpfs:
       - /tmp:mode=1777

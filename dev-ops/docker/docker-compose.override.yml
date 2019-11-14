@@ -2,8 +2,19 @@
 version: "3.7"
 
 services:
+
+  app_data:
+    build: ./dev-ops/docker/containers/data
+    volumes:
+      - ./dev-ops/docker/containers/data/keys/id_rsa:/root/.ssh/id_rsa
+      - ./dev-ops/docker/containers/data/keys/id_rsa.pub:/root/.ssh/id_rsa.pub
+      - sw6_data:/app
+    ports:
+      - "2222:22"
+
   app_server:
     volumes:
+      - sw6_data:/app
       - ~/.npm:/.npm
     environment:
       CONTAINER_UID: __USER_ID__
@@ -14,6 +25,8 @@ services:
       - "8080:8080"
       - "8005:8005"
       - "9999:9999"
+    depends_on:
+      - app_data
 
   app_mysql:
     ports:
@@ -33,3 +46,6 @@ services:
     ports:
       - "9200:9200"
       - "9300:9300"
+
+volumes:
+  sw6_data: {}
