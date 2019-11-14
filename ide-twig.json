@@ -6,7 +6,7 @@
     },
     {
       "namespace": "Administration",
-      "path": "platform/src/Administration/Resources/views/administration"
+      "path": "platform/src/Administration/Resources/views"
     },
     {
       "namespace": "Framework",
