@@ -15,7 +15,6 @@ services:
   app_server:
     volumes:
       - sw6_data:/app
-      - ~/.npm:/.npm
     environment:
       CONTAINER_UID: __USER_ID__
       APPLICATION_UID: __USER_ID__
@@ -31,8 +30,6 @@ services:
   app_mysql:
     ports:
       - "4406:3306"
-    volumes:
-      - ./dev-ops/docker/_volumes/mysql:/mysql-data
 
   adminer:
     ports:

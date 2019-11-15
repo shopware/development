@@ -8,8 +8,6 @@ services:
       - mailhog:mailhog
     extra_hosts:
       - "docker.vm:127.0.0.1"
-    volumes:
-      - ~/.composer:/.composer
     tmpfs:
       - /tmp:mode=1777
 
@@ -29,8 +27,6 @@ services:
       - CYPRESS_baseUrl=http://docker.vm:8000
     volumes:
       - .:/app
-      - ./platform/src/Administration/Resources/e2e:/e2e-Administration
-      - ./platform/src/Storefront/Resources/e2e:/e2e-Storefront
 
   mailhog:
     image: mailhog/mailhog
