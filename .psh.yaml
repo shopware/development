@@ -48,12 +48,12 @@ const:
   VERSION:
 
 dynamic:
-  USERKEY: echo "$(id -u):$(id -g)"
+  USERKEY: echo 1000
   APP_ID: docker-compose ps -q app_server
   MYSQL_ID: docker-compose ps -q app_mysql
   CYPRESS_ID: docker-compose ps -q app_cypress
-  USER_ID: id -u
-  GROUP_ID: id -g
+  USER_ID: echo 1000
+  GROUP_ID: echo 1000
   E2E_ENV: if [ -z "$(grep docker /proc/self/cgroup)" ]; then echo "default"; else echo "docker"; fi
   PROJECT_ROOT: echo `pwd`
   COMPOSER_HOME: echo ${COMPOSER_HOME:-"$HOME/.composer"}
