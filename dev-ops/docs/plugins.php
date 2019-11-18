@@ -28,4 +28,18 @@ return [
     'swag-docs-cart-add-discount' => 'CartAddDiscountForProduct',
     'swag-docs-cart-change-price' => 'CartChangePrice',
     'swag-docs-rest-api-handling' => 'RestApiHandling',
+    'swag-docs-custom-cms-element' => 'CustomCmsElement',
+    'swag-docs-bundle-example' => 'BundleExample',
+    'swag-docs-custom-cms-block' => 'CustomCmsBlock',
+    'swag-docs-reading-plugin-config' => 'ReadingPluginConfig',
+    'swag-docs-storefront-assets' => 'StorefrontAssets',
+    'swag-docs-plugin-cypress-tests' => 'CypressTests',
+    'swag-docs-extending-shopware-migration-profile' => 'ExtendingMigrationProfile',
+    'swag-docs-extending-shopware-migration-connector' => 'MigrationConnector',
+    'swag-docs-decorate-shopware-migration-converter' => 'MigrationConverter',
+    'swag-docs-js-plugin' => 'JsPlugin',
+    'swag-docs-extend-js-plugin' => 'ExtendJsPlugin',
+    'swag-docs-storefront-controller' => 'StorefrontController',
+    'swag-docs-create-migration-profile' => 'MigrationProfile',
+
 ];
