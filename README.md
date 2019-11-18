@@ -8,9 +8,9 @@ The installation guide, together with the complete documentation, is available a
 # Installation
 ## Setup Docker
 You can almost follow the docker setup from the official [https://docs.shopware.com/en/shopware-platform-dev-en/getting-started/installation-guide#preparation](documentation). Just note the following two changes.
-1. Replace the repository from the first git clone command with this one here. 
-1.1 ~~git clone git@github.com:shopware/development.git~~ 
-1.2 git clone git@github.com:buenosdiaz/shopware6-development 
+1. Replace the repository from the first git clone command with this one here.
+	-  ~~git clone git@github.com:shopware/development.git~~ 
+	- git clone git@github.com:buenosdiaz/shopware6-development 
 2. After `./psh.phar docker:start` run also the command `./psh.phar docker:init-data`
 
 Thats it.
