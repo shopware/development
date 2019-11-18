@@ -26,6 +26,12 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
     && mkdir -p /usr/share/man/man1 \
     && curl -sL https://deb.nodesource.com/setup_11.x | bash \
     \
+    # Newer mysql-client
+    && sh -c 'echo "deb http://repo.mysql.com/apt/debian/ stretch mysql-8.0" >> /etc/apt/sources.list.d/mysql.list' \
+    && sh -c 'echo "deb http://repo.mysql.com/apt/debian/ stretch mysql-tools" >> /etc/apt/sources.list.d/mysql.list' \
+    && apt-install dirmngr \
+    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8C718D3B5072E1F5 \
+    \
     && mkdir -p ${NPM_CONFIG_CACHE} \
     && apt-install mysql-client nodejs google-chrome-stable libicu-dev graphviz vim gnupg2 docker-ce=5:18.09.7~3-0~debian-stretch \
     && npm i npm -g \
