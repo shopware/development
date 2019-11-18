@@ -19,12 +19,10 @@ Thats it.
 
 In order to avoid performance issues we use a data container instead of local volumes, so that we need to create a sftp deployment for our local changes. Use the following SFTP credentials for a SFTP auto upload in PHPStorm e.g.:
 
-host:			127.0.0.1
-port:			2222
-user: 			root
-password:	nexus123
 
-
-
-
-
+```c
+host:127.0.0.1
+port:2222
+user:root
+password:nexus123
+```
