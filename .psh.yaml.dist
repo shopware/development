@@ -31,6 +31,7 @@ const:
   ESLINT_DISABLE: "true"
   CYPRESS_HEADLESS: "true"
   CYPRESS_ENV: "Administration"
+  CYPRESS_FOLDER: "administration"
   CYPRESS_PARAMS: ""
   CYPRESS_LOCAL: false
   CHROME_BIN: ""

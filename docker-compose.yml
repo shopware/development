@@ -30,8 +30,8 @@ services:
       - CYPRESS_baseUrl=http://docker.vm:8000
     volumes:
       - .:/app
-      - ./platform/src/Administration/Resources/e2e:/e2e-Administration
-      - ./platform/src/Storefront/Resources/e2e:/e2e-Storefront
+      - ./platform/src/Administration/Resources/app/administration/test/e2e:/e2e-Administration
+      - ./platform/src/Storefront/Resources/app/storefront/test/e2e:/e2e-Storefront
 
   mailhog:
     image: mailhog/mailhog
