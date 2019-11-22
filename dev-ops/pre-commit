@@ -46,7 +46,12 @@ fi
 if [[ -n "$PHP_FILES" ]]
 then
     # fix code style and update the commit
-    php ${PROJECT_ROOT}/dev-ops/analyze/vendor/bin/php-cs-fixer fix --config=.php_cs.dist --quiet -vv ${PHP_FILES}
+    if [ -e ${PROJECT_ROOT}/vendor/shopware/platform/easy-coding-standard.yml ]
+    then
+        php ${PROJECT_ROOT}/dev-ops/analyze/vendor/bin/ecs check --fix --quiet -vv ${PHP_FILES}
+    else
+        php ${PROJECT_ROOT}/dev-ops/analyze/vendor/bin/php-cs-fixer fix --config=.php_cs.dist --quiet -vv ${PHP_FILES}
+    fi
 
     for FILE in ${PHP_FILES}
     do
