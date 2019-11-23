@@ -30,7 +30,10 @@ services:
 
   mailhog:
     image: mailhog/mailhog
-
+  adminer:
+      image: adminer:latest
+      links:
+          - app_mysql:mysql
   elasticsearch:
     image: elastic/elasticsearch:7.1.1
     environment:

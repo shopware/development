@@ -30,7 +30,9 @@ services:
   app_mysql:
     ports:
       - "4406:3306"
-
+  adminer:
+      ports:
+          - "8001:8080"
   mailhog:
     ports:
       - "8002:8025"
