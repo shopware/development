@@ -33,3 +33,7 @@ build:7.3:
     variables:
         PHP_VERSION: "7.3"
 
+build:7.4:
+    extends: .base
+    variables:
+        PHP_VERSION: "7.4"
