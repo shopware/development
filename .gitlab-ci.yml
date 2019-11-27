@@ -1,6 +1,5 @@
 variables:
     DOCKER_TLS_CERTDIR: "/certs"
-    DOCKER_HOST: tcp://localhost:2376
     IMAGE_TAG: shopware/development
 
 .base:
