@@ -12,3 +12,4 @@ INCLUDE: ./demo-data.sh
 INCLUDE: ../../administration/actions/init.sh
 INCLUDE: ../../storefront/actions/init.sh
 bin/console assets:install
+bin/console theme:compile
