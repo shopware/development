@@ -24,6 +24,9 @@ function make_comparator(string $prefix): callable
     $devDependencies = [[]];
 
     foreach (glob(__DIR__ . '/../../vendor/shopware/platform/src/*/composer.json') as $file) {
+        if (strpos($file, 'src/Recovery/') !== false) {
+            continue;
+        }
         $data = json_decode(file_get_contents($file), true);
         $dependencies[] = $data['require'] ?? [];
         $devDependencies[] = $data['require-dev'] ?? [];
