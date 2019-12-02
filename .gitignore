@@ -28,6 +28,7 @@
 /public/media/*
 !/public/media/.gitkeep
 /public/theme/*
+/public/sitemap/*
 /public/thumbnail/*
 !/public/thumbnail/.gitkeep
 /public/plugins/*
