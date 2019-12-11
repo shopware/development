@@ -9,6 +9,8 @@ services:
       CONTAINER_UID: __USER_ID__
       APPLICATION_UID: __USER_ID__
       APPLICATION_GID: __GROUP_ID__
+      XDEBUG_IDE_KEY: 'PHPSTORM'
+      XDEBUG_REMOTE_PORT: '9000'
     ports:
       - "8000:8000"
       - "8080:8080"

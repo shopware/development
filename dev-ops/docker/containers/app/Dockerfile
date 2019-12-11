@@ -40,5 +40,9 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
 
 COPY php-config.ini /usr/local/etc/php/conf.d/99-docker.ini
 
+ENV XDEBUG_IDE_KEY=PHPSTORM XDEBUG_REMOTE_PORT=9000
+RUN pecl install xdebug-2.9.0
+COPY xdebug-config.ini /usr/local/etc/php/conf.d/20-xdebug.ini
+
 WORKDIR /app
 
