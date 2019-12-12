@@ -3,8 +3,8 @@
 
 INCLUDE: ./cache.sh
 
-bin/console database:migrate --all Shopware\\
-bin/console database:migrate-destructive --all Shopware\\
+bin/console database:migrate --all core
+bin/console database:migrate-destructive --all core
 
 bin/console dal:refresh:index
 
