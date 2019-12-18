@@ -3,6 +3,7 @@
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\ConnectionException;
 use PackageVersions\Versions;
+use Shopware\Core\Framework\Adapter\Cache\CacheIdLoader;
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\DbalKernelPluginLoader;
 use Shopware\Core\Framework\Routing\RequestTransformerInterface;
 use Shopware\Core\Framework\Uuid\Uuid;
@@ -51,26 +52,13 @@ if ($env === 'dev') {
     );
 }
 
-function getCacheId(Connection $connection): string
-{
-    try {
-        $cacheId = $connection->fetchColumn(
-            'SELECT `value` FROM app_config WHERE `key` = :key',
-            ['key' => 'cache-id']
-        );
-    } catch (\Exception $e) {
-        return Uuid::randomHex();
-    }
-
-    return $cacheId ?? Uuid::randomHex();
-}
-
 try {
     $shopwareVersion = Versions::getVersion('shopware/platform');
 
     $pluginLoader = new DbalKernelPluginLoader($classLoader, null, $connection);
 
-    $cacheId = getCacheId($connection);
+    $cacheId = (new CacheIdLoader($connection))
+        ->load();
 
     $kernel = new Kernel($env, $debug, $pluginLoader, $cacheId, $shopwareVersion, $connection);
     $kernel->boot();
