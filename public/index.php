@@ -1,7 +1,7 @@
 <?php
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception\ConnectionException;
+use Doctrine\DBAL\DBALException;
 use PackageVersions\Versions;
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\DbalKernelPluginLoader;
 use Shopware\Core\Framework\Routing\RequestTransformerInterface;
@@ -94,8 +94,10 @@ try {
     // replace csrf placeholder with fresh tokens
     $response = $csrfTokenHelper->replaceCsrfToken($response);
 
-} catch (ConnectionException $e) {
-    throw new RuntimeException($e->getMessage());
+} catch (DBALException $e) {
+    $message = str_replace([$connection->getParams()['password'], $connection->getParams()['user']], '******', $e->getMessage());
+
+    throw new RuntimeException(sprintf('Could not connect to database. Message from SQL Server: %s', $message));
 }
 
 $response->send();
