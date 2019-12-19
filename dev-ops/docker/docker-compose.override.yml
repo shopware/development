@@ -11,9 +11,9 @@ services:
       APPLICATION_GID: __GROUP_ID__
     ports:
       - "8000:8000"
-      - "8080:8080"
+      - "__DEVPORT__:__DEVPORT__"
       - "8005:8005"
-      - "9998:9998"
+      - "__STOREFRONT_PROXY_PORT__:__STOREFRONT_PROXY_PORT__"
       - "9999:9999"
 
   app_mysql:
