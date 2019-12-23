@@ -1,13 +1,11 @@
 <?php
 
-use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\ConnectionException;
 use PackageVersions\Versions;
 use Shopware\Core\Framework\Event\BeforeSendResponseEvent;
 use Shopware\Core\Framework\Adapter\Cache\CacheIdLoader;
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\DbalKernelPluginLoader;
 use Shopware\Core\Framework\Routing\RequestTransformerInterface;
-use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Development\Kernel;
 use Shopware\Storefront\Framework\Cache\CacheStore;
 use Symfony\Component\Debug\Debug;
@@ -40,6 +38,16 @@ if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? $_ENV['TRUSTED_PROXIES'] ??
 
 if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false) {
     Request::setTrustedHosts(explode(',', $trustedHosts));
+}
+
+if (class_exists('Shopware\Core\HttpKernel')) {
+    $request = Request::createFromGlobals();
+
+    $kernel = new \Shopware\Development\HttpKernel($appEnv, $debug, $classLoader);
+    $response = $kernel->handle($request);
+
+    $response->send();
+    return;
 }
 
 // resolve SEO urls
