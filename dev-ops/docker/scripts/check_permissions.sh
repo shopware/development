@@ -15,7 +15,7 @@ Please change the owner/group of these folders."
 
 if [[ "$OSTYPE" == "darwin"* && $(stat -f '%Su' "$composer") != 'root' && $(stat -f '%Su' "$npm") != 'root' ]]; then
     exit
-elif [[ "$OSTYPE" == "linux-gnu"* && $(stat -c '%U' "$composer") != 'root' && $(stat -c '%U' "$npm") != 'root'  ]]; then
+elif [[ "$OSTYPE" == "linux"* && $(stat -c '%U' "$composer") != 'root' && $(stat -c '%U' "$npm") != 'root'  ]]; then
     exit
 fi;
 
