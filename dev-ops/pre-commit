@@ -61,10 +61,10 @@ then
     if [ -z "$(docker-compose ps -q app_server)" ]
     then
       php ${PROJECT_ROOT}/dev-ops/analyze/phpstan-config-generator.php
-      php ${PROJECT_ROOT}/dev-ops/analyze/vendor/bin/phpstan analyze --no-progress --configuration ${PROJECT_ROOT}/vendor/shopware/platform/phpstan.neon --autoload-file="$AUTOLOAD_FILE" ${PHP_FILES}
+      php ${PROJECT_ROOT}/dev-ops/analyze/vendor/bin/phpstan analyze --no-progress --configuration ${PROJECT_ROOT}/platform/phpstan.neon --autoload-file="$AUTOLOAD_FILE" ${PHP_FILES}
     else
       docker-compose exec -u $(id -u) -T -w /app/platform app_server php /app/dev-ops/analyze/phpstan-config-generator.php
-      docker-compose exec -u $(id -u) -T -w /app/platform app_server php /app/dev-ops/analyze/vendor/bin/phpstan analyze --no-progress --configuration /app/vendor/shopware/platform/phpstan.neon --autoload-file="/app/vendor/autoload.php" ${PHP_FILES}
+      docker-compose exec -u $(id -u) -T -w /app/platform app_server php /app/dev-ops/analyze/vendor/bin/phpstan analyze --no-progress --configuration /app/platform/phpstan.neon --autoload-file="/app/vendor/autoload.php" ${PHP_FILES}
     fi
 
     php ${PROJECT_ROOT}/dev-ops/analyze/vendor/bin/psalm --config=${PROJECT_ROOT}/vendor/shopware/platform/psalm.xml --threads=2 --show-info=false --root=${PROJECT_ROOT} ${PHP_FILES}
