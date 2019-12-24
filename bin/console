@@ -35,18 +35,20 @@ if ($debug) {
     }
 }
 
+if (class_exists('Shopware\Core\HttpKernel')) {
+    $kernel = new \Shopware\Development\HttpKernel($env, $debug, $classLoader);
+    $application = new Application($kernel->getKernel());
+    $application->run($input);
+
+    return;
+}
+
 $shopwareVersion = Versions::getVersion('shopware/platform');
 
 $connection = Kernel::getConnection();
 
-try {
-    $cacheId = $connection->fetchColumn(
-        'SELECT `value` FROM app_config WHERE `key` = :key',
-        ['key' => 'cache-id']
-    );
-} catch (\Exception $e) {
-    $cacheId = \Shopware\Core\Framework\Uuid\Uuid::randomHex();
-}
+$cacheId = (new CacheIdLoader($connection))
+    ->load();
 
 $pluginLoader = new DbalKernelPluginLoader($classLoader, null, $connection);
 $kernel = new Kernel($env, $debug, $pluginLoader, $cacheId, $shopwareVersion, $connection);
