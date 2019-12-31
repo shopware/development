@@ -36,11 +36,13 @@ EOD;
 
     protected function configure(): void
     {
-        $this->setDescription(sprintf('Generate "%s*" views with readable uuids for development and debugging', self::PREFIX));
+        $this->setDescription(
+            sprintf('Generate "%s*" views with readable UUIDs for development and debugging', self::PREFIX)
+        );
         $this->setName('database:generate-debug-views');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $io->title('Data Abstraction Layer Development view generator');
@@ -57,7 +59,7 @@ EOD;
         $io->progressFinish();
         $io->success('Done creating ' . \count($tableNames) . ' views');
 
-        return null;
+        return 0;
     }
 
     protected function updateDatabaseView($tableName, array $viewColumns): void

@@ -8,19 +8,19 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class ConfigDebugCommand extends Command
 {
     /**
-     * @var Container
+     * @var KernelInterface
      */
-    private $container;
+    private $kernel;
 
-    public function __construct(Container $container)
+    public function __construct(KernelInterface $kernel)
     {
         parent::__construct();
-        $this->container = $container;
+        $this->kernel = $kernel;
     }
 
     protected function configure(): void
@@ -28,11 +28,11 @@ class ConfigDebugCommand extends Command
         $this->setName('shopware:debug:config');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $command = $this->getApplication()->find('debug:config');
 
-        $bundles = $this->container->get('kernel')->getBundles();
+        $bundles = $this->kernel->getBundles();
 
         foreach (array_keys($bundles) as $name) {
             $arguments = [
@@ -49,6 +49,6 @@ class ConfigDebugCommand extends Command
             }
         }
 
-        return null;
+        return 0;
     }
 }
