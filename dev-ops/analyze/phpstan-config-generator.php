@@ -5,7 +5,8 @@ use Shopware\Core\Framework\Plugin\KernelPluginLoader\StaticKernelPluginLoader;
 use Shopware\Development\Kernel;
 use Symfony\Component\Dotenv\Dotenv;
 
-$classLoader = require __DIR__ . '/../../vendor/autoload.php';
+$autoLoadFile = __DIR__ . '/../../vendor/autoload.php';
+$classLoader = require $autoLoadFile;
 (new Dotenv(true))->load(__DIR__ . '/../../.env');
 
 $shopwareVersion = Versions::getVersion('shopware/platform');
@@ -30,11 +31,15 @@ if ($phpStanConfigDist === false) {
 $phpStanConfig = str_replace(
     [
         "\n        # the placeholder \"%ShopwareHashedCacheDir%\" will be replaced on execution by dev-ops/analyze/phpstan-config-generator.php script",
+        "\n        # the placeholder \"%ShopwareAutoloadFile%\" will be replaced on execution by dev-ops/analyze/phpstan-config-generator.php script",
         '%ShopwareHashedCacheDir%',
+        '%ShopwareAutoloadFile%'
     ],
     [
         '',
-        $relativeCacheDir
+        '',
+        $relativeCacheDir,
+        $autoLoadFile
     ],
     $phpStanConfigDist
 );
