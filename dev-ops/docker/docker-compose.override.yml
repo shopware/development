@@ -10,27 +10,27 @@ services:
       APPLICATION_UID: __USER_ID__
       APPLICATION_GID: __GROUP_ID__
     ports:
-      - "8000:8000"
-      - "__DEVPORT__:__DEVPORT__"
-      - "8005:8005"
-      - "__STOREFRONT_PROXY_PORT__:__STOREFRONT_PROXY_PORT__"
-      - "9999:9999"
+      - "127.0.0.1:8000:8000"
+      - "127.0.0.1:__DEVPORT__:__DEVPORT__"
+      - "127.0.0.1:8005:8005"
+      - "127.0.0.1:__STOREFRONT_PROXY_PORT__:__STOREFRONT_PROXY_PORT__"
+      - "127.0.0.1:9999:9999"
 
   app_mysql:
     ports:
-      - "4406:3306"
+      - "127.0.0.1:4406:3306"
     volumes:
       - ./dev-ops/docker/_volumes/mysql:/mysql-data
 
   adminer:
     ports:
-      - "8001:8080"
+      - "127.0.0.1:8001:8080"
 
   mailhog:
     ports:
-      - "8002:8025"
+      - "127.0.0.1:8002:8025"
 
   elasticsearch:
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - "127.0.0.1:9200:9200"
+      - "127.0.0.1:9300:9300"
