@@ -44,9 +44,12 @@ if (class_exists('Shopware\Core\HttpKernel')) {
     $request = Request::createFromGlobals();
 
     $kernel = new \Shopware\Development\HttpKernel($appEnv, $debug, $classLoader);
-    $response = $kernel->handle($request);
+    $result = $kernel->handle($request);
 
-    $response->send();
+    $result->getResponse()->send();
+
+    $kernel->terminate($result->getRequest(), $result->getResponse());
+
     return;
 }
 
