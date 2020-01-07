@@ -62,5 +62,3 @@ chromedriver.log
 ###> phpunit/phpunit ###
 /phpunit.xml
 ###< phpunit/phpunit ###
-
-/composer.lock
