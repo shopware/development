@@ -3,7 +3,14 @@ version: "3.7"
 
 services:
   app_server:
+    image: shopware/development:local
+    build:
+      context: dev-ops/docker/containers/app
+      args:
+        USER_ID: __USER_ID__
+        GROUP_ID: __GROUP_ID__
     volumes:
+      - __DOCKER_APP_VOLUME_MOUNT__
       - ~/.npm:/.npm
     environment:
       CONTAINER_UID: __USER_ID__
@@ -34,3 +41,5 @@ services:
     ports:
       - "9200:9200"
       - "9300:9300"
+
+__DOCKER_APP_VOLUMES__
