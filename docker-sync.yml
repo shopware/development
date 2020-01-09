@@ -1,0 +1,11 @@
+version: "2"
+
+options:
+  max-attempt: 30
+
+syncs:
+  app_server:
+    src: './'
+    sync_excludes: ['.git', '.idea', 'dev-ops/docker/_volumes', 'var', '.docker-sync']
+    sync_userid: $USER_ID
+    sync_groupid: $GROUP_ID
