@@ -42,6 +42,7 @@ const:
   SHOPWARE_ES_INDEX_PREFIX: "sw"
   SHOPWARE_HTTP_CACHE_ENABLED: "0"
   SHOPWARE_HTTP_DEFAULT_TTL: 7200
+  DOCKER_SYNC_ENABLED: false
   FEATURES: |
     FEATURE_NEXT_516=1
   DEVPORT: "8080"
@@ -58,11 +59,20 @@ dynamic:
   E2E_ENV: if [ -z "$(grep docker /proc/self/cgroup)" ]; then echo "default"; else echo "docker"; fi
   PROJECT_ROOT: echo `pwd`
   COMPOSER_HOME: echo ${COMPOSER_HOME:-"$HOME/.composer"}
+  DOCKER_APP_VOLUME_MOUNT: echo ".:/app"
+  DOCKER_APP_VOLUMES: echo ""
 
 environments:
   docker:
     paths:
       - "dev-ops/docker/actions"
+    dynamic:
+      DOCKER_APP_VOLUME_MOUNT: |
+        DOCKER_SYNC_ENABLED=$(grep DOCKER_SYNC_ENABLED .env | xargs); DOCKER_SYNC_ENABLED=${DOCKER_SYNC_ENABLED#*=};
+        if [[ ${DOCKER_SYNC_ENABLED} ]]; then echo "app_server:/app:nocopy"; else echo ".:/app"; fi
+      DOCKER_APP_VOLUMES: |
+        DOCKER_SYNC_ENABLED=$(grep DOCKER_SYNC_ENABLED .env | xargs); DOCKER_SYNC_ENABLED=${DOCKER_SYNC_ENABLED#*=};
+        if [[ ${DOCKER_SYNC_ENABLED} ]]; then echo "volumes:\n  app_server:\n    external: true"; else echo ""; fi
     templates:
       - source: ".env.dist"
         destination: ".env"

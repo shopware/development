@@ -35,7 +35,7 @@
 /public/assets/*
 
 /files/*
-
+/.docker-sync/
 /dev-ops/docker/_volumes/*
 /dev-ops/analyze/node_modules
 /dev-ops/analyze/vendor
