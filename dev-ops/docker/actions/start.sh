@@ -4,6 +4,6 @@
 dev-ops/docker/scripts/check_permissions.sh
 
 # Start docker-sync
-if [[ -n "__DOCKER_SYNC_ENABLED__" ]]; then docker-sync start && echo "\n docker-sync is initially indexing files. It may take some minutes, until code changes take effect"; fi
+if [ -n "__DOCKER_SYNC_ENABLED__" ]; then docker-sync start && echo "\n docker-sync is initially indexing files. It may take some minutes, until code changes take effect"; fi
 
 docker-compose build && docker-compose up -d
