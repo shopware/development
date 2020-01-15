@@ -35,7 +35,7 @@
     },
     "scripts": {
         "post-update-cmd": [
-            "ln -sf $PWD/dev-ops/pre-commit vendor/shopware/platform/.git/hooks/pre-commit"
+            "[ ! -d vendor/shopware/platform/.git ] || ln -sf $PWD/dev-ops/pre-commit vendor/shopware/platform/.git/hooks/pre-commit"
         ]
     },
     "require-dev": {
