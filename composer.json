@@ -31,11 +31,12 @@
     "require": {
         "php": "~7.2",
         "ocramius/package-versions": "1.4.0",
-        "shopware/platform": "6.1.x@dev || dev-master"
+        "shopware/platform": "6.1.x@dev"
     },
     "scripts": {
         "post-update-cmd": [
-            "ln -sf $PWD/dev-ops/pre-commit vendor/shopware/platform/.git/hooks/pre-commit"
+            "[ ! -d platform ] || [ -L vendor/shopware/platform ] || (echo 'vendor/shopware/platform should be a symlink to platform'; exit 1)",
+            "[ ! -d vendor/shopware/platform/.git ] || ln -sf $PWD/dev-ops/pre-commit vendor/shopware/platform/.git/hooks/pre-commit"
         ]
     },
     "require-dev": {
