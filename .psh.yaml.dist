@@ -53,7 +53,7 @@ dynamic:
   USERKEY: echo "$(id -u):$(id -g)"
   APP_ID: docker-compose ps -q app_server
   MYSQL_ID: docker-compose ps -q app_mysql
-  CYPRESS_ID: docker-compose ps -q app_cypress
+  CYPRESS_ID: docker-compose ps -q cypress
   USER_ID: id -u
   GROUP_ID: id -g
   E2E_ENV: if [ -z "$(grep docker /proc/self/cgroup)" ]; then echo "default"; else echo "docker"; fi
