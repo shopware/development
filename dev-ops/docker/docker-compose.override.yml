@@ -29,9 +29,6 @@ services:
     volumes:
       - ./dev-ops/docker/_volumes/mysql:/mysql-data
 
-  cypress:
-    entrypoint: "cypress open --project . --config CYPRESS_baseUrl=${URL}"
-
   adminer:
     ports:
       - "8001:8080"
