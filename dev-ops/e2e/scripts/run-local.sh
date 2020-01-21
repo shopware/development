@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 
-set -x
 # Constants
 CYPRESS_ENV=$1
 APP_URL=$2
