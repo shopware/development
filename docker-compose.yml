@@ -20,17 +20,22 @@ services:
       MYSQL_USER: app
       MYSQL_PASSWORD: app
 
-  app_cypress:
-    image: cypress/browsers:node12.6.0-chrome75
+  cypress:
+    image: cypress/included:3.8.2
     tty: true
+    ipc: host
     links:
       - app_server:docker.vm
     environment:
       - CYPRESS_baseUrl=http://docker.vm:8000
+      - DISPLAY
     volumes:
-      - .:/app
-      - ./platform/src/Administration/Resources/app/administration/test/e2e:/e2e-Administration
-      - ./platform/src/Storefront/Resources/app/storefront/test/e2e:/e2e-Storefront
+      - ./vendor/shopware/platform/src/Storefront/Resources/app/storefront/test/e2e:/e2e
+      # for Cypress to communicate with the X11 server pass this socket file
+      # in addition to any other mapped volumes
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    entrypoint: /bin/bash
+    working_dir: /e2e
 
   mailhog:
     image: mailhog/mailhog
