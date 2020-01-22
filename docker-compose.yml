@@ -21,7 +21,7 @@ services:
       MYSQL_PASSWORD: app
 
   cypress:
-    image: cypress/included:3.8.2
+    image: cypress/included:3.8.1
     tty: true
     ipc: host
     links:
@@ -30,12 +30,12 @@ services:
       - CYPRESS_baseUrl=http://docker.vm:8000
       - DISPLAY
     volumes:
-      - ./vendor/shopware/platform/src/Storefront/Resources/app/storefront/test/e2e:/e2e
+      - ./vendor/shopware/platform/src/Storefront/Resources/app/storefront/test/e2e:/e2e-Storefront
+      - ./vendor/shopware/platform/src/Administration/Resources/app/administration/test/e2e:/e2e-Administration
       # for Cypress to communicate with the X11 server pass this socket file
       # in addition to any other mapped volumes
       - /tmp/.X11-unix:/tmp/.X11-unix
     entrypoint: /bin/bash
-    working_dir: /e2e
 
   mailhog:
     image: mailhog/mailhog
