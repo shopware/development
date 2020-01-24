@@ -15,5 +15,10 @@
         "psr-4": {
             "Shopware\\Development\\Analyze\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Shopware\\Development\\Analyze\\Test\\": "tests/"
+        }
     }
 }
