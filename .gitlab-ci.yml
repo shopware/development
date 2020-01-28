@@ -2,6 +2,35 @@ variables:
     DOCKER_TLS_CERTDIR: "/certs"
     IMAGE_TAG: shopware/development
 
+stages:
+    - unit
+    - build
+
+cache:
+    key: "Eternal static key"
+    paths:
+        - .composer
+
+Unit:
+    image: composer:1.9
+    stage: unit
+    only:
+        refs:
+            - merge_requests
+            - master
+    before_script:
+        - composer install --ignore-platform-reqs --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-progress
+        - composer install --ignore-platform-reqs --no-interaction --optimize-autoloader --no-suggest --no-progress --working-dir=dev-ops/analyze
+    script:
+        - vendor/bin/phpunit
+            --configuration dev-ops/analyze
+            --log-junit build/artifacts/phpunit.junit.xml
+            --colors=never
+
+    artifacts:
+        reports:
+            junit: build/artifacts/phpunit.junit.xml
+
 .base:
     image: docker:18.09.7
     stage: build
@@ -13,6 +42,8 @@ variables:
     services:
         - name: docker:18.09.7-dind
           alias: docker
+    dependencies:
+        - Unit
     before_script:
         - docker login -u $CI_REGISTRY_USER -p "$CI_REGISTRY_PASSWORD"
     script:

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.0/phpunit.xsd"
+	 bootstrap="tests/TestBootstrap.php"
+     cacheResult="false"
+     cacheTokens="false"
+     executionOrder="random"
+>
+    <php>
+        <ini name="error_reporting" value="-1" />
+        <server name="KERNEL_CLASS" value="Shopware\Development\Kernel"/>
+        <env name="APP_ENV" value="test" />
+        <env name="APP_DEBUG" value="1" />
+        <env name="APP_SECRET" value="s$cretf0rt3st" />
+        <env name="SHELL_VERBOSITY" value="-1" />
+
+        <!--To see the full stackTrace of a Deprecation set the value to a regex matching the deprecation warning-->
+        <!--https://symfony.com/doc/current/components/phpunit_bridge.html#display-the-full-stack-trace-->
+        <!--<env name="SYMFONY_DEPRECATIONS_HELPER" value="/.*QueueConsumerInterface.*/" />-->
+    </php>
+
+    <testsuites>
+        <testsuite name="Analyze">
+            <directory>./tests/</directory>
+        </testsuite>
+    </testsuites>
+
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener">
+            <arguments>
+                <array>
+                    <!-- set this option to 0 to disable the DebugClassLoader integration -->
+                    <element key="debug-class-loader"><integer>0</integer></element>
+                </array>
+            </arguments>
+        </listener>
+        <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener" />
+    </listeners>
+
+    <!-- See also: vendor/shopware/platform/phpunit.xml.dist -->
+</phpunit>
