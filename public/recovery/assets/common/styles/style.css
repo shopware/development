@@ -371,6 +371,16 @@ textarea:disabled {
     color: var(--color-white);
 }
 
+.custom-checkbox input[type="checkbox"]:disabled ~ label:after {
+    color: var(--color-gray-300);
+    background-color: var(--color-gray-100);
+    border: 1px solid var(--color-gray-300);
+}
+
+.custom-checkbox input[type="checkbox"]:disabled ~ label::before {
+    background-color: initial;
+}
+
 .is--submitted .custom-checkbox input[type="checkbox"]:invalid ~ label:before {
     border-color: var(--color-crimson-500);
 }
@@ -1200,4 +1210,38 @@ table .notice-text td p {
 
 .error-message-container {
     display: none;
+}
+
+/* Step: Configuration
+   ========================================================================== */
+
+.available-currencies__headline {
+    font-weight: 600;
+    margin-bottom: 8px
+}
+
+.available-currencies__container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    margin-bottom: 28px;
+}
+
+.available-currencies__container .custom-checkbox label {
+    width: auto;
+    padding-right: 5px;
+}
+
+.available-currencies__container .custom-checkbox.is--selected {
+    position: relative;
+}
+
+.available-currencies__container .custom-checkbox.is--selected::after {
+    content: '(default)';
+    position: absolute;
+    color: var(--color-gray-500);
+}
+
+.available-currencies__label {
+    display: inline;
 }
