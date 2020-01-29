@@ -49,7 +49,6 @@ class DecoratableNotDirectlyDependetRule implements Rule
             foreach ($property->props as $prop) {
                 $propReflections = $class->getProperty($prop->name->name, $scope);
                 $this->containsDecoratableTypeDependence($propReflections->getReadableType(), $errors, $class->getName(), $property->getStartLine());
-                $this->containsDecoratableTypeDependence($propReflections->getWritableType(), $errors, $class->getName(), $property->getStartLine());
             }
         }
 

@@ -1,8 +1,5 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+#DESCRIPTION: opens Cypress' e2e tests runner
+if [[ "__CYPRESS_LOCAL__" == "1" ]]; then bash ./dev-ops/e2e/scripts/open-local.sh __CYPRESS_ENV__ __APP_URL__ __PROJECT_ROOT__;  fi
 
-#DESCRIPTION: opens e2e tests runner
-
-INCLUDE: ./../../common/actions/cache.sh
-
-npm clean-install --prefix vendor/shopware/platform/src/__CYPRESS_ENV__/Resources/app/__CYPRESS_FOLDER__/test/e2e/;
-if [[ -z "__CYPRESS_LOCAL__" ]]; then ./psh.phar e2e:open-docker --CYPRESS_ENV="__CYPRESS_ENV__" --CYPRESS_FOLDER="__CYPRESS_FOLDER__"; else ./psh.phar e2e:open-local --CYPRESS_ENV="__CYPRESS_ENV__" --CYPRESS_FOLDER="__CYPRESS_FOLDER__"; fi
+if [[ -z "__CYPRESS_LOCAL__" ]]; then bash ./dev-ops/e2e/scripts/prepare-container.sh __USERKEY__ __APP_ID__; bash ./dev-ops/e2e/scripts/open-docker.sh __CYPRESS_ID__ __CYPRESS_ENV__ __APP_URL__;  fi
