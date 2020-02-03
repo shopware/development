@@ -3,6 +3,7 @@
 
 use PackageVersions\Versions;
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\DbalKernelPluginLoader;
+use Shopware\Core\Framework\Plugin\KernelPluginLoader\StaticKernelPluginLoader;
 use Shopware\Development\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -26,6 +27,7 @@ if (!class_exists(Dotenv::class)) {
 $input = new ArgvInput();
 $env = $input->getParameterOption(['--env', '-e'], $_SERVER['APP_ENV'] ?? 'dev', true);
 $debug = (bool) ($_SERVER['APP_DEBUG'] ?? ($env !== 'prod')) && !$input->hasParameterOption('--no-debug', true);
+$withoutPlugins = (bool) ($_SERVER['APP_NO_PLUGINS'] ?? '0');
 
 if ($debug) {
     umask(0000);
@@ -50,7 +52,7 @@ $connection = Kernel::getConnection();
 $cacheId = (new CacheIdLoader($connection))
     ->load();
 
-$pluginLoader = new DbalKernelPluginLoader($classLoader, null, $connection);
+$pluginLoader = $withoutPlugins ? new StaticKernelPluginLoader($classLoader) : new DbalKernelPluginLoader($classLoader, null, $connection);
 $kernel = new Kernel($env, $debug, $pluginLoader, $cacheId, $shopwareVersion, $connection);
 $application = new Application($kernel);
 $application->run($input);
