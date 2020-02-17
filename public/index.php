@@ -13,6 +13,14 @@ use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpCache\HttpCache;
 
+if (PHP_VERSION_ID < 70200) {
+    header('Content-type: text/html; charset=utf-8', true, 503);
+
+    echo '<h2>Error</h2>';
+    echo 'Your server is running PHP version ' . PHP_VERSION . ' but Shopware 6 requires at least PHP 7.2.0';
+    exit();
+}
+
 $classLoader = require __DIR__.'/../vendor/autoload.php';
 
 // The check is to ensure we don't use .env if APP_ENV is defined
