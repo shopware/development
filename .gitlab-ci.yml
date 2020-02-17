@@ -10,6 +10,7 @@ cache:
     key: "Eternal static key"
     paths:
         - .composer
+        - .npm
 
 Unit:
     image: composer:1.9
