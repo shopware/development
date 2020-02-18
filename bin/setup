@@ -1,6 +1,11 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
+if (PHP_VERSION_ID < 70200) {
+    echo 'Your cli is running PHP version ' . PHP_VERSION . ' but Shopware 6 requires at least PHP 7.2.0' . PHP_EOL;
+    exit();
+}
+
 if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
     exec('composer install --working-dir=' . __DIR__);
 }
