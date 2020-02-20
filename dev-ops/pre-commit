@@ -45,29 +45,34 @@ fi
 
 if [[ -n "$PHP_FILES" ]]
 then
-    # fix code style and update the commit
-    if [ -e ${PROJECT_ROOT}/vendor/shopware/platform/easy-coding-standard.yml ]
-    then
-        php ${PROJECT_ROOT}/dev-ops/analyze/vendor/bin/ecs check --fix --quiet -vv ${PHP_FILES}
-    else
-        php ${PROJECT_ROOT}/dev-ops/analyze/vendor/bin/php-cs-fixer fix --config=.php_cs.dist --quiet -vv ${PHP_FILES}
-    fi
+    cd ${PROJECT_ROOT}
 
-    for FILE in ${PHP_FILES}
-    do
-        php -l -d display_errors=0 "$FILE" 1> /dev/null
+    echo "Linting"
+    PHP_FILES_ARRAY=(${PHP_FILES});
+    for i in "${!PHP_FILES_ARRAY[@]}"; do
+        PHP_FILES_ARRAY[$i]="platform/"${PHP_FILES_ARRAY[$i]}
+        php -l -d display_errors=0 ${PHP_FILES_ARRAY[$i]} 1> /dev/null
     done
 
+    PHP_FILES_FOR_CHECKS=$(printf '%s ' "${PHP_FILES_ARRAY[@]}")
+
+    echo "Fix code style"
+    php dev-ops/analyze/vendor/bin/ecs check --fix --config platform/easy-coding-standard.yml --no-progress-bar --no-error-table ${PHP_FILES_FOR_CHECKS}
+
+    echo "Check code with PHPStan"
     if [ -z "$(docker-compose ps -q app_server)" ]
     then
-      php ${PROJECT_ROOT}/dev-ops/analyze/phpstan-config-generator.php
-      php ${PROJECT_ROOT}/dev-ops/analyze/vendor/bin/phpstan analyze --no-progress --configuration ${PROJECT_ROOT}/platform/phpstan.neon --autoload-file="$AUTOLOAD_FILE" ${PHP_FILES}
+      php dev-ops/analyze/phpstan-config-generator.php
+      php dev-ops/analyze/vendor/bin/phpstan analyze --no-progress --configuration platform/phpstan.neon --autoload-file="$AUTOLOAD_FILE" ${PHP_FILES_FOR_CHECKS}
     else
-      docker-compose exec -u $(id -u) -T -w /app/platform app_server php /app/dev-ops/analyze/phpstan-config-generator.php
-      docker-compose exec -u $(id -u) -T -w /app/platform app_server php /app/dev-ops/analyze/vendor/bin/phpstan analyze --no-progress --configuration /app/platform/phpstan.neon --autoload-file="/app/dev-ops/analyze/vendor/autoload.php" ${PHP_FILES}
+      docker-compose exec -u $(id -u) -T app_server php /app/dev-ops/analyze/phpstan-config-generator.php
+      docker-compose exec -u $(id -u) -T -w /app app_server php /app/dev-ops/analyze/vendor/bin/phpstan analyze --configuration /app/platform/phpstan.neon --autoload-file="/app/dev-ops/analyze/vendor/autoload.php" ${PHP_FILES_FOR_CHECKS}
     fi
 
-    php ${PROJECT_ROOT}/dev-ops/analyze/vendor/bin/psalm --config=${PROJECT_ROOT}/vendor/shopware/platform/psalm.xml --threads=2 --show-info=false --root=${PROJECT_ROOT} ${PHP_FILES}
+    echo "Check code with Psalm"
+    php ${PROJECT_ROOT}/dev-ops/analyze/vendor/bin/psalm --config=${PROJECT_ROOT}/vendor/shopware/platform/psalm.xml --threads=$(nproc) --diff --show-info=false --root=${PROJECT_ROOT} --no-progress ${PHP_FILES_FOR_CHECKS}
+
+    cd ${PLATFORM_ROOT}
 fi
 
 if [[ -n "$SCSS_ADMIN_FILES" ]]
