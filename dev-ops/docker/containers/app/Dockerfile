@@ -36,6 +36,8 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
     \
     && pecl install pcov-1.0.6 \
     && docker-php-ext-enable pcov \
+    && pecl install xdebug-2.9.2 \
+    && docker-php-ext-enable xdebug \
     && composer global require hirak/prestissimo
 
 COPY php-config.ini /usr/local/etc/php/conf.d/99-docker.ini
