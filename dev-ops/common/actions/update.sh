@@ -5,7 +5,7 @@ INCLUDE: ./cache.sh
 
 bin/console plugin:refresh
 
-bin/console database:migrate --all Shopware\\
+bin/console database:migrate --all core
 
 bin/console dal:refresh:index
 
