@@ -5,4 +5,3 @@ php dev-ops/generate_ssl.php
 ./psh.phar init-database
 ./psh.phar init-shopware
 ./psh.phar administration:build
-bin/console theme:change --all Storefront
