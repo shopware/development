@@ -11,10 +11,12 @@
 /config/packages/local.yaml
 /config/packages/local.yml
 
-/custom/*
+/custom/plugins/**
+!/custom/plugins/.gitkeep
 
-/build/*
+/build/artifacts/**
 !/build/artifacts/.gitkeep
+/build/media/**
 !/build/media/.gitkeep
 
 /public/fonts/*
