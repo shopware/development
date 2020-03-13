@@ -59,18 +59,12 @@ then
     echo "Fix code style"
     php dev-ops/analyze/vendor/bin/ecs check --fix --config platform/easy-coding-standard.yml --no-progress-bar --no-error-table ${PHP_FILES_FOR_CHECKS}
 
-    echo "Check code with PHPStan"
     if [ -z "$(docker-compose ps -q app_server)" ]
     then
-      php dev-ops/analyze/phpstan-config-generator.php
-      php dev-ops/analyze/vendor/bin/phpstan analyze --no-progress --configuration platform/phpstan.neon --autoload-file="$AUTOLOAD_FILE" ${PHP_FILES_FOR_CHECKS}
+        php psh.phar static-analyze
     else
-      docker-compose exec -u $(id -u) -T app_server php /app/dev-ops/analyze/phpstan-config-generator.php
-      docker-compose exec -u $(id -u) -T -w /app app_server php /app/dev-ops/analyze/vendor/bin/phpstan analyze --configuration /app/platform/phpstan.neon --autoload-file="/app/dev-ops/analyze/vendor/autoload.php" ${PHP_FILES_FOR_CHECKS}
+        docker-compose exec -u $(id -u) -T -w /app app_server php psh.phar static-analyze
     fi
-
-    echo "Check code with Psalm"
-    php ${PROJECT_ROOT}/dev-ops/analyze/vendor/bin/psalm --config=${PROJECT_ROOT}/vendor/shopware/platform/psalm.xml --threads=$(nproc) --diff --show-info=false --root=${PROJECT_ROOT} --no-progress ${PHP_FILES_FOR_CHECKS}
 
     cd ${PLATFORM_ROOT}
 fi
