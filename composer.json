@@ -5,13 +5,6 @@
     "repositories": [
         {
             "type": "path",
-            "url": "custom/plugins/*",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
             "url": "platform",
             "options": {
                 "symlink": true
@@ -35,7 +28,7 @@
     },
     "scripts": {
         "post-update-cmd": [
-            "[ ! -d platform ] || [ -L vendor/shopware/platform ] || (echo 'vendor/shopware/platform should be a symlink to platform'; exit 1)",
+            "[ ! -d platform/.git ] || [ -L vendor/shopware/platform ] || (echo 'vendor/shopware/platform should be a symlink to platform'; exit 1)",
             "[ ! -d vendor/shopware/platform/.git ] || ln -sf $PWD/dev-ops/pre-commit vendor/shopware/platform/.git/hooks/pre-commit"
         ]
     },
