@@ -79,6 +79,16 @@ use Symfony\Component\Process\Process;
             return $value;
         });
 
+        $configuration['BLUE_GREEN_DEPLOYMENT'] = $io->ask('Do you want to run blue/green deployment?', 'yes', function ($value) {
+            $value = strtolower($value);
+
+            if ($value == 'yes') {
+                return 1;
+            }
+
+            return 0;
+        });
+
         $io->section('Database information');
         $configuration['DB_HOST'] = $io->ask('Database host', 'localhost', $emptyValidation);
         $configuration['DB_PORT'] = $io->ask('Database port', 3306, $emptyValidation);
