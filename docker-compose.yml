@@ -59,6 +59,10 @@ services:
 
   elasticsearch:
     image: elastic/elasticsearch:7.1.1
+    networks:
+        shopware:
+            aliases:
+                - elasticsearch
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - discovery.type=single-node
