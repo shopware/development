@@ -3,5 +3,10 @@
         "friendsofphp/php-cs-fixer": "^2.16.1",
         "kubawerlos/php-cs-fixer-custom-fixers": "^2.1.0",
         "symplify/easy-coding-standard": "^7.2.4"
+    },
+    "config": {
+        "platform": {
+            "php": "7.2.9"
+        }
     }
 }
