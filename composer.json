@@ -19,7 +19,10 @@
         }
     ],
     "config": {
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "7.2.9"
+        }
     },
     "prefer-stable": true,
     "minimum-stability": "dev",
