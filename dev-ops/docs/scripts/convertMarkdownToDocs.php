@@ -1,5 +1,6 @@
 <?php
 
+use Shopware\Docs\Convert\CredentialsService;
 use Shopware\Docs\Convert\Document;
 use Shopware\Docs\Convert\DocumentTree;
 use Shopware\Docs\Convert\WikiApiService;
@@ -138,17 +139,13 @@ function loadDocuments(string $fromPath, string $baseUrl, array $blacklist): Doc
             $fs->dumpFile($phpFile, '<?php return ' . var_export($document->getMetadata()->toArray($tree), true) . ';');
         }
 
-        if (!$isSync || !file_exists(CREDENTIAL_PATH)) {
-            return null;
+        $credentialsService = new CredentialsService();
+
+        if (!$isSync || !$credentialsService->credentialsFileExists()) {
+            return 0;
         }
 
-        $credentialsContents = file_get_contents(CREDENTIAL_PATH);
-        $credentials = json_decode($credentialsContents, true);
-        $token = $credentials['token'];
-        $server = $credentials['url'];
-        $rootCategory = $credentials['rootCategoryId'];
-
-        $syncService = new WikiApiService($token, $server, $rootCategory);
+        $syncService = new WikiApiService($credentialsService->getCredentials(), $this->environment);
         $syncService->syncFilesWithServer($tree);
     })
     ->getApplication()
