@@ -34,7 +34,7 @@
     "require": {
         "php": "~7.2",
         "ocramius/package-versions": "1.4.0",
-        "shopware/platform": "6.2.x@dev"
+        "shopware/platform": "6.3.x@dev"
     },
     "scripts": {
         "post-update-cmd": [
