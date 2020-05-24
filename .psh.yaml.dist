@@ -69,7 +69,7 @@ environments:
     dynamic:
       DOCKER_APP_VOLUME_MOUNT: |
         DOCKER_SYNC_ENABLED=$(grep DOCKER_SYNC_ENABLED .env | xargs); DOCKER_SYNC_ENABLED=${DOCKER_SYNC_ENABLED#*=};
-        if [[ ${DOCKER_SYNC_ENABLED} ]]; then echo "app_server:/app:nocopy"; else echo ".:/app"; fi
+        if [[ ${DOCKER_SYNC_ENABLED} ]]; then echo "app_server:/app:nocopy"; else echo ".:/app:delegated"; fi
       DOCKER_APP_VOLUMES: |
         DOCKER_SYNC_ENABLED=$(grep DOCKER_SYNC_ENABLED .env | xargs); DOCKER_SYNC_ENABLED=${DOCKER_SYNC_ENABLED#*=};
         if [[ ${DOCKER_SYNC_ENABLED} ]]; then echo "volumes:\n  app_server:\n    external: true"; else echo ""; fi
