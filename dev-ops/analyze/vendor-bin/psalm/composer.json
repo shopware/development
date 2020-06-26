@@ -1,7 +1,7 @@
 {
     "require-dev": {
-        "vimeo/psalm": "^3.11.5",
-        "symfony/expression-language": "^3.4 || ^4.4 || ^5.0",
+        "vimeo/psalm": "^3.12.1",
+        "symfony/expression-language": "^3.4 || ^4.4 || ^5.0 || ^5.1",
         "composer/package-versions-deprecated": "1.8.0"
     },
     "config": {
