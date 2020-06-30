@@ -1,0 +1,13 @@
+{
+    "require-dev": {
+        "phpstan/extension-installer": "^1.0.4",
+        "phpstan/phpstan": "^0.12.25",
+        "phpstan/phpstan-phpunit": "^0.12.11",
+        "phpstan/phpstan-symfony": "^0.12.6"
+    },
+    "config": {
+        "platform": {
+            "php": "7.2.9"
+        }
+    }
+}

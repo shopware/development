@@ -33,7 +33,7 @@
     },
     "require": {
         "php": "~7.2",
-        "ocramius/package-versions": "1.4.0",
+        "composer/package-versions-deprecated": "1.8.0",
         "shopware/platform": "6.3.x@dev"
     },
     "scripts": {

@@ -228,6 +228,7 @@ textarea:disabled {
     padding: 12px 16px;
     -webkit-appearance: none;
     -moz-appearance: none;
+    cursor: pointer;
 }
 
 .select-wrapper:after {
@@ -271,6 +272,7 @@ textarea:disabled {
 .custom-switch label {
     display: inline-block;
     padding-left: 35px;
+    cursor: pointer;
 }
 
 .custom-switch label:before {
@@ -329,6 +331,7 @@ textarea:disabled {
 .custom-checkbox label {
     display: inline-block;
     padding-left: 25px;
+    cursor: pointer;
 }
 
 .custom-checkbox label:before {
@@ -395,7 +398,7 @@ textarea:disabled {
 .form-group--50 {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 32px;
+    grid-column-gap: 32px;
 }
 
 /* ==========================================================================
