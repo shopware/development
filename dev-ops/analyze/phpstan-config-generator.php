@@ -31,15 +31,11 @@ if ($phpStanConfigDist === false) {
 $phpStanConfig = str_replace(
     [
         "\n        # the placeholder \"%ShopwareHashedCacheDir%\" will be replaced on execution by dev-ops/analyze/phpstan-config-generator.php script",
-        "\n        # the placeholder \"%ShopwareAutoloadFile%\" will be replaced on execution by dev-ops/analyze/phpstan-config-generator.php script",
         '%ShopwareHashedCacheDir%',
-        '%ShopwareAutoloadFile%'
     ],
     [
         '',
-        '',
         $relativeCacheDir,
-        $autoLoadFile
     ],
     $phpStanConfigDist
 );
