@@ -29,7 +29,7 @@ services:
           - mysql
 
   cypress:
-    image: cypress/included:4.4.0
+    image: cypress/included:4.10.0
     tty: true
     ipc: host
     environment:
