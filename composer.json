@@ -34,7 +34,7 @@
     "require": {
         "php": "~7.2",
         "composer/package-versions-deprecated": "1.8.0",
-        "shopware/platform": "6.3.x@dev"
+        "shopware/platform": "6.4.x@dev || dev-master"
     },
     "scripts": {
         "post-update-cmd": [
