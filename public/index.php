@@ -8,8 +8,8 @@ use Shopware\Core\Framework\Plugin\KernelPluginLoader\DbalKernelPluginLoader;
 use Shopware\Core\Framework\Routing\RequestTransformerInterface;
 use Shopware\Development\Kernel;
 use Shopware\Storefront\Framework\Cache\CacheStore;
-use Symfony\Component\Debug\Debug;
 use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpCache\HttpCache;
 

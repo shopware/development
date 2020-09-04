@@ -7,8 +7,8 @@ use Shopware\Core\Framework\Plugin\KernelPluginLoader\StaticKernelPluginLoader;
 use Shopware\Development\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Debug\Debug;
 use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\ErrorHandler\Debug;
 
 if (PHP_VERSION_ID < 70200) {
     echo 'Your cli is running PHP version ' . PHP_VERSION . ' but Shopware 6 requires at least PHP 7.2.0' . PHP_EOL;
