@@ -48,6 +48,7 @@ const:
   DEVPORT: "8080"
   STOREFRONT_PROXY_PORT: 9998
   VERSION:
+  DOCKER_STOP_BEHAVIOUR: down
 
 dynamic:
   USERKEY: echo "$(id -u):$(id -g)"
