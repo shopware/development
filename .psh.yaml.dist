@@ -54,6 +54,7 @@ const:
   VERSION:
   DOCKER_IMAGE_PHP: webdevops/php-apache
   DOCKER_IMAGE_PHP_VERSION: 7.4
+  DOCKER_STOP_BEHAVIOUR: down
 
 dynamic:
   USERKEY: echo "$(id -u):$(id -g)"
