@@ -48,6 +48,8 @@ const:
   DEVPORT: "8080"
   STOREFRONT_PROXY_PORT: 9998
   VERSION:
+  DOCKER_IMAGE_VARIANT: webdevops/php-apache
+  DOCKER_PHP_VERSION: 7.2
 
 dynamic:
   USERKEY: echo "$(id -u):$(id -g)"
