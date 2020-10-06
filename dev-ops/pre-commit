@@ -57,7 +57,12 @@ then
     PHP_FILES_FOR_CHECKS=$(printf '%s ' "${PHP_FILES_ARRAY[@]}")
 
     echo "Fix code style"
-    php dev-ops/analyze/vendor/bin/ecs check --fix --config platform/easy-coding-standard.yml --no-progress-bar --no-error-table ${PHP_FILES_FOR_CHECKS}
+    if [ -f "platform/easy-coding-standard.php" ];
+    then
+        php dev-ops/analyze/vendor/bin/ecs check --fix --config platform/easy-coding-standard.php --no-progress-bar --no-error-table ${PHP_FILES_FOR_CHECKS}
+    else
+        php dev-ops/analyze/vendor/bin/ecs check --fix --config platform/easy-coding-standard.yml --no-progress-bar --no-error-table ${PHP_FILES_FOR_CHECKS}
+    fi;
 
     if [ -z "$(docker-compose ps -q app_server)" ]
     then
