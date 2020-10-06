@@ -52,6 +52,8 @@ const:
   PHP_TEST_SUITES: "administration storefront checkout content framework profiling migration system elasticsearch docs"
   PHP_TEST_COVERAGE:
   VERSION:
+  DOCKER_IMAGE_VARIANT: webdevops/php-apache
+  DOCKER_PHP_VERSION: 7.2
 
 dynamic:
   USERKEY: echo "$(id -u):$(id -g)"

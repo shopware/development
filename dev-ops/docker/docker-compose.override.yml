@@ -9,6 +9,9 @@ services:
       args:
         USER_ID: __USER_ID__
         GROUP_ID: __GROUP_ID__
+        IMAGE_VARIANT: __DOCKER_IMAGE_VARIANT__
+        PHP_VERSION: __DOCKER_PHP_VERSION__
+
     volumes:
       - __DOCKER_APP_VOLUME_MOUNT__
       - ~/.npm:/.npm
