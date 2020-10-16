@@ -22,7 +22,8 @@
         "optimize-autoloader": true,
         "platform": {
             "php": "7.2.9"
-        }
+        },
+        "sort-packages": true
     },
     "prefer-stable": true,
     "minimum-stability": "dev",
