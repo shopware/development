@@ -1472,16 +1472,16 @@
         },
         {
             "name": "enqueue/enqueue",
-            "version": "0.10.4",
+            "version": "0.10.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-enqueue/enqueue.git",
-                "reference": "1c4c6ab922049248a7e5f9418817473ded110e52"
+                "reference": "2d88b010fe24a8f7a8ece2262014be4545c1d371"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-enqueue/enqueue/zipball/1c4c6ab922049248a7e5f9418817473ded110e52",
-                "reference": "1c4c6ab922049248a7e5f9418817473ded110e52",
+                "url": "https://api.github.com/repos/php-enqueue/enqueue/zipball/2d88b010fe24a8f7a8ece2262014be4545c1d371",
+                "reference": "2d88b010fe24a8f7a8ece2262014be4545c1d371",
                 "shasum": ""
             },
             "require": {
@@ -1557,20 +1557,20 @@
                 "queue",
                 "rabbitmq"
             ],
-            "time": "2020-09-24T14:24:16+00:00"
+            "time": "2020-10-13T15:48:43+00:00"
         },
         {
             "name": "enqueue/enqueue-bundle",
-            "version": "0.10.3",
+            "version": "0.10.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-enqueue/enqueue-bundle.git",
-                "reference": "f4fd2b7be3d34c2835451c42f20cda80a3d415f7"
+                "reference": "38b2ce15825ea05a04fe49bc3f0829629aeffe21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-enqueue/enqueue-bundle/zipball/f4fd2b7be3d34c2835451c42f20cda80a3d415f7",
-                "reference": "f4fd2b7be3d34c2835451c42f20cda80a3d415f7",
+                "url": "https://api.github.com/repos/php-enqueue/enqueue-bundle/zipball/38b2ce15825ea05a04fe49bc3f0829629aeffe21",
+                "reference": "38b2ce15825ea05a04fe49bc3f0829629aeffe21",
                 "shasum": ""
             },
             "require": {
@@ -1634,7 +1634,7 @@
                 "queue",
                 "rabbitmq"
             ],
-            "time": "2020-07-30T14:24:06+00:00"
+            "time": "2020-10-13T16:43:25+00:00"
         },
         {
             "name": "enqueue/null",
@@ -1878,16 +1878,16 @@
         },
         {
             "name": "google/auth",
-            "version": "v1.14.0",
+            "version": "v1.14.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-auth-library-php.git",
-                "reference": "95c23ebd89a0a4d1b511aed81426f57388ab7268"
+                "reference": "c1503299c779af0cbc99b43788f75930988852cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/95c23ebd89a0a4d1b511aed81426f57388ab7268",
-                "reference": "95c23ebd89a0a4d1b511aed81426f57388ab7268",
+                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/c1503299c779af0cbc99b43788f75930988852cf",
+                "reference": "c1503299c779af0cbc99b43788f75930988852cf",
                 "shasum": ""
             },
             "require": {
@@ -1926,7 +1926,7 @@
                 "google",
                 "oauth2"
             ],
-            "time": "2020-10-02T22:20:36+00:00"
+            "time": "2020-10-16T21:33:48+00:00"
         },
         {
             "name": "google/cloud-core",
@@ -4277,16 +4277,16 @@
         },
         {
             "name": "shopware/platform",
-            "version": "6.3.2.0",
+            "version": "6.3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shopware/platform.git",
-                "reference": "dc86cdbbcfeb60fe5ba2d7f3cbf13d232367361e"
+                "reference": "b1bd9704876bbcf368871db15654486f682b5bc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shopware/platform/zipball/dc86cdbbcfeb60fe5ba2d7f3cbf13d232367361e",
-                "reference": "dc86cdbbcfeb60fe5ba2d7f3cbf13d232367361e",
+                "url": "https://api.github.com/repos/shopware/platform/zipball/b1bd9704876bbcf368871db15654486f682b5bc3",
+                "reference": "b1bd9704876bbcf368871db15654486f682b5bc3",
                 "shasum": ""
             },
             "require": {
@@ -4443,7 +4443,7 @@
                 "framework",
                 "shopware"
             ],
-            "time": "2020-10-02T12:51:36+00:00"
+            "time": "2020-10-06T15:07:48+00:00"
         },
         {
             "name": "sroze/messenger-enqueue-transport",
@@ -5806,16 +5806,16 @@
         },
         {
             "name": "symfony/http-client-contracts",
-            "version": "v2.2.0",
+            "version": "v2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client-contracts.git",
-                "reference": "3a5d0fe7908daaa23e3dbf4cee3ba4bfbb19fdd3"
+                "reference": "41db680a15018f9c1d4b23516059633ce280ca33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client-contracts/zipball/3a5d0fe7908daaa23e3dbf4cee3ba4bfbb19fdd3",
-                "reference": "3a5d0fe7908daaa23e3dbf4cee3ba4bfbb19fdd3",
+                "url": "https://api.github.com/repos/symfony/http-client-contracts/zipball/41db680a15018f9c1d4b23516059633ce280ca33",
+                "reference": "41db680a15018f9c1d4b23516059633ce280ca33",
                 "shasum": ""
             },
             "require": {
@@ -5826,8 +5826,9 @@
             },
             "type": "library",
             "extra": {
+                "branch-version": "2.3",
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-main": "2.3-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -5877,7 +5878,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-07T11:33:47+00:00"
+            "time": "2020-10-14T17:08:19+00:00"
         },
         {
             "name": "symfony/http-foundation",
