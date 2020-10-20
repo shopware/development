@@ -10,7 +10,7 @@
         "phpstan/phpstan": "^0.12.50",
         "phpstan/phpstan-phpunit": "^0.12.16",
         "phpstan/phpstan-symfony": "^0.12.8",
-        "psalm/phar": "^3.18.0"
+        "psalm/phar": "^3.18.2"
     },
     "scripts": {
         "post-install-cmd": [
