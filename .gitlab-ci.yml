@@ -69,3 +69,8 @@ build:7.4:
     extends: .base
     variables:
         PHP_VERSION: "7.4"
+
+build:8.0:
+    extends: .base
+    variables:
+        PHP_VERSION: "8.0"
