@@ -30,7 +30,11 @@ class ConfigDebugCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $command = $this->getApplication()->find('debug:config');
+        $application = $this->getApplication();
+        if ($application === null) {
+            throw new \RuntimeException('No Application initialised');
+        }
+        $command = $application->find('debug:config');
 
         $bundles = $this->kernel->getBundles();
 

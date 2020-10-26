@@ -3,6 +3,7 @@ variables:
     IMAGE_TAG: shopware/development
 
 stages:
+    - analyze
     - unit
     - build
 
@@ -12,16 +13,30 @@ cache:
         - .composer
         - .npm
 
+default:
+    image: composer:1.10
+    before_script:
+        - composer install --ignore-platform-reqs --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-progress
+        - composer install --ignore-platform-reqs --no-interaction --optimize-autoloader --no-suggest --no-progress --working-dir=dev-ops/analyze
+
+Static Analysis:
+    stage: analyze
+    only:
+        refs:
+            - merge_requests
+            - master
+    script:
+        - dev-ops/analyze/vendor/bin/ecs check src --config easy-coding-standard.php
+        - dev-ops/analyze/vendor/bin/phpstan analyze --level 8 src
+        - dev-ops/analyze/vendor/bin/psalm --diff --show-info=false
+
 Unit:
-    image: composer:1.9
+    image: composer:1.10
     stage: unit
     only:
         refs:
             - merge_requests
             - master
-    before_script:
-        - composer install --ignore-platform-reqs --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-progress
-        - composer install --ignore-platform-reqs --no-interaction --optimize-autoloader --no-suggest --no-progress --working-dir=dev-ops/analyze
     script:
         - vendor/bin/phpunit
             --configuration dev-ops/analyze
