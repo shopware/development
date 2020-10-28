@@ -1,5 +1,4 @@
-FROM webdevops/php-apache:7.4
-COPY --from=composer:1 /usr/bin/composer /usr/local/bin/composer
+FROM webdevops/php-apache:7.2
 
 COPY wait-for-it.sh /usr/local/bin/
 
@@ -34,12 +33,8 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
     && npm i forever -g \
     && chown -R ${USER_ID}:${GROUP_ID} ${NPM_CONFIG_CACHE} \
     \
-    && ln -s /app/psh.phar /bin/psh \
-    \
-    && pecl install pcov-1.0.6 \
-    && docker-php-ext-enable pcov
+    && ln -s /app/psh.phar /bin/psh
 
 COPY php-config.ini /usr/local/etc/php/conf.d/99-docker.ini
 
 WORKDIR /app
-
