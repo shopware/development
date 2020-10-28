@@ -1,4 +1,4 @@
-FROM webdevops/php-apache:7.2
+FROM webdevops/php-apache:7.4
 
 COPY wait-for-it.sh /usr/local/bin/
 
@@ -35,8 +35,7 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
     && ln -s /app/psh.phar /bin/psh \
     \
     && pecl install pcov-1.0.6 \
-    && docker-php-ext-enable pcov \
-    && composer global require hirak/prestissimo
+    && docker-php-ext-enable pcov
 
 COPY php-config.ini /usr/local/etc/php/conf.d/99-docker.ini
 

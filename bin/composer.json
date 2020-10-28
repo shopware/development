@@ -1,6 +1,6 @@
 {
     "require": {
-        "symfony/console": "4.3.3",
-        "symfony/process": "4.3.3"
+        "symfony/console": "~4.4.16",
+        "symfony/process": "~4.4.16"
     }
 }
