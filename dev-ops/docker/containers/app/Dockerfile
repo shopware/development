@@ -1,4 +1,5 @@
 FROM webdevops/php-apache:7.2
+COPY --from=composer:1 /usr/bin/composer /usr/local/bin/composer
 
 COPY wait-for-it.sh /usr/local/bin/
 
