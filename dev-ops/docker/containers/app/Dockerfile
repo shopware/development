@@ -14,11 +14,6 @@ RUN useradd -r -u ${USER_ID} -g ${GROUP_ID} appuser || true
 
 RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd/vhost.conf \
     && echo "Listen 8000" | tee -a /etc/apache2/ports.conf \
-    \
-    # Install Google Chrome
-    && curl -sL https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
-    \
     # Install docker
     && curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - \
     && sh -c 'echo "deb [arch=amd64] https://download.docker.com/linux/debian stretch stable" >> /etc/apt/sources.list.d/docker.list' \
@@ -28,7 +23,8 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
     && curl -sL https://deb.nodesource.com/setup_12.x | bash \
     \
     && mkdir -p ${NPM_CONFIG_CACHE} \
-    && apt-install default-mysql-client nodejs google-chrome-stable libicu-dev graphviz vim gnupg2 docker-ce=5:18.09.7~3-0~debian-stretch \
+    && apt-install default-mysql-client nodejs libicu-dev graphviz vim gnupg2 docker-ce=5:18.09.7~3-0~debian-stretch libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb \
+    \
     && npm i npm -g \
     && npm i forever -g \
     && chown -R ${USER_ID}:${GROUP_ID} ${NPM_CONFIG_CACHE} \
@@ -36,8 +32,7 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
     && ln -s /app/psh.phar /bin/psh \
     \
     && pecl install pcov-1.0.6 \
-    && docker-php-ext-enable pcov \
-    && composer global require hirak/prestissimo
+    && docker-php-ext-enable pcov
 
 COPY php-config.ini /usr/local/etc/php/conf.d/99-docker.ini
 
