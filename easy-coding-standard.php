@@ -81,7 +81,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
 
     $parameters->set(Option::SETS, [
-        SetList::SYMFONY,
+        SetList::SYMFONY_RISKY,
         SetList::ARRAY,
         SetList::CONTROL_STRUCTURES,
         SetList::STRICT,
