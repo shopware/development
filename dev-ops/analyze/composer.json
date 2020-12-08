@@ -7,9 +7,9 @@
     "require-dev": {
         "bamarni/composer-bin-plugin": "1.4.1",
         "phpstan/extension-installer": "^1.0.5",
-        "phpstan/phpstan": "^0.12.50",
+        "phpstan/phpstan": "^0.12.59",
         "phpstan/phpstan-phpunit": "^0.12.16",
-        "phpstan/phpstan-symfony": "^0.12.8",
+        "phpstan/phpstan-symfony": "^0.12.11",
         "psalm/phar": "^3.18.2"
     },
     "scripts": {
