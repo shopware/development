@@ -1,10 +1,19 @@
 #!/usr/bin/env bash
 #DESCRIPTION: execute unit tests and generate coverage information
 
-php -d pcov.enabled=1
-   vendor/bin/phpunit
-   --configuration vendor/shopware/platform/phpunit.xml.dist
-   --log-junit build/artifacts/phpunit.junit.xml
-   --colors=never
-   --coverage-clover build/artifacts/phpunit.clover.xml
-   --coverage-html build/artifacts/phpunit-coverage-html
+I: rm -R build/artifacts/backend/
+
+for TEST_SUITE in __PHP_TEST_SUITES__; do
+    php -d pcov.directory=./platform
+       -d pcov.enabled=1
+       vendor/bin/phpunit
+       --configuration platform/phpunit.xml.dist
+       --log-junit build/artifacts/backend/phpunit.$TEST_SUITE.junit.xml
+       --coverage-php build/artifacts/backend/phpunit.$TEST_SUITE.php
+       --colors=never
+       --testsuite $TEST_SUITE;
+   done
+
+php -d pcov.enabled=1 dev-ops/process_phpunit_coverage.php build/artifacts/backend/
+php -d pcov.enabled=1 dev-ops/process_sum_coverage.php build/artifacts/backend/
+php dev-ops/process_test_log.php build/artifacts/backend/
