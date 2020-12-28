@@ -1,6 +1,6 @@
 {
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.17.1",
+        "friendsofphp/php-cs-fixer": "^2.17.3",
         "kubawerlos/php-cs-fixer-custom-fixers": "^2.4.0",
         "symplify/easy-coding-standard": "^8.3.48"
     },
