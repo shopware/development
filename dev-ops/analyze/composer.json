@@ -5,11 +5,26 @@
     "license": "MIT",
     "minimum-stability": "stable",
     "require-dev": {
-        "bamarni/composer-bin-plugin": "1.4.1"
+        "bamarni/composer-bin-plugin": "1.4.1",
+        "phpstan/extension-installer": "^1.0.5",
+        "phpstan/phpstan": "^0.12.64",
+        "phpstan/phpstan-phpunit": "^0.12.17",
+        "phpstan/phpstan-symfony": "^0.12.12",
+        "psalm/phar": "^3.18.2"
     },
     "scripts": {
-        "post-install-cmd": ["@composer bin all install --ansi"],
-        "post-update-cmd": ["@composer bin all update --ansi"]
+        "post-install-cmd": [
+            "@composer bin all install --ansi",
+            "rm vendor/bin/psalm; ln -s ../psalm/phar/psalm.phar vendor/bin/psalm",
+            "rm vendor/bin/phpstan; ln -s ../phpstan/phpstan/phpstan vendor/bin/phpstan",
+            "rm vendor/bin/phpstan.phar; ln -s ../phpstan/phpstan/phpstan.phar vendor/bin/phpstan.phar"
+        ],
+        "post-update-cmd": [
+            "@composer bin all update --ansi",
+            "rm vendor/bin/psalm; ln -s ../psalm/phar/psalm.phar vendor/bin/psalm",
+            "rm vendor/bin/phpstan; ln -s ../phpstan/phpstan/phpstan vendor/bin/phpstan",
+            "rm vendor/bin/phpstan.phar; ln -s ../phpstan/phpstan/phpstan.phar vendor/bin/phpstan.phar"
+        ]
     },
     "autoload": {
         "psr-4": {
@@ -24,6 +39,7 @@
     "config": {
         "platform": {
             "php": "7.4.0"
-        }
+        },
+        "sort-packages": true
     }
 }

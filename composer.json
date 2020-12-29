@@ -22,7 +22,8 @@
         "optimize-autoloader": true,
         "platform": {
             "php": "7.4.0"
-        }
+        },
+        "sort-packages": true
     },
     "prefer-stable": true,
     "minimum-stability": "dev",
@@ -50,6 +51,7 @@
         "johnkary/phpunit-speedtrap": "3.1.0",
         "league/flysystem-memory": "1.0.2",
         "mbezhanov/faker-provider-collection": "1.2.1",
+        "nikic/php-parser": "4.3.0",
         "opis/json-schema": "1.0.19",
         "phpunit/phpunit": "8.5.2",
         "smalot/pdfparser": "0.14.0",
