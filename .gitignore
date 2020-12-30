@@ -63,4 +63,6 @@ chromedriver.log
 /phpunit.xml
 ###< phpunit/phpunit ###
 
+### misc
+.DS_Store
 /composer.lock

@@ -62,7 +62,10 @@ EOD;
         return 0;
     }
 
-    protected function updateDatabaseView($tableName, array $viewColumns): void
+    /**
+     * @param string[] $viewColumns
+     */
+    protected function updateDatabaseView(string $tableName, array $viewColumns): void
     {
         $viewName = $this->connection
             ->quoteIdentifier(self::PREFIX . $tableName);
@@ -79,6 +82,9 @@ EOD;
         $this->connection->exec($createViewSql);
     }
 
+    /**
+     * @return string[]
+     */
     private function getColumns(string $tableName): array
     {
         $columns = $this->connection->getSchemaManager()->listTableColumns($tableName);

@@ -1,4 +1,5 @@
 FROM webdevops/php-apache:7.4
+COPY --from=composer:1 /usr/bin/composer /usr/local/bin/composer
 
 COPY wait-for-it.sh /usr/local/bin/
 
@@ -27,7 +28,8 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
     && curl -sL https://deb.nodesource.com/setup_12.x | bash \
     \
     && mkdir -p ${NPM_CONFIG_CACHE} \
-    && apt-install default-mysql-client nodejs google-chrome-stable libicu-dev graphviz vim gnupg2 docker-ce=5:18.09.7~3-0~debian-stretch \
+    && apt-install default-mysql-client nodejs google-chrome-stable libicu-dev graphviz vim gnupg2 docker-ce=5:18.09.7~3-0~debian-stretch libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb \
+    \
     && npm i npm -g \
     && npm i forever -g \
     && chown -R ${USER_ID}:${GROUP_ID} ${NPM_CONFIG_CACHE} \
