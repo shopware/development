@@ -12,6 +12,13 @@
         },
         {
             "type": "path",
+            "url": "custom/plugins/*/packages/*",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
             "url": "platform",
             "options": {
                 "symlink": true
