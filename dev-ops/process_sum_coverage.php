@@ -27,9 +27,7 @@ if($logs === []) {
     exit(-1);
 }
 
-echo "\n## Validating files\n";
-
-echo "\n### Extracting total coverage\n\n";
+echo "### Coverage\n";
 
 $sum = CoverageOverview::empty();
 foreach($logs as $file => $contents) {
@@ -40,11 +38,13 @@ foreach($logs as $file => $contents) {
 
     $sum->add($local);
 
-    echo PHP_EOL . PHP_EOL . $file . PHP_EOL;
-    echo PHP_EOL . $local->printable() . PHP_EOL;
+    echo "\t - " . $file . PHP_EOL;
+    echo
+        $local->printable(2) . PHP_EOL;
 }
 
-echo PHP_EOL . $sum->printable() . PHP_EOL;
+echo "### Total Coverage\n";
+echo $sum->printable(1) . PHP_EOL;
 
 
 exit;

@@ -16,7 +16,7 @@ $phpArtifactsPath = __DIR__ . '/../build/artifacts/backend';
 /** @var CodeCoverage[] $coverages */
 $coverages = [];
 
-echo "\n### Loading results\n\n";
+echo "\n### Loading results\n";
 foreach(glob($phpArtifactsPath . '/phpunit.*.php') as $file) {
     $coverages[] = require $file;
 }
@@ -34,11 +34,11 @@ foreach($coverages as $coverage) {
     $first->merge($coverage);
 }
 
-echo "\n### Writing clover\n\n";
+echo "### Writing clover\n";
 $writer = new Clover;
 $writer->process($first, $phpArtifactsPath . '/../phpunit.clover.xml');
 
-echo "\n### Writing HTML\n\n";
+echo "### Writing HTML\n";
 $writer = new Facade;
 $writer->process($first, $phpArtifactsPath . '/phpunit-coverage-html');
 
