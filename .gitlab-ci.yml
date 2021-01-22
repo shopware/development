@@ -28,7 +28,6 @@ Static Analysis:
     script:
         - dev-ops/analyze/vendor/bin/ecs check --config easy-coding-standard.php
         - dev-ops/analyze/vendor/bin/phpstan analyze --level 8 src
-        - dev-ops/analyze/vendor/bin/psalm --diff --show-info=false
 
 Unit:
     image: composer:1.10
