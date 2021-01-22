@@ -26,7 +26,7 @@ Static Analysis:
             - merge_requests
             - master
     script:
-        - dev-ops/analyze/vendor/bin/ecs check src --config easy-coding-standard.php
+        - dev-ops/analyze/vendor/bin/ecs check --config easy-coding-standard.php
         - dev-ops/analyze/vendor/bin/phpstan analyze --level 8 src
         - dev-ops/analyze/vendor/bin/psalm --diff --show-info=false
 

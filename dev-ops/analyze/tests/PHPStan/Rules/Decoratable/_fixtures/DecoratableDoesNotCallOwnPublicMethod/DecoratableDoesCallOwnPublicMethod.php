@@ -19,5 +19,7 @@ class DecoratableDoesCallOwnPublicMethod implements DecoratableInterface
         $this->test();
     }
 
-    private function test(): void {}
+    private function test(): void
+    {
+    }
 }

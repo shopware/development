@@ -4,19 +4,10 @@ namespace Shopware\Development\Analyze\Test\PHPStan\Rules\Decoratable;
 
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Shopware\Development\Analyze\PHPStan\Rules\Decoratable\DecoratableDoesNotAddPublicMethodRule;
-use Shopware\Development\Analyze\PHPStan\Rules\Decoratable\DecoratableDoesNotCallOwnPublicMethodRule;
-use Shopware\Development\Analyze\PHPStan\Rules\Decoratable\DecoratableImplementsInterfaceRule;
-use Shopware\Development\Analyze\PHPStan\Rules\Decoratable\DecoratableNotDirectlyDependetRule;
 use Shopware\Development\Analyze\PHPStan\Rules\Decoratable\DecoratableNotInstantiatedRule;
 
 class DecoratableNotInstantiatedRuleTest extends RuleTestCase
 {
-    protected function getRule(): Rule
-    {
-        return new DecoratableNotInstantiatedRule($this->createBroker());
-    }
-
     public function testDecoratableImplementsImterface(): void
     {
         $this->analyse([
@@ -24,8 +15,13 @@ class DecoratableNotInstantiatedRuleTest extends RuleTestCase
         ], [
             [
                 'The service "Shopware\Development\Analyze\Test\PHPStan\Rules\Decoratable\_fixtures\DecoratableNotInstantiated\DecoratableClass" is marked as "@Decoratable", but is instantiated, use constructor injection via the DIC instead.',
-                9
-            ]
+                9,
+            ],
         ]);
+    }
+
+    protected function getRule(): Rule
+    {
+        return new DecoratableNotInstantiatedRule($this->createBroker());
     }
 }

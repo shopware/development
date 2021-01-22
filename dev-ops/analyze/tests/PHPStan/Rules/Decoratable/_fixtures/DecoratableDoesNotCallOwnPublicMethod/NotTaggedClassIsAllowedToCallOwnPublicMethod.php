@@ -9,7 +9,7 @@ class NotTaggedClassIsAllowedToCallOwnPublicMethod implements DecoratableInterfa
         $this->build();
     }
 
-    public function build(): void {}
+    public function build(): void
+    {
+    }
 }
-
-

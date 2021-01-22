@@ -8,11 +8,6 @@ use Shopware\Development\Analyze\PHPStan\Rules\Decoratable\DecoratableDoesNotAdd
 
 class DecoratableDoesNotAddPublicMethodRuleTest extends RuleTestCase
 {
-    protected function getRule(): Rule
-    {
-        return new DecoratableDoesNotAddPublicMethodRule();
-    }
-
     public function testDecoratableDoesNotAddPublicMethod(): void
     {
         $this->analyse([
@@ -20,8 +15,8 @@ class DecoratableDoesNotAddPublicMethodRuleTest extends RuleTestCase
         ], [
             [
                 'The service "Shopware\Development\Analyze\Test\PHPStan\Rules\Decoratable\_fixtures\DecoratableDoesNotAddPublicMethod\DecoratableAddPublicMethod" is marked as "@Decoratable", but adds public method "build", that is not defined by any Interface.',
-                16
-            ]
+                20,
+            ],
         ]);
     }
 
@@ -30,5 +25,10 @@ class DecoratableDoesNotAddPublicMethodRuleTest extends RuleTestCase
         $this->analyse([
             __DIR__ . '/_fixtures/DecoratableDoesNotAddPublicMethod/NotTaggedClassIsAllowedToAddPublicMethod.php',
         ], []);
+    }
+
+    protected function getRule(): Rule
+    {
+        return new DecoratableDoesNotAddPublicMethodRule();
     }
 }

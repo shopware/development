@@ -44,7 +44,7 @@ class DecoratableNotInstantiatedRule implements Rule
             sprintf(
                 'The service "%s" is marked as "@Decoratable", but is instantiated, use constructor injection via the DIC instead.',
                 $class->getName()
-            )
+            ),
         ];
     }
 }
