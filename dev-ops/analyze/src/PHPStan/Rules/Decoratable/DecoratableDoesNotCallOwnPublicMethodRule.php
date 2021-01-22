@@ -40,7 +40,7 @@ class DecoratableDoesNotCallOwnPublicMethodRule implements Rule
                 'The service "%s" is marked as "@Decoratable", but calls it\'s own public method "%s", which breaks decoration.',
                 $class->getName(),
                 $method->getName()
-            )
+            ),
         ];
     }
 }

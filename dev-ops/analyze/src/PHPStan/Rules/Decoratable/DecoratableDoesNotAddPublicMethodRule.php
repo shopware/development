@@ -39,12 +39,13 @@ class DecoratableDoesNotAddPublicMethodRule implements Rule
         if ($method->getPrototype()->getDeclaringClass()->isInterface()) {
             return [];
         }
+
         return [
             sprintf(
                 'The service "%s" is marked as "@Decoratable", but adds public method "%s", that is not defined by any Interface.',
                 $class->getName(),
                 $method->getName()
-            )
+            ),
         ];
     }
 }

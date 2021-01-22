@@ -9,11 +9,19 @@ use Shopware\Core\System\Annotation\Concept\ExtensionPattern\Decoratable;
  */
 class DecoratableAddPublicMethod implements DecoratableInterface
 {
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 
-    public function run(): void {}
+    public function run(): void
+    {
+    }
 
-    public function build(): void {}
+    public function build(): void
+    {
+    }
 
-    private function test(): void {}
+    private function test(): void
+    {
+    }
 }

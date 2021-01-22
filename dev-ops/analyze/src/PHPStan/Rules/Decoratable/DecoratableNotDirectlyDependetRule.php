@@ -3,11 +3,9 @@
 namespace Shopware\Development\Analyze\PHPStan\Rules\Decoratable;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Broker\Broker;
-use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ParameterReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;

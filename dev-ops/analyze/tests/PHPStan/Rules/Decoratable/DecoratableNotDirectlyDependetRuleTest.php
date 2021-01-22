@@ -4,19 +4,11 @@ namespace Shopware\Development\Analyze\Test\PHPStan\Rules\Decoratable;
 
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Shopware\Development\Analyze\PHPStan\Rules\Decoratable\DecoratableDoesNotAddPublicMethodRule;
-use Shopware\Development\Analyze\PHPStan\Rules\Decoratable\DecoratableDoesNotCallOwnPublicMethodRule;
-use Shopware\Development\Analyze\PHPStan\Rules\Decoratable\DecoratableImplementsInterfaceRule;
 use Shopware\Development\Analyze\PHPStan\Rules\Decoratable\DecoratableNotDirectlyDependetRule;
 
 class DecoratableNotDirectlyDependetRuleTest extends RuleTestCase
 {
     private const ERROR_MSG = 'The service "Shopware\Development\Analyze\Test\PHPStan\Rules\Decoratable\_fixtures\DecoratableNotDirectlyDependet\Test" has a direct dependency on decoratable service "Shopware\Development\Analyze\Test\PHPStan\Rules\Decoratable\_fixtures\DecoratableNotDirectlyDependet\DecoratableClass", but must only depend on it\'s interface.';
-
-    protected function getRule(): Rule
-    {
-        return new DecoratableNotDirectlyDependetRule($this->createBroker());
-    }
 
     public function testDecoratableImplementsImterface(): void
     {
@@ -25,16 +17,21 @@ class DecoratableNotDirectlyDependetRuleTest extends RuleTestCase
         ], [
             [
                 self::ERROR_MSG,
-                10
+                10,
             ],
             [
                 self::ERROR_MSG,
-                17
+                17,
             ],
             [
                 self::ERROR_MSG,
-                23
+                23,
             ],
         ]);
+    }
+
+    protected function getRule(): Rule
+    {
+        return new DecoratableNotDirectlyDependetRule($this->createBroker());
     }
 }
