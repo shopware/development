@@ -6,10 +6,11 @@
     "minimum-stability": "stable",
     "require-dev": {
         "bamarni/composer-bin-plugin": "1.4.1",
-        "phpstan/extension-installer": "^1.0.5",
-        "phpstan/phpstan": "^0.12.64",
+        "phpstan/extension-installer": "^1.1.0",
+        "phpstan/phpstan": "^0.12.73",
+        "phpstan/phpstan-doctrine": "^0.12.30",
         "phpstan/phpstan-phpunit": "^0.12.17",
-        "phpstan/phpstan-symfony": "^0.12.12",
+        "phpstan/phpstan-symfony": "^0.12.16",
         "psalm/phar": "^3.18.2"
     },
     "scripts": {
