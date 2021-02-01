@@ -65,4 +65,4 @@ chromedriver.log
 
 ### misc
 .DS_Store
-/composer.lock
+#/composer.lock
