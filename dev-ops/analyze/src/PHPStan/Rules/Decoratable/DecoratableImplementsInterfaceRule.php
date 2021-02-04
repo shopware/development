@@ -51,7 +51,7 @@ class DecoratableImplementsInterfaceRule implements Rule
             sprintf(
                 'The service "%s" is marked as "@Decoratable", but does not implement an interface.',
                 $class->getName()
-            )
+            ),
         ];
     }
 

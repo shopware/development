@@ -4,17 +4,10 @@ namespace Shopware\Development\Analyze\Test\PHPStan\Rules\Decoratable;
 
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Shopware\Development\Analyze\PHPStan\Rules\Decoratable\DecoratableDoesNotAddPublicMethodRule;
-use Shopware\Development\Analyze\PHPStan\Rules\Decoratable\DecoratableDoesNotCallOwnPublicMethodRule;
 use Shopware\Development\Analyze\PHPStan\Rules\Decoratable\DecoratableImplementsInterfaceRule;
 
 class DecoratableImplementsInterfaceRuleTest extends RuleTestCase
 {
-    protected function getRule(): Rule
-    {
-        return new DecoratableImplementsInterfaceRule($this->createBroker());
-    }
-
     public function testDecoratableImplementsInterface(): void
     {
         $this->analyse([
@@ -23,8 +16,8 @@ class DecoratableImplementsInterfaceRuleTest extends RuleTestCase
         ], [
             [
                 'The service "Shopware\Development\Analyze\Test\PHPStan\Rules\Decoratable\_fixtures\DecoratableImplementsInterface\DecoratableDoesNotImplementInterface" is marked as "@Decoratable", but does not implement an interface.',
-                10
-            ]
+                10,
+            ],
         ]);
     }
 
@@ -33,5 +26,10 @@ class DecoratableImplementsInterfaceRuleTest extends RuleTestCase
         $this->analyse([
             __DIR__ . '/_fixtures/DecoratableImplementsInterface/NotTaggedClassIsAllowedToNotImplemetInterface.php',
         ], []);
+    }
+
+    protected function getRule(): Rule
+    {
+        return new DecoratableImplementsInterfaceRule($this->createBroker());
     }
 }

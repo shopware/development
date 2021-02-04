@@ -4,9 +4,11 @@ namespace Shopware\Development\Analyze\Test\PHPStan\Rules\Decoratable\_fixtures\
 
 class NotTaggedClassIsAllowedToAddPublicMethod implements DecoratableInterface
 {
-    public function run(): void {}
+    public function run(): void
+    {
+    }
 
-    public function build(): void {}
+    public function build(): void
+    {
+    }
 }
-
-

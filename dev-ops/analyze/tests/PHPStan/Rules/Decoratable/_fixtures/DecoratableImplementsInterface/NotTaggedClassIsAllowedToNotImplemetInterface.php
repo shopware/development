@@ -5,5 +5,3 @@ namespace Shopware\Development\Analyze\Test\PHPStan\Rules\Decoratable\_fixtures\
 class NotTaggedClassIsAllowedToNotImplemetInterface
 {
 }
-
-

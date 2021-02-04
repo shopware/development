@@ -95,6 +95,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         SetList::PSR_12,
     ]);
 
+    $parameters->set(Option::PATHS, [
+        'src',
+        'dev-ops/analyze/src',
+        'dev-ops/analyze/tests',
+    ]);
+
     $parameters->set(Option::SKIP, [
         ArrayOpenerAndCloserNewlineFixer::class => null,
         ArrayListItemNewlineFixer::class => null,
