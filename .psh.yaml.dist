@@ -41,6 +41,7 @@ const:
   SHOPWARE_ES_INDEXING_ENABLED: "0"
   SHOPWARE_ES_INDEX_PREFIX: "sw"
   SHOPWARE_HTTP_CACHE_ENABLED: "0"
+  SHOPWARE_SCHEDULED_TASKS_DISABLED: "0"
   BLUE_GREEN_DEPLOYMENT: "1"
   SHOPWARE_HTTP_DEFAULT_TTL: 7200
   DOCKER_SYNC_ENABLED: false
@@ -48,6 +49,7 @@ const:
     FEATURE_NEXT_516=1
   DEVPORT: "8080"
   STOREFRONT_PROXY_PORT: 9998
+  PHP_TEST_SUITES: "administration storefront checkout content framework profiling migration system elasticsearch docs"
   VERSION:
 
 dynamic:
