@@ -1,9 +1,10 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-use PackageVersions\Versions;
+use Composer\InstalledVersions;
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\DbalKernelPluginLoader;
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\StaticKernelPluginLoader;
+use Shopware\Development\HttpKernel;
 use Shopware\Development\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -43,14 +44,14 @@ if ($debug) {
 }
 
 if (class_exists('Shopware\Core\HttpKernel')) {
-    $kernel = new \Shopware\Development\HttpKernel($env, $debug, $classLoader);
+    $kernel = new HttpKernel($env, $debug, $classLoader);
     $application = new Application($kernel->getKernel());
     $application->run($input);
 
     return;
 }
 
-$shopwareVersion = Versions::getVersion('shopware/platform');
+$shopwareVersion = InstalledVersions::getVersion('shopware/platform');
 
 $connection = Kernel::getConnection();
 

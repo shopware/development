@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use PackageVersions\Versions;
+use Composer\InstalledVersions;
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\StaticKernelPluginLoader;
 use Shopware\Development\Kernel;
 use Symfony\Component\Dotenv\Dotenv;
@@ -9,7 +9,7 @@ $autoLoadFile = __DIR__ . '/../../vendor/autoload.php';
 $classLoader = require $autoLoadFile;
 (new Dotenv(true))->load(__DIR__ . '/../../.env');
 
-$shopwareVersion = Versions::getVersion('shopware/platform');
+$shopwareVersion = InstalledVersions::getVersion('shopware/platform');
 
 $pluginLoader = new StaticKernelPluginLoader($classLoader);
 
