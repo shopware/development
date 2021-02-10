@@ -1,6 +1,7 @@
 variables:
     DOCKER_TLS_CERTDIR: "/certs"
     IMAGE_TAG: shopware/development
+    MAIN_PHP_VERSION: "7.4"
 
 stages:
     - analyze
@@ -24,7 +25,7 @@ Static Analysis:
     only:
         refs:
             - merge_requests
-            - master
+            - trunk
     script:
         - dev-ops/analyze/vendor/bin/ecs check --config easy-coding-standard.php
         - dev-ops/analyze/vendor/bin/phpstan analyze --level 8 src
@@ -35,56 +36,46 @@ Unit:
     only:
         refs:
             - merge_requests
-            - master
+            - trunk
     script:
         - vendor/bin/phpunit
             --configuration dev-ops/analyze
             --log-junit build/artifacts/phpunit.junit.xml
             --colors=never
-
     artifacts:
         reports:
             junit: build/artifacts/phpunit.junit.xml
 
-.base:
+Build:
     image: docker:18.09.7
     stage: build
     only:
         refs:
-            - master
+            - trunk
         changes:
             - dev-ops/docker/containers/**/*
     services:
         - name: docker:18.09.7-dind
           alias: docker
-    dependencies:
-        - Unit
+    parallel:
+        matrix:
+            - PHP_VERSION: [ "7.2", "7.3", "7.4", "8.0" ]
     before_script:
         - docker login -u $CI_REGISTRY_USER -p "$CI_REGISTRY_PASSWORD"
     script:
-        - sed -ri -e "s!php-apache:7.4!php-apache:$PHP_VERSION!g" dev-ops/docker/containers/app/Dockerfile
-        - docker build -t $IMAGE_TAG:$PHP_VERSION dev-ops/docker/containers/app
-        - docker push $IMAGE_TAG:$PHP_VERSION
-
-build:7.2:
-    extends: .base
-    variables:
-        PHP_VERSION: "7.2"
-
-build:7.3:
-    extends: .base
-    variables:
-        PHP_VERSION: "7.3"
-
-build:7.4:
-    extends: .base
-    variables:
-        PHP_VERSION: "7.4"
+        - sed -ri -e "s!php-apache:7.2!php-apache:$PHP_VERSION!g" dev-ops/docker/containers/app/Dockerfile
+        - >
+            if [[ $PHP_VERSION != "8.0" ]]; then
+                echo "RUN pecl install pcov && docker-php-ext-enable pcov" >> dev-ops/docker/containers/app/Dockerfile
+            fi
+        - docker build -t app-base -t $IMAGE_TAG:${PHP_VERSION} dev-ops/docker/containers/app
+        - docker build -t $IMAGE_TAG:${PHP_VERSION}-composer-1 dev-ops/docker/containers/app-composer-1
+        - docker rmi app-base
+        - docker push $IMAGE_TAG:${PHP_VERSION}-composer-1
+        - docker push $IMAGE_TAG:${PHP_VERSION}
     after_script:
-        - docker tag $IMAGE_TAG:$PHP_VERSION $IMAGE_TAG:latest
-        - docker push $IMAGE_TAG:latest
-
-build:8.0:
-    extends: .base
-    variables:
-        PHP_VERSION: "8.0"
+        - >
+            if [[ $PHP_VERSION = $MAIN_PHP_VERSION ]]; then
+                docker tag $IMAGE_TAG:${PHP_VERSION} $IMAGE_TAG:latest
+                docker push $IMAGE_TAG:latest
+            fi
