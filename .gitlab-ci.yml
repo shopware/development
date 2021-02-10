@@ -52,8 +52,6 @@ Build:
     only:
         refs:
             - trunk
-        changes:
-            - dev-ops/docker/containers/**/*
     services:
         - name: docker:18.09.7-dind
           alias: docker
@@ -68,11 +66,12 @@ Build:
             if [[ $PHP_VERSION != "8.0" ]]; then
                 echo "RUN pecl install pcov && docker-php-ext-enable pcov" >> dev-ops/docker/containers/app/Dockerfile
             fi
-        - docker build -t app-base -t $IMAGE_TAG:${PHP_VERSION} dev-ops/docker/containers/app
-        - docker build -t $IMAGE_TAG:${PHP_VERSION}-composer-1 dev-ops/docker/containers/app-composer-1
+        - docker build -t app-base -t $IMAGE_TAG:${PHP_VERSION}-composer-2 dev-ops/docker/containers/app
+        - docker build -t $IMAGE_TAG:${PHP_VERSION} -t $IMAGE_TAG:${PHP_VERSION}-composer-1 dev-ops/docker/containers/app-composer-1
         - docker rmi app-base
-        - docker push $IMAGE_TAG:${PHP_VERSION}-composer-1
         - docker push $IMAGE_TAG:${PHP_VERSION}
+        - docker push $IMAGE_TAG:${PHP_VERSION}-composer-1
+        - docker push $IMAGE_TAG:${PHP_VERSION}-composer-2
     after_script:
         - >
             if [[ $PHP_VERSION = $MAIN_PHP_VERSION ]]; then
