@@ -1,11 +1,12 @@
 <?php
 
+use Composer\InstalledVersions;
 use Doctrine\DBAL\DBALException;
-use PackageVersions\Versions;
 use Shopware\Core\Framework\Event\BeforeSendResponseEvent;
 use Shopware\Core\Framework\Adapter\Cache\CacheIdLoader;
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\DbalKernelPluginLoader;
 use Shopware\Core\Framework\Routing\RequestTransformerInterface;
+use Shopware\Core\Profiling\Doctrine\DebugStack;
 use Shopware\Development\Kernel;
 use Shopware\Storefront\Framework\Cache\CacheStore;
 use Symfony\Component\Dotenv\Dotenv;
@@ -40,11 +41,13 @@ if ($debug) {
     Debug::enable();
 }
 
-if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? $_ENV['TRUSTED_PROXIES'] ?? false) {
+$trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? $_ENV['TRUSTED_PROXIES'] ?? false;
+if ($trustedProxies) {
     Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_ALL ^ Request::HEADER_X_FORWARDED_HOST);
 }
 
-if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false) {
+$trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false;
+if ($trustedHosts) {
     Request::setTrustedHosts(explode(',', $trustedHosts));
 }
 
@@ -67,12 +70,12 @@ $connection = Kernel::getConnection();
 
 if ($appEnv === 'dev') {
     $connection->getConfiguration()->setSQLLogger(
-        new \Shopware\Core\Profiling\Doctrine\DebugStack()
+        new DebugStack()
     );
 }
 
 try {
-    $shopwareVersion = Versions::getVersion('shopware/platform');
+    $shopwareVersion = InstalledVersions::getVersion('shopware/platform');
 
     $pluginLoader = new DbalKernelPluginLoader($classLoader, null, $connection);
 

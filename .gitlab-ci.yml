@@ -15,7 +15,7 @@ cache:
         - .npm
 
 default:
-    image: composer:1.10
+    image: composer
     before_script:
         - composer install --ignore-platform-reqs --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-progress
         - composer install --ignore-platform-reqs --no-interaction --optimize-autoloader --no-suggest --no-progress --working-dir=dev-ops/analyze
@@ -31,7 +31,7 @@ Static Analysis:
         - dev-ops/analyze/vendor/bin/phpstan analyze --level 8 src
 
 Unit:
-    image: composer:1.10
+    image: composer
     stage: unit
     only:
         refs:

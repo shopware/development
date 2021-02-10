@@ -34,7 +34,7 @@
     },
     "require": {
         "php": "~7.4",
-        "composer/package-versions-deprecated": "^1.8.0",
+        "composer-runtime-api": "^2.0",
         "shopware/platform": "6.4.x@dev || dev-trunk"
     },
     "scripts": {
