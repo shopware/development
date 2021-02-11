@@ -61,7 +61,7 @@ Build:
     before_script:
         - docker login -u $CI_REGISTRY_USER -p "$CI_REGISTRY_PASSWORD"
     script:
-        - sed -ri -e "s!php-apache:7.2!php-apache:$PHP_VERSION!g" dev-ops/docker/containers/app/Dockerfile
+        - sed -ri -e "s!php-apache:7.4!php-apache:$PHP_VERSION!g" dev-ops/docker/containers/app/Dockerfile
         - >
             if [[ $PHP_VERSION != "8.0" ]]; then
                 echo "RUN pecl install pcov && docker-php-ext-enable pcov" >> dev-ops/docker/containers/app/Dockerfile
