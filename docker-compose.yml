@@ -5,7 +5,7 @@ networks:
 
 services:
   app_server:
-    image: shopware/development:7.4
+    image: shopware/development:7.4-composer-2
     networks:
       shopware:
         aliases:
