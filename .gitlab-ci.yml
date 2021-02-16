@@ -28,7 +28,7 @@ Static Analysis:
             - trunk
     script:
         - dev-ops/analyze/vendor/bin/ecs check --config easy-coding-standard.php
-        - dev-ops/analyze/vendor/bin/phpstan analyze --level 8 src
+        - dev-ops/analyze/vendor/bin/phpstan analyze
 
 Unit:
     image: composer

@@ -32,13 +32,12 @@ class DecoratableImplementsInterfaceRule implements Rule
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (!$node->namespacedName) {
+        if (!isset($node->namespacedName)) {
             // skip anonymous classes
             return [];
         }
 
         $class = $this->broker->getClass($scope->resolveName($node->namespacedName));
-
         if (!AnnotationBasedRuleHelper::isClassTaggedWithAnnotation($class, AnnotationBasedRuleHelper::DECORATABLE_ANNOTATION)) {
             return [];
         }
@@ -61,8 +60,9 @@ class DecoratableImplementsInterfaceRule implements Rule
             return true;
         }
 
-        if ($class->getParentClass()) {
-            return $this->implementsInterface($class->getParentClass());
+        $parentClass = $class->getParentClass();
+        if ($parentClass) {
+            return $this->implementsInterface($parentClass);
         }
 
         return false;

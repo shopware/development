@@ -11,7 +11,11 @@ class AnnotationBasedRuleHelper
     public static function isClassTaggedWithAnnotation(ClassReflection $class, string $annotation): bool
     {
         $reflection = $class->getNativeReflection();
+        $docComment = $reflection->getDocComment();
+        if ($docComment === false) {
+            return false;
+        }
 
-        return $reflection->getDocComment() && strpos($reflection->getDocComment(), '@' . $annotation) !== false;
+        return $reflection->getDocComment() && strpos($docComment, '@' . $annotation) !== false;
     }
 }

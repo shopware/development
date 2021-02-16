@@ -1,0 +1,7 @@
+parameters:
+    level: 8
+    paths:
+        - src
+        - dev-ops/analyze/src
+        - dev-ops/analyze/tests
+    checkGenericClassInNonGenericObjectType: false
