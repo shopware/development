@@ -35,7 +35,7 @@ class DecoratableNotDirectlyDependetRule implements Rule
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (!$node->namespacedName) {
+        if (!isset($node->namespacedName)) {
             // skip anonymous classes
             return [];
         }

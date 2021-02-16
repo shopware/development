@@ -26,7 +26,7 @@ class DecoratableDoesNotAddPublicMethodRule implements Rule
         }
 
         $class = $scope->getClassReflection();
-        if (!AnnotationBasedRuleHelper::isClassTaggedWithAnnotation($class, AnnotationBasedRuleHelper::DECORATABLE_ANNOTATION)) {
+        if ($class === null || !AnnotationBasedRuleHelper::isClassTaggedWithAnnotation($class, AnnotationBasedRuleHelper::DECORATABLE_ANNOTATION)) {
             return [];
         }
 

@@ -4,6 +4,7 @@ namespace Shopware\Development\Analyze\PHPStan\Rules\Decoratable;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use Shopware\Development\Analyze\PHPStan\Rules\AnnotationBasedRuleHelper;
@@ -26,11 +27,13 @@ class DecoratableDoesNotCallOwnPublicMethodRule implements Rule
         }
 
         $class = $scope->getClassReflection();
-        if (!AnnotationBasedRuleHelper::isClassTaggedWithAnnotation($class, AnnotationBasedRuleHelper::DECORATABLE_ANNOTATION)) {
+        if ($class === null || !AnnotationBasedRuleHelper::isClassTaggedWithAnnotation($class, AnnotationBasedRuleHelper::DECORATABLE_ANNOTATION)) {
             return [];
         }
 
-        $method = $scope->getType($node->var)->getMethod($node->name->name, $scope);
+        /** @var Identifier $nodeName */
+        $nodeName = $node->name;
+        $method = $scope->getType($node->var)->getMethod($nodeName->name, $scope);
         if (!$method->isPublic() || $method->getDeclaringClass()->getName() !== $class->getName()) {
             return [];
         }
