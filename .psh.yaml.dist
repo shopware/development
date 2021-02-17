@@ -50,6 +50,7 @@ const:
   DEVPORT: "8080"
   STOREFRONT_PROXY_PORT: 9998
   PHP_TEST_SUITES: "administration storefront checkout content framework profiling migration system elasticsearch docs"
+  PHP_TEST_COVERAGE:
   VERSION:
 
 dynamic:
