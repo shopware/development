@@ -4,7 +4,7 @@
 INCLUDE: ./cache.sh
 
 bin/console database:migrate --all core
-bin/console database:migrate-destructive --all core
+bin/console database:migrate-destructive --all core --version-selection-mode=all
 
 bin/console dal:refresh:index
 
