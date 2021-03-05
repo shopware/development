@@ -34,7 +34,7 @@ use Symfony\Component\Process\Process;
 
             file_put_contents(__DIR__ . '/../.psh.yaml.override', $psh);
 
-            $process = new Process('php psh.phar install');
+            $process = new Process(['php', 'psh.phar', 'install']);
             $process->setTimeout(0);
             $process->setWorkingDirectory(__DIR__ . '/../');
             $process->start();
@@ -91,7 +91,7 @@ use Symfony\Component\Process\Process;
 
         $io->section('Database information');
         $configuration['DB_HOST'] = $io->ask('Database host', 'localhost', $emptyValidation);
-        $configuration['DB_PORT'] = $io->ask('Database port', 3306, $emptyValidation);
+        $configuration['DB_PORT'] = $io->ask('Database port', '3306', $emptyValidation);
         $configuration['DB_NAME'] = $io->ask('Database name', 'shopware', $emptyValidation);
         $configuration['DB_USER'] = $io->ask('Database user', 'app', $emptyValidation);
         $configuration['DB_PASSWORD'] = $io->askHidden('Database password');
