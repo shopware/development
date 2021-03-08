@@ -13,7 +13,7 @@ use Symfony\Component\ErrorHandler\Debug;
 
 if (PHP_VERSION_ID < 70400) {
     echo 'Your cli is running PHP version ' . PHP_VERSION . ' but Shopware 6 requires at least PHP 7.4.0' . PHP_EOL;
-    exit();
+    exit(1);
 }
 
 set_time_limit(0);
