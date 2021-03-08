@@ -43,6 +43,8 @@
 /dev-ops/analyze/.jscpd
 /dev-ops/analyze/tmp
 !/dev-ops/analyze/tmp/**/.gitkeep
+/dev-ops/locust/fixtures/*
+dev-ops/locust/__pycache__/
 
 /selenium-debug.log
 chromedriver.log
