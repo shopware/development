@@ -19,7 +19,7 @@ if (PHP_VERSION_ID < 70400) {
 
     echo '<h2>Error</h2>';
     echo 'Your server is running PHP version ' . PHP_VERSION . ' but Shopware 6 requires at least PHP 7.4.0';
-    exit();
+    exit(1);
 }
 
 $classLoader = require __DIR__.'/../vendor/autoload.php';
