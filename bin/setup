@@ -79,6 +79,8 @@ use Symfony\Component\Process\Process;
             return $value;
         });
 
+        $configuration['APP_LANG'] = $io->ask('Default lang', 'en-GB');
+
         $configuration['BLUE_GREEN_DEPLOYMENT'] = $io->ask('Do you want to run blue/green deployment?', 'yes', function ($value) {
             $value = strtolower($value);
 
