@@ -1,4 +1,7 @@
-FROM webdevops/php-apache:7.4
+ARG IMAGE_PHP=webdevops/php-apache
+ARG IMAGE_PHP_VERSION=7.4
+
+FROM ${IMAGE_PHP}:${IMAGE_PHP_VERSION}
 
 COPY wait-for-it.sh /usr/local/bin/
 
