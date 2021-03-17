@@ -33,7 +33,7 @@
         }
     },
     "require": {
-        "php": "~7.4",
+        "php": "^7.4 || ^8.0",
         "composer-runtime-api": "^2.0",
         "shopware/platform": "6.4.x@dev || dev-trunk"
     },
