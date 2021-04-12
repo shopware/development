@@ -4808,16 +4808,16 @@
         },
         {
             "name": "shopware/platform",
-            "version": "6.3.5.2",
+            "version": "6.3.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shopware/platform.git",
-                "reference": "65c4cbdf1f5b695740fee18dd2e22ad9716bb4a6"
+                "reference": "940439ea951dfcf7b34584485cf6251c49640cdf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shopware/platform/zipball/65c4cbdf1f5b695740fee18dd2e22ad9716bb4a6",
-                "reference": "65c4cbdf1f5b695740fee18dd2e22ad9716bb4a6",
+                "url": "https://api.github.com/repos/shopware/platform/zipball/940439ea951dfcf7b34584485cf6251c49640cdf",
+                "reference": "940439ea951dfcf7b34584485cf6251c49640cdf",
                 "shasum": ""
             },
             "require": {
@@ -4977,9 +4977,9 @@
             ],
             "support": {
                 "issues": "https://github.com/shopware/platform/issues",
-                "source": "https://github.com/shopware/platform/tree/v6.3.5.2"
+                "source": "https://github.com/shopware/platform/tree/v6.3.5.3"
             },
-            "time": "2021-02-26T13:12:47+00:00"
+            "time": "2021-04-01T11:38:17+00:00"
         },
         {
             "name": "sroze/messenger-enqueue-transport",
