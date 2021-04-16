@@ -54,7 +54,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(NativeFunctionInvocationFixer::class)
         ->call('configure', [[
             'include' => [NativeFunctionInvocationFixer::SET_COMPILER_OPTIMIZED],
-            'scope' => 'namespaced'
+            'scope' => 'namespaced',
         ]]);
     $services->set(NullableTypeDeclarationForDefaultNullValueFixer::class);
     $services->set(VoidReturnFixer::class);
@@ -101,6 +101,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'src',
         'dev-ops/analyze/src',
         'dev-ops/analyze/tests',
+        'public/index.php',
+        'easy-coding-standard.php',
+        'bin/console',
+        'bin/setup',
     ]);
 
     $parameters->set(Option::SKIP, [
