@@ -1,11 +1,7 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-use Composer\InstalledVersions;
-use Shopware\Core\Framework\Plugin\KernelPluginLoader\DbalKernelPluginLoader;
-use Shopware\Core\Framework\Plugin\KernelPluginLoader\StaticKernelPluginLoader;
 use Shopware\Development\HttpKernel;
-use Shopware\Development\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Dotenv\Dotenv;
@@ -32,7 +28,7 @@ if (!class_exists(Dotenv::class)) {
 
 $input = new ArgvInput();
 $env = $input->getParameterOption(['--env', '-e'], $_SERVER['APP_ENV'] ?? 'dev', true);
-$debug = (bool) ($_SERVER['APP_DEBUG'] ?? ($env !== 'prod')) && !$input->hasParameterOption('--no-debug', true);
+$debug = ($_SERVER['APP_DEBUG'] ?? ($env !== 'prod')) && !$input->hasParameterOption('--no-debug', true);
 $withoutPlugins = (bool) ($_SERVER['APP_NO_PLUGINS'] ?? false);
 
 if ($debug) {
@@ -43,22 +39,6 @@ if ($debug) {
     }
 }
 
-if (class_exists('Shopware\Core\HttpKernel')) {
-    $kernel = new HttpKernel($env, $debug, $classLoader);
-    $application = new Application($kernel->getKernel());
-    $application->run($input);
-
-    return;
-}
-
-$shopwareVersion = InstalledVersions::getVersion('shopware/platform');
-
-$connection = Kernel::getConnection();
-
-$cacheId = (new CacheIdLoader($connection))
-    ->load();
-
-$pluginLoader = $withoutPlugins ? new StaticKernelPluginLoader($classLoader) : new DbalKernelPluginLoader($classLoader, null, $connection);
-$kernel = new Kernel($env, $debug, $pluginLoader, $cacheId, $shopwareVersion, $connection);
-$application = new Application($kernel);
+$kernel = new HttpKernel($env, $debug, $classLoader);
+$application = new Application($kernel->getKernel());
 $application->run($input);

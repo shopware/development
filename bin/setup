@@ -22,8 +22,7 @@ use Symfony\Component\Process\Process;
 (new Application('setup', '1.0.0'))
     ->register('setup')
     ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force setup')
-    ->setCode(function (InputInterface $input, OutputInterface $output) {
-
+    ->setCode(function (InputInterface $input, OutputInterface $output): void {
         function createEnvFile(SymfonyStyle $io, array $configuration): void
         {
             $psh = 'const:' . PHP_EOL;
@@ -60,6 +59,7 @@ use Symfony\Component\Process\Process;
 
         if (!$input->getOption('force') && file_exists(__DIR__ . '/../.psh.yaml.override')) {
             $io->comment('Instance has already been set-up. To start over, please delete your .psh.yaml.override file.');
+
             return;
         }
 
@@ -82,7 +82,7 @@ use Symfony\Component\Process\Process;
         $configuration['BLUE_GREEN_DEPLOYMENT'] = $io->ask('Do you want to run blue/green deployment?', 'yes', function ($value) {
             $value = strtolower($value);
 
-            if ($value == 'yes') {
+            if ($value === 'yes') {
                 return 1;
             }
 
@@ -98,9 +98,9 @@ use Symfony\Component\Process\Process;
 
         $io->note('Checking database credentials');
         $connection = new PDO(
-                sprintf('mysql:host=%s;port=%d', $configuration['DB_HOST'], $configuration['DB_PORT']),
-                $configuration['DB_USER'],
-                $configuration['DB_PASSWORD']
+            sprintf('mysql:host=%s;port=%d', $configuration['DB_HOST'], $configuration['DB_PORT']),
+            $configuration['DB_USER'],
+            $configuration['DB_PASSWORD']
         );
 
         $io->note('Running post installation tasks');

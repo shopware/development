@@ -1,18 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
-use Composer\InstalledVersions;
-use Doctrine\DBAL\DBALException;
-use Shopware\Core\Framework\Event\BeforeSendResponseEvent;
-use Shopware\Core\Framework\Adapter\Cache\CacheIdLoader;
-use Shopware\Core\Framework\Plugin\KernelPluginLoader\DbalKernelPluginLoader;
-use Shopware\Core\Framework\Routing\RequestTransformerInterface;
-use Shopware\Core\Profiling\Doctrine\DebugStack;
-use Shopware\Development\Kernel;
-use Shopware\Storefront\Framework\Cache\CacheStore;
+use Shopware\Core\HttpKernel;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\HttpCache\HttpCache;
 
 if (PHP_VERSION_ID < 70400) {
     header('Content-type: text/html; charset=utf-8', true, 503);
@@ -22,18 +13,18 @@ if (PHP_VERSION_ID < 70400) {
     exit(1);
 }
 
-$classLoader = require __DIR__.'/../vendor/autoload.php';
+$classLoader = require __DIR__ . '/../vendor/autoload.php';
 
 // The check is to ensure we don't use .env if APP_ENV is defined
 if (!isset($_SERVER['APP_ENV']) && !isset($_ENV['APP_ENV'])) {
     if (!class_exists(Dotenv::class)) {
         throw new \RuntimeException('APP_ENV environment variable is not defined. You need to define environment variables for configuration or add "symfony/dotenv" as a Composer dependency to load variables from a .env file.');
     }
-    (new Dotenv(true))->load(__DIR__.'/../.env');
+    (new Dotenv())->usePutenv()->load(__DIR__ . '/../.env');
 }
 
 $appEnv = $_SERVER['APP_ENV'] ?? $_ENV['APP_ENV'] ?? 'dev';
-$debug = (bool) ($_SERVER['APP_DEBUG'] ?? $_ENV['APP_DEBUG'] ?? ('prod' !== $appEnv));
+$debug = (bool) ($_SERVER['APP_DEBUG'] ?? $_ENV['APP_DEBUG'] ?? ($appEnv !== 'prod'));
 
 if ($debug) {
     umask(0000);
@@ -43,7 +34,7 @@ if ($debug) {
 
 $trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? $_ENV['TRUSTED_PROXIES'] ?? false;
 if ($trustedProxies) {
-    Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_ALL ^ Request::HEADER_X_FORWARDED_HOST);
+    Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PROTO);
 }
 
 $trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false;
@@ -51,67 +42,11 @@ if ($trustedHosts) {
     Request::setTrustedHosts(explode(',', $trustedHosts));
 }
 
-if (class_exists('Shopware\Core\HttpKernel')) {
-    $request = Request::createFromGlobals();
-
-    $kernel = new \Shopware\Development\HttpKernel($appEnv, $debug, $classLoader);
-    $result = $kernel->handle($request);
-
-    $result->getResponse()->send();
-
-    $kernel->terminate($result->getRequest(), $result->getResponse());
-
-    return;
-}
-
-// resolve SEO urls
 $request = Request::createFromGlobals();
-$connection = Kernel::getConnection();
 
-if ($appEnv === 'dev') {
-    $connection->getConfiguration()->setSQLLogger(
-        new DebugStack()
-    );
-}
+$kernel = new HttpKernel($appEnv, $debug, $classLoader);
+$result = $kernel->handle($request);
 
-try {
-    $shopwareVersion = InstalledVersions::getVersion('shopware/platform');
+$result->getResponse()->send();
 
-    $pluginLoader = new DbalKernelPluginLoader($classLoader, null, $connection);
-
-    $cacheId = (new CacheIdLoader($connection))
-        ->load();
-
-    $kernel = new Kernel($appEnv, $debug, $pluginLoader, $cacheId, $shopwareVersion, $connection);
-    $kernel->boot();
-
-    $container = $kernel->getContainer();
-
-    // resolves seo urls and detects storefront sales channels
-    $request = $container
-        ->get(RequestTransformerInterface::class)
-        ->transform($request);
-
-    $enabled = $container->getParameter('shopware.http.cache.enabled');
-    if ($enabled) {
-        $store = $container->get(CacheStore::class);
-
-        $kernel = new HttpCache($kernel, $store, null, ['debug' => $debug]);
-    }
-
-    $response = $kernel->handle($request);
-
-    $event = new BeforeSendResponseEvent($request, $response);
-    $container->get('event_dispatcher')
-        ->dispatch($event);
-
-    $response = $event->getResponse();
-
-} catch (DBALException $e) {
-    $message = str_replace([$connection->getParams()['password'], $connection->getParams()['user']], '******', $e->getMessage());
-
-    throw new RuntimeException(sprintf('Could not connect to database. Message from SQL Server: %s', $message));
-}
-
-$response->send();
-$kernel->terminate($request, $response);
+$kernel->terminate($result->getRequest(), $result->getResponse());
