@@ -7,7 +7,7 @@ use Symfony\Component\Dotenv\Dotenv;
 
 $autoLoadFile = __DIR__ . '/../../vendor/autoload.php';
 $classLoader = require $autoLoadFile;
-(new Dotenv())->usePutenv()->load(__DIR__ . '/../.env');
+(new Dotenv())->usePutenv()->load(__DIR__ . '/../../.env');
 
 $shopwareVersion = InstalledVersions::getVersion('shopware/platform') . '@' . InstalledVersions::getReference('shopware/platform');
 
