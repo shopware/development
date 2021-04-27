@@ -19,10 +19,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
 
-(new Application('setup', '1.0.0'))
+$application = (new Application('setup', '1.0.0'))
     ->register('setup')
     ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force setup')
     ->setCode(function (InputInterface $input, OutputInterface $output): void {
+        /**
+         * @param array<string, string> $configuration
+         */
         function createEnvFile(SymfonyStyle $io, array $configuration): void
         {
             $psh = 'const:' . \PHP_EOL;
@@ -105,7 +108,9 @@ use Symfony\Component\Process\Process;
 
         $io->note('Running post installation tasks');
         createEnvFile($io, $configuration);
-    })
-    ->getApplication()
-    ->setDefaultCommand('setup', true)
-    ->run();
+    })->getApplication();
+
+if ($application === null) {
+    throw new RuntimeException('Application not found');
+}
+$application->setDefaultCommand('setup', true)->run();
