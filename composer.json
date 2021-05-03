@@ -54,6 +54,7 @@
         "ext-tokenizer": "*",
         "ext-xmlwriter": "*",
         "bheller/images-generator": "1.0.1",
+        "brianium/paratest": "^6.2",
         "dms/phpunit-arraysubset-asserts": "^0.2.1",
         "fzaninotto/faker": "1.9.1",
         "johnkary/phpunit-speedtrap": "3.3.0",
