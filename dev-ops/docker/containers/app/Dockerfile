@@ -36,7 +36,10 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
     && npm i forever -g \
     && chown -R ${USER_ID}:${GROUP_ID} ${NPM_CONFIG_CACHE} \
     \
-    && ln -s /app/psh.phar /bin/psh
+    && ln -s /app/psh.phar /bin/psh \
+    \
+    && pecl install pcov \
+    && docker-php-ext-enable pcov
 
 COPY php-config.ini /usr/local/etc/php/conf.d/99-docker.ini
 
