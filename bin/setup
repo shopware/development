@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-if (PHP_VERSION_ID < 70400) {
-    echo 'Your cli is running PHP version ' . PHP_VERSION . ' but Shopware 6 requires at least PHP 7.4.0' . PHP_EOL;
+if (\PHP_VERSION_ID < 70400) {
+    echo 'Your cli is running PHP version ' . \PHP_VERSION . ' but Shopware 6 requires at least PHP 7.4.0' . \PHP_EOL;
     exit();
 }
 
@@ -25,10 +25,10 @@ use Symfony\Component\Process\Process;
     ->setCode(function (InputInterface $input, OutputInterface $output): void {
         function createEnvFile(SymfonyStyle $io, array $configuration): void
         {
-            $psh = 'const:' . PHP_EOL;
+            $psh = 'const:' . \PHP_EOL;
 
             foreach ($configuration as $key => $value) {
-                $psh .= '  ' . $key . ': "' . $value . '"' . PHP_EOL;
+                $psh .= '  ' . $key . ': "' . $value . '"' . \PHP_EOL;
             }
 
             file_put_contents(__DIR__ . '/../.psh.yaml.override', $psh);
@@ -72,7 +72,7 @@ use Symfony\Component\Process\Process;
                 throw new \RuntimeException('Shop URL is required.');
             }
 
-            if (!filter_var($value, FILTER_VALIDATE_URL)) {
+            if (!filter_var($value, \FILTER_VALIDATE_URL)) {
                 throw new \RuntimeException('Invalid URL.');
             }
 
