@@ -61,10 +61,6 @@ Build:
     before_script:
         - docker login -u $CI_REGISTRY_USER -p "$CI_REGISTRY_PASSWORD"
     script:
-        - >
-            if [[ $PHP_VERSION != "8.0" ]]; then
-                echo "RUN pecl install pcov && docker-php-ext-enable pcov" >> dev-ops/docker/containers/app/Dockerfile
-            fi
         - docker build -t app-base -t $IMAGE_TAG:${PHP_VERSION}-composer-2 --build-arg IMAGE_PHP_VERSION=${PHP_VERSION} dev-ops/docker/containers/app
         - docker build -t $IMAGE_TAG:${PHP_VERSION} -t $IMAGE_TAG:${PHP_VERSION}-composer-1 --build-arg IMAGE_PHP_VERSION=${PHP_VERSION} dev-ops/docker/containers/app-composer-1
         - docker rmi app-base
