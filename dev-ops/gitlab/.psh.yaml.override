@@ -1,3 +1,4 @@
 const:
   DB_USER: "root"
   APP_URL: "http://docker.vm:8000"
+  APP_MAILER_URL: "null://localhost"
