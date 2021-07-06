@@ -21,7 +21,6 @@ function make_comparator(string $prefix): callable
 // collect all dependencies
 {
     $dependencies = [[]];
-    $devDependencies = [[]];
 
     foreach (glob(__DIR__ . '/../../vendor/shopware/platform/src/*/composer.json') as $file) {
         if (strpos($file, 'src/Recovery/') !== false) {
@@ -29,11 +28,9 @@ function make_comparator(string $prefix): callable
         }
         $data = json_decode(file_get_contents($file), true);
         $dependencies[] = $data['require'] ?? [];
-        $devDependencies[] = $data['require-dev'] ?? [];
     }
 
     $dependencies = array_merge(...$dependencies);
-    $devDependencies = array_merge(...$devDependencies);
 }
 
 // remove many repositories
@@ -48,7 +45,6 @@ function make_comparator(string $prefix): callable
 // sort by key and prioritize every php extension
 {
     uksort($dependencies, make_comparator('ext-'));
-    uksort($devDependencies, make_comparator('ext-'));
 }
 
 // name php version as first dependency
@@ -65,14 +61,11 @@ function make_comparator(string $prefix): callable
     $platformComposer = json_decode(file_get_contents($composerFile), true);
 
     $hasChanges = false;
-    if (array_diff_assoc($dependencies, $platformComposer['require'])
-        || array_diff_assoc($devDependencies, $platformComposer['require-dev'])
-    ) {
+    if (array_diff_assoc($dependencies, $platformComposer['require'])) {
         $hasChanges = true;
     }
 
     $platformComposer['require'] = $dependencies;
-    $platformComposer['require-dev'] = $devDependencies;
 
     $jsonString = json_encode($platformComposer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
