@@ -58,7 +58,7 @@ services:
       shopware:
 
   elasticsearch:
-    image: elastic/elasticsearch:7.1.1
+    image: elastic/elasticsearch:7.8.0
     networks:
         shopware:
             aliases:
