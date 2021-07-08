@@ -95,7 +95,7 @@ environments:
   e2e:
     const:
       DB_NAME: "shopware_e2e"
-      APP_ENV: prod
+      APP_ENV: e2e
     paths:
       - "dev-ops/e2e/actions"
     templates:

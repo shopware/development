@@ -3,11 +3,16 @@
 # Constants
 CONTAINER=$1
 CYPRESS_ENV=$2
-APP_URL=$3
+export CYPRESS_baseUrl=$3
+export CYPRESS_shopwareRoot="/app"
+export CYPRESS_localUsage=false
 
 printf "\nCypress environment: ${CYPRESS_ENV}\n"
-printf "App-URL: ${APP_URL}\n\n"
+printf "App-URL: ${CYPRESS_baseUrl}\n\n"
 
-# Start Cypress test runner
+# Start Cypress in test runner
 printf "### Starting Cypress\n\n"
-docker exec -w /e2e-"$CYPRESS_ENV" "$CONTAINER" cypress open --project /e2e-"$CYPRESS_ENV" --config baseUrl="$APP_URL"
+docker exec \
+    -e CYPRESS_baseUrl -e CYPRESS_localUsage -e CYPRESS_shopwareRoot \
+    -w /e2e-"$CYPRESS_ENV" "$CONTAINER" \
+    cypress open --project /e2e-"$CYPRESS_ENV"
