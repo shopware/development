@@ -3,7 +3,7 @@
 
 INCLUDE: ./cache.sh
 
-# This files are not required anymore after a reinstall
+# These files are not required anymore after a reinstall
 rm -rf public/bundles/*
 rm -rf public/media/*
 rm -rf public/sitemap/*
@@ -13,8 +13,8 @@ rm -rf files/export/*
 rm -rf files/media/*
 rm -rf var/log/*
 
-bin/console database:migrate --all core
-bin/console database:migrate-destructive --all core --version-selection-mode=all
+SHOPWARE_INSTALL=1 bin/console database:migrate --all core
+SHOPWARE_INSTALL=1 bin/console database:migrate-destructive --all core --version-selection-mode=all
 
 bin/console dal:refresh:index
 
