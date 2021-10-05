@@ -13,18 +13,4 @@ rm -rf files/export/*
 rm -rf files/media/*
 rm -rf var/log/*
 
-SHOPWARE_INSTALL=1 bin/console database:migrate --all core
-SHOPWARE_INSTALL=1 bin/console database:migrate-destructive --all core --version-selection-mode=all
-
-bin/console dal:refresh:index
-
-bin/console scheduled-task:register
-
-bin/console plugin:refresh
-
-bin/console user:create admin --password=shopware --admin
-
-bin/console sales-channel:create:storefront --url='__APP_URL__'
-
-bin/console theme:refresh
-bin/console assets:install
+SHOPWARE_INSTALL=1 bin/console system:install --basic-setup --force

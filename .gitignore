@@ -5,6 +5,8 @@
 /.psh.yaml.override
 /.php_cs.cache
 /docker-compose.override.yml
+/public/recovery/
+/install.lock
 
 /config/jwt/*
 !/config/jwt/.gitkeep
