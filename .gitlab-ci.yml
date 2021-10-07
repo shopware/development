@@ -15,12 +15,13 @@ cache:
         - .npm
 
 default:
-    image: composer
+    image: shopware/development:7.4-composer-2
     before_script:
         - composer install --ignore-platform-reqs --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-progress
         - composer install --ignore-platform-reqs --no-interaction --optimize-autoloader --no-suggest --no-progress --working-dir=dev-ops/analyze
 
 Static Analysis:
+    image: shopware/development:7.4-composer-2
     stage: analyze
     only:
         refs:
@@ -31,7 +32,7 @@ Static Analysis:
         - dev-ops/analyze/vendor/bin/phpstan analyze
 
 Unit:
-    image: composer
+    image: shopware/development:7.4-composer-2
     stage: unit
     only:
         refs:
