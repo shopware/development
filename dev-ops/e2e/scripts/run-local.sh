@@ -17,5 +17,10 @@ bin/console cache:clear
 bin/console e2e:dump-db
 
 # Start Cypress in CLI
-cd "./platform/src/$CYPRESS_ENV/Resources/app/$(echo $CYPRESS_ENV | tr '[:upper:]' '[:lower:]')/test/e2e" || exit
+if [ $CYPRESS_ENV == "Recovery" ]; then
+    cd "./platform/src/Recovery/Test/e2e"
+else
+    cd "./platform/src/$CYPRESS_ENV/Resources/app/$(echo $CYPRESS_ENV | tr '[:upper:]' '[:lower:]')/test/e2e" || exit
+fi
+
 ./node_modules/.bin/cypress run $CYPRESS_PARAMS
