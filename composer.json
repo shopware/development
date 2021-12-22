@@ -30,7 +30,10 @@
         "platform": {
             "php": "7.4.3"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true
+        }
     },
     "prefer-stable": true,
     "minimum-stability": "dev",
