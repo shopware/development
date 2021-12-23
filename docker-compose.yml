@@ -38,8 +38,7 @@ services:
     networks:
       shopware:
     volumes:
-      - ./vendor/shopware/platform/src/Storefront/Resources/app/storefront/test/e2e:/e2e-Storefront
-      - ./vendor/shopware/platform/src/Administration/Resources/app/administration/test/e2e:/e2e-Administration
+      - ./tests/e2e:/e2e
       # for Cypress to communicate with the X11 server pass this socket file
       # in addition to any other mapped volumes
       - /tmp/.X11-unix:/tmp/.X11-unix

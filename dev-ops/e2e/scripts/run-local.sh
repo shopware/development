@@ -1,14 +1,12 @@
 #!/usr/bin/env sh
 
 # Constants
-CYPRESS_ENV=$1
-export CYPRESS_baseUrl=$2
-export CYPRESS_shopwareRoot="${3:-"$PWD"}"
-CYPRESS_PARAMS=$4
+export CYPRESS_baseUrl=$1
+export CYPRESS_shopwareRoot="${2:-"$PWD"}"
+CYPRESS_PARAMS=$3
 export APP_ENV=e2e
 export CYPRESS_localUsage=true
 
-printf "\nCypress environment: ${1}\n"
 printf "App-URL: ${CYPRESS_baseUrl}\n"
 
 # Prepare Shopware
@@ -17,10 +15,6 @@ bin/console cache:clear
 bin/console e2e:dump-db
 
 # Start Cypress in CLI
-if [ $CYPRESS_ENV == "Recovery" ]; then
-    cd "./platform/src/Recovery/Test/e2e"
-else
-    cd "./platform/src/$CYPRESS_ENV/Resources/app/$(echo $CYPRESS_ENV | tr '[:upper:]' '[:lower:]')/test/e2e" || exit
-fi
+cd "./platform/tests/e2e"
 
 ./node_modules/.bin/cypress run $CYPRESS_PARAMS

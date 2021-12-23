@@ -2,12 +2,10 @@
 
 # Constants
 CONTAINER=$1
-CYPRESS_ENV=$2
-export CYPRESS_baseUrl=$3
+export CYPRESS_baseUrl=$2
 export CYPRESS_shopwareRoot="/app"
 export CYPRESS_localUsage=false
 
-printf "\nCypress environment: ${CYPRESS_ENV}\n"
 printf "App-URL: ${CYPRESS_baseUrl}\n\n"
 
 # Start Cypress in test runner
