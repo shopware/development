@@ -72,8 +72,11 @@ Build:
         - docker push $IMAGE_TAG:${PHP_VERSION}-composer-1
         - docker push $IMAGE_TAG:${PHP_VERSION}-composer-2
         - echo "$GITHUB_TOKEN" | docker login ghcr.io -u $GITHUB_USER --password-stdin
+        - docker tag $IMAGE_TAG:${PHP_VERSION} $GITHUB_IMAGE_TAG:${PHP_VERSION}
         - docker push $GITHUB_IMAGE_TAG:${PHP_VERSION}
+        - docker tag $IMAGE_TAG:${PHP_VERSION}-composer-1 $GITHUB_IMAGE_TAG:${PHP_VERSION}-composer-1
         - docker push $GITHUB_IMAGE_TAG:${PHP_VERSION}-composer-1
+        - docker tag $IMAGE_TAG:${PHP_VERSION}-composer-2 $GITHUB_IMAGE_TAG:${PHP_VERSION}-composer-2
         - docker push $GITHUB_IMAGE_TAG:${PHP_VERSION}-composer-2
     after_script:
         - >
