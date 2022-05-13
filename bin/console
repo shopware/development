@@ -46,4 +46,9 @@ if ($_SERVER['COMPOSER_PLUGIN_LOADER'] ?? $_SERVER['DISABLE_EXTENSIONS'] ?? fals
 }
 
 $application = new Application($kernel->getKernel());
+$kernel->getKernel()->boot();
+$application->setName('Shopware');
+/** @var string $version */
+$version = $kernel->getKernel()->getContainer()->getParameter('kernel.shopware_version');
+$application->setVersion($version);
 $application->run($input);
