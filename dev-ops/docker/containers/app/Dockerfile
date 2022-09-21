@@ -41,12 +41,12 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
     \
     && pecl install pcov \
     && docker-php-ext-enable pcov \
-    && rm /usr/local/etc/php/conf.d/00-ioncube.ini \
-    && rm /usr/local/etc/php/conf.d/apcu.ini \
-    && rm /usr/local/etc/php/conf.d/vips.ini \
-    && rm /usr/local/etc/php/conf.d/memcached.ini \
-    && rm /usr/local/etc/php/conf.d/mongodb.ini \
-    && rm /usr/local/etc/php/conf.d/docker-php-ext-amqp.ini
+    && rm -f /usr/local/etc/php/conf.d/00-ioncube.ini \
+    && rm -f /usr/local/etc/php/conf.d/apcu.ini \
+    && rm -f /usr/local/etc/php/conf.d/vips.ini \
+    && rm -f /usr/local/etc/php/conf.d/memcached.ini \
+    && rm -f /usr/local/etc/php/conf.d/mongodb.ini \
+    && rm -f /usr/local/etc/php/conf.d/docker-php-ext-amqp.ini
 
 COPY php-config.ini /usr/local/etc/php/conf.d/99-docker.ini
 
