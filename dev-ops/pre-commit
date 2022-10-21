@@ -64,11 +64,11 @@ then
         php dev-ops/analyze/vendor/bin/ecs check --fix --config platform/easy-coding-standard.yml --no-progress-bar --no-error-table ${PHP_FILES_FOR_CHECKS}
     fi;
 
-    if [ -z "$(docker-compose ps -q app_server)" ]
+    if [ -z "$(docker compose ps -q app_server)" ]
     then
         php psh.phar static-analyze
     else
-        docker-compose exec -u $(id -u) -T -w /app app_server php psh.phar static-analyze
+        docker compose exec -u $(id -u) -T -w /app app_server php psh.phar static-analyze
     fi
 
     cd ${PLATFORM_ROOT}

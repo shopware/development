@@ -3,4 +3,4 @@
 # Stop docker-sync
 if [ -n "__DOCKER_SYNC_ENABLED__" ]; then docker-sync stop; fi
 
-docker-compose __DOCKER_STOP_BEHAVIOUR__
+docker compose __DOCKER_STOP_BEHAVIOUR__
