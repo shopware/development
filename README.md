@@ -1,5 +1,9 @@
 # Shopware 6 development template
 
+## Deprecated
+
+This [template has been deprecated](https://www.shopware.com/en/news/shopware-goes-symfony-flex/) and replaced by the new [Flex template](https://developer.shopware.com/docs/guides/installation/flex). It will be still updated until 6.5.
+
 This repository is a template for local development and enables you to create a running Shopware 6 instance.
 Use this setup for developing directly on Shopware 6 or for developing plugins for Shopware 6.
 
