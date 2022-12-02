@@ -1,5 +1,6 @@
 ARG IMAGE_PHP=webdevops/php-apache
 ARG IMAGE_PHP_VERSION=7.4
+ARG IMAGE_NODE_VERSION=18
 
 FROM ${IMAGE_PHP}:${IMAGE_PHP_VERSION}
 
@@ -27,10 +28,10 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
     \
     # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=863199
     && mkdir -p /usr/share/man/man1 \
-    && mkdir -p /opt/nvm && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | PROFILE=/root/.bashrc NVM_DIR=/opt/nvm NODE_VERSION=16 bash \
-    && ln -s /opt/nvm/versions/node/v16*/bin/node /usr/bin/node \
-    && ln -s /opt/nvm/versions/node/v16*/bin/npm /usr/bin/npm \
-    && ln -s /opt/nvm/versions/node/v16*/bin/npx /usr/bin/npx \
+    && mkdir -p /opt/nvm && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | PROFILE=/root/.bashrc NVM_DIR=/opt/nvm NODE_VERSION=${IMAGE_NODE_VERSION} bash \
+    && ln -s /opt/nvm/versions/node/v${IMAGE_NODE_VERSION}*/bin/node /usr/bin/node \
+    && ln -s /opt/nvm/versions/node/v${IMAGE_NODE_VERSION}*/bin/npm /usr/bin/npm \
+    && ln -s /opt/nvm/versions/node/v${IMAGE_NODE_VERSION}*/bin/npx /usr/bin/npx \
     && mkdir -p ${NPM_CONFIG_CACHE} \
     && apt-install default-mysql-client google-chrome-stable libicu-dev graphviz vim gnupg2 docker-ce=5:18.09.7~3-0~debian-stretch libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb jq \
     \
