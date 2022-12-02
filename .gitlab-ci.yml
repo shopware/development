@@ -62,19 +62,19 @@ Build:
             alias: dockerdaemon
     parallel:
         matrix:
-            - PHP_VERSION: [ "7.4", "8.0", "8.1" ]
-              NODE_VERSION: [ "16", "18" ]
+            - PHP_VERSION: [ "7.4", "8.0" ]
+              NODE_VERSION: [ "16" ]
+            - PHP_VERSION: [ "8.1" ]
+              NODE_VERSION: [ "18" ]
     before_script:
         - echo "$REGISTRY_PASSWORD" | docker login -u $REGISTRY_USERNAME --password-stdin
     script:
-        - docker build -t $IMAGE_TAG:${PHP_VERSION}-composer-2-node-${NODE_VERSION} --build-arg IMAGE_PHP_VERSION=${PHP_VERSION} --build-arg IMAGE_NODE_VERSION=${NODE_VERSION} dev-ops/docker/containers/app
-        - if [ "${NODE_VERSION}" == "16" ]; then docker tag $IMAGE_TAG:${PHP_VERSION}-composer-2-node-${NODE_VERSION} $IMAGE_TAG:${PHP_VERSION}-composer-2; fi # Support for default tag, so that existing pipelines do not break.
-        - docker build -t $IMAGE_TAG:${PHP_VERSION} -t $IMAGE_TAG:${PHP_VERSION}-composer-1 --build-arg IMAGE_PHP_VERSION=${PHP_VERSION} dev-ops/docker/containers/app-composer-1
+        - docker build -t app-base -t $IMAGE_TAG:${PHP_VERSION}-composer-2 --build-arg IMAGE_PHP_VERSION=${PHP_VERSION} --build-arg IMAGE_NODE_VERSION=${NODE_VERSION} dev-ops/docker/containers/app
+        - docker build -t $IMAGE_TAG:${PHP_VERSION} -t $IMAGE_TAG:${PHP_VERSION}-composer-1 --build-arg IMAGE_PHP_VERSION=${PHP_VERSION} --build-arg IMAGE_NODE_VERSION=${NODE_VERSION} dev-ops/docker/containers/app-composer-1
         - docker rmi app-base
         - docker push $IMAGE_TAG:${PHP_VERSION}
         - docker push $IMAGE_TAG:${PHP_VERSION}-composer-1
         - docker push $IMAGE_TAG:${PHP_VERSION}-composer-2
-        - docker push $IMAGE_TAG:${PHP_VERSION}-composer-2-node-${NODE_VERSION}
         - echo "$GITHUB_TOKEN" | docker login ghcr.io -u $GITHUB_USER --password-stdin
         - docker tag $IMAGE_TAG:${PHP_VERSION} $GITHUB_IMAGE_TAG:${PHP_VERSION}
         - docker push $GITHUB_IMAGE_TAG:${PHP_VERSION}
