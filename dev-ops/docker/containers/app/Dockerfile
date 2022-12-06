@@ -1,6 +1,5 @@
 ARG IMAGE_PHP=webdevops/php-apache
 ARG IMAGE_PHP_VERSION=7.4
-ARG IMAGE_NODE_VERSION=18
 
 FROM ${IMAGE_PHP}:${IMAGE_PHP_VERSION}
 
@@ -9,8 +8,10 @@ COPY wait-for-it.sh /usr/local/bin/
 ENV COMPOSER_HOME=/.composer
 ENV NPM_CONFIG_CACHE=/.npm
 ENV WEB_DOCUMENT_ROOT=/app/public
+
 ARG USER_ID
 ARG GROUP_ID
+ARG IMAGE_NODE_VERSION=18
 
 RUN groupadd -r -g ${GROUP_ID} appuser || true
 RUN useradd -r -u ${USER_ID} -g ${GROUP_ID} appuser || true
