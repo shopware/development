@@ -23,6 +23,7 @@ default:
     tags:
         - t3.medium
     before_script:
+        - composer self-update --2.2
         - composer install --ignore-platform-reqs --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-progress
         - composer install --ignore-platform-reqs --no-interaction --optimize-autoloader --no-suggest --no-progress --working-dir=dev-ops/analyze
 
