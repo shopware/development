@@ -11,7 +11,7 @@ ENV WEB_DOCUMENT_ROOT=/app/public
 
 ARG USER_ID
 ARG GROUP_ID
-ARG IMAGE_NODE_VERSION=18
+ARG IMAGE_NODE_VERSION=18.14
 
 RUN groupadd -r -g ${GROUP_ID} appuser || true
 RUN useradd -r -u ${USER_ID} -g ${GROUP_ID} appuser || true
