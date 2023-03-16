@@ -67,7 +67,7 @@ Build:
             - PHP_VERSION: [ "7.4", "8.0" ]
               NODE_VERSION: [ "16" ]
             - PHP_VERSION: [ "8.1", "8.2" ]
-              NODE_VERSION: [ "18" ]
+              NODE_VERSION: [ "18.14" ]
     before_script:
         - echo "${REGISTRY_PASSWORD}" | docker login -u "${REGISTRY_USERNAME}" --password-stdin
     script:
