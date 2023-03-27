@@ -48,7 +48,6 @@ RUN sed -ri -e 's!VirtualHost \*:80!VirtualHost \*:8000!g' /opt/docker/etc/httpd
     && rm -f /usr/local/etc/php/conf.d/vips.ini \
     && rm -f /usr/local/etc/php/conf.d/memcached.ini \
     && rm -f /usr/local/etc/php/conf.d/mongodb.ini \
-    && rm -f /usr/local/etc/php/conf.d/docker-php-ext-amqp.ini \
     && composer self-update --2.2
 
 COPY php-config.ini /usr/local/etc/php/conf.d/99-docker.ini
