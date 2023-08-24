@@ -21,7 +21,7 @@ cache:
 default:
     image: shopware/development:7.4-composer-2
     tags:
-        - t5.large
+        - m5.large
     before_script:
         - composer self-update --2.2
         - composer install --ignore-platform-reqs --no-interaction --optimize-autoloader --no-suggest --no-scripts --no-progress
