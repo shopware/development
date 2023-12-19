@@ -5,7 +5,8 @@ variables:
     DOCKER_BUILDKIT: 1
     IMAGE_TAG: shopware/development
     GITHUB_IMAGE_TAG: ghcr.io/shopware/development
-    MAIN_PHP_VERSION: "7.4"
+    MAIN_PHP_VERSION: "8.2"
+    MAIN_NODE_VERSION: "20.10"
 
 stages:
     - analyze
@@ -73,12 +74,14 @@ Build:
     before_script:
         - echo "${REGISTRY_PASSWORD}" | docker login -u "${REGISTRY_USERNAME}" --password-stdin
     script:
-        - docker build -t app-base -t "$IMAGE_TAG:${PHP_VERSION}-composer-2" --build-arg "IMAGE_PHP_VERSION=${PHP_VERSION}" --build-arg "IMAGE_NODE_VERSION=${NODE_VERSION}" dev-ops/docker/containers/app
-        - docker build -t "$IMAGE_TAG:${PHP_VERSION}" -t "$IMAGE_TAG:${PHP_VERSION}-composer-1" --build-arg "IMAGE_PHP_VERSION=${PHP_VERSION}" --build-arg "IMAGE_NODE_VERSION=${NODE_VERSION}" dev-ops/docker/containers/app-composer-1
+        - docker build -t "$IMAGE_TAG:${PHP_VERSION}-composer-2" -t "$IMAGE_TAG:${PHP_VERSION}-node-${NODE_VERSION}-composer-2" -t app-base --build-arg "IMAGE_PHP_VERSION=${PHP_VERSION}" --build-arg "IMAGE_NODE_VERSION=${NODE_VERSION}" dev-ops/docker/containers/app
+        - docker build -t "$IMAGE_TAG:${PHP_VERSION}-composer-1" -t "$IMAGE_TAG:${PHP_VERSION}-node-${NODE_VERSION}-composer-1" -t "$IMAGE_TAG:${PHP_VERSION}" --build-arg "IMAGE_PHP_VERSION=${PHP_VERSION}" --build-arg "IMAGE_NODE_VERSION=${NODE_VERSION}" dev-ops/docker/containers/app-composer-1
         - docker rmi app-base
         - docker push "$IMAGE_TAG:${PHP_VERSION}"
         - docker push "$IMAGE_TAG:${PHP_VERSION}-composer-1"
         - docker push "$IMAGE_TAG:${PHP_VERSION}-composer-2"
+        - docker push "$IMAGE_TAG:${PHP_VERSION}-node-${NODE_VERSION}-composer-1"
+        - docker push "$IMAGE_TAG:${PHP_VERSION}-node-${NODE_VERSION}-composer-2"
         - echo "$GITHUB_TOKEN" | docker login ghcr.io -u $GITHUB_USER --password-stdin
         - docker tag "$IMAGE_TAG:${PHP_VERSION}" "$GITHUB_IMAGE_TAG:${PHP_VERSION}"
         - docker push "$GITHUB_IMAGE_TAG:${PHP_VERSION}"
@@ -86,8 +89,12 @@ Build:
         - docker push "$GITHUB_IMAGE_TAG:${PHP_VERSION}-composer-1"
         - docker tag "$IMAGE_TAG:${PHP_VERSION}-composer-2" "$GITHUB_IMAGE_TAG:${PHP_VERSION}-composer-2"
         - docker push "$GITHUB_IMAGE_TAG:${PHP_VERSION}-composer-2"
+        - docker tag "$IMAGE_TAG:${PHP_VERSION}-node-${NODE_VERSION}-composer-1" "$GITHUB_IMAGE_TAG:${PHP_VERSION}-node-${NODE_VERSION}-composer-1"
+        - docker push "$GITHUB_IMAGE_TAG:${PHP_VERSION}-node-${NODE_VERSION}-composer-1"
+        - docker tag "$IMAGE_TAG:${PHP_VERSION}-node-${NODE_VERSION}-composer-2" "$GITHUB_IMAGE_TAG:${PHP_VERSION}-node-${NODE_VERSION}-composer-2"
+        - docker push "$GITHUB_IMAGE_TAG:${PHP_VERSION}-node-${NODE_VERSION}-composer-2"
         - >
-            if [[ $PHP_VERSION = $MAIN_PHP_VERSION ]]; then
-                docker tag $IMAGE_TAG:${PHP_VERSION} $IMAGE_TAG:latest
+            if [[ $PHP_VERSION = $MAIN_PHP_VERSION ]] && [[ $NODE_VERSION = $MAIN_NODE_VERSION ]]; then
+                docker tag $IMAGE_TAG:${PHP_VERSION}-node-${NODE_VERSION}-composer-2 $IMAGE_TAG:latest
                 docker push $IMAGE_TAG:latest
             fi
